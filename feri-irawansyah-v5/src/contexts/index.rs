@@ -112,7 +112,7 @@ leptos_ignore! {
         };
     
         match col.field.as_str() {
-            "notes_id" | "tsv" => {
+            "notes_id" | "tsv" | "portfolio_id" => {
                 let string = "hidden";
     
                 Some(view! {

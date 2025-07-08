@@ -62,6 +62,7 @@ pub fn Table(table: String, data: RwSignal<Vec<serde_json::Value>>, loading_data
                             {move || columns.get().iter().filter(|col| match col.field.as_str() {
                                 "notes_id" => false, // sembunyikan
                                 "tsv" => false, // sembunyikan
+                                "portfolio_id" => false, // sembunyikan
                                 _ => true,
                             }).map(|col| {
                                 view! {

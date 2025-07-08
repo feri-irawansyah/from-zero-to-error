@@ -12,10 +12,14 @@ pub fn UserManagement() -> impl IntoView {
     let portfolio_page: RwSignal<i32> = RwSignal::new(1);
     let portfolio_total: RwSignal<usize> = RwSignal::new(0);
     let portfolio_loading: RwSignal<bool> = RwSignal::new(false);
-    let portfolio_limit = 3;
+    let portfolio_limit = 50;
 
     // skills state
     let skills: RwSignal<Vec<serde_json::Value>> = RwSignal::new(vec![serde_json::Value::Array(vec![])]);
+    let skills_page: RwSignal<i32> = RwSignal::new(1);
+    let skills_total: RwSignal<usize> = RwSignal::new(0);
+    let skills_loading: RwSignal<bool> = RwSignal::new(false);
+    let skills_limit = 50;
 
     // experience state
     let experience: RwSignal<Vec<serde_json::Value>> = RwSignal::new(vec![serde_json::Value::Array(vec![])]);
@@ -41,8 +45,30 @@ pub fn UserManagement() -> impl IntoView {
         });
     };
 
+    let fetch_skills = move |page: i32| {
+        let offset = (page - 1) * skills_limit;
+        let url = format!(
+            "{}/data/table?tablename=skills&offset={}&limit={}&nidkey=skill_id",
+            BACKEND_URL,
+            offset,
+            skills_limit
+        );
+
+        spawn_local(async move {
+            skills_loading.set(true);
+            if let Ok(response) = Request::get(&url).send().await {
+                if let Ok(data) = response.json::<serde_json::Value>().await {
+                    skills.set(data["rows"].as_array().unwrap_or(&vec![]).to_vec());
+                    skills_total.set(data["total"].as_i64().unwrap_or(0) as usize);
+                }
+            }
+            skills_loading.set(false);
+        });
+    };
+
     Effect::new(move |_| {
         fetch_portfolio(portfolio_page.get());
+        fetch_skills(skills_page.get());
     });
 
     view! {
@@ -71,7 +97,14 @@ pub fn UserManagement() -> impl IntoView {
                             Experience
                         </div>
                         <div class="card-body">
-                            // <Table table="experience".to_string() data=data.clone()/>
+                            <Table 
+                                table="skills".to_string() 
+                                data=skills.clone() 
+                                page=skills_page
+                                total=skills_total
+                                limit=skills_limit
+                                refresh=fetch_skills
+                                loading_data=skills_loading/>
                         </div>
                     </div>
                 </div>
