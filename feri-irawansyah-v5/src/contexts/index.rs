@@ -4,7 +4,7 @@ use serde_json::Value;
 
 use crate::leptos_ignore;
 
-use crate::{contexts::models::{AppState, ModalState}, directives::table::Columns};
+use crate::{contexts::models::ModalState, directives::table::Columns};
 
 pub fn hitung_usia(tanggal_lahir: &str) -> Option<i32> {
     // Parse tanggal lahir, formatnya "YYYY-MM-DD"

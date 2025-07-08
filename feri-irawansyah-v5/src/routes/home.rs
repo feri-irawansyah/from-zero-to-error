@@ -44,7 +44,7 @@ pub fn Home() -> impl IntoView {
             <div class="container" data-aos="fade-up" data-aos-delay="100">
                 <div class="row justify-content-center">
                     <div class="col-lg-12 mb-3" data-aos="slide-right" data-aos-delay="200">
-                        <h2>Hi, "I'm" <span class="ms-3 text-primary">Feri</span></h2>
+                        <h2><span class="me-3 text-primary">Hi, "I'm"</span> Feri</h2>
                         <p>Programmer 
                         </p>
                     </div>
