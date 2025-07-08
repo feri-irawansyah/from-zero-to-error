@@ -24,7 +24,7 @@ nav {
 /* Main akan mengambil semua sisa ruang, menjaga footer di bawah */
 main {
     flex: 1;
-}
+} 
 
 .welcome {
     font-size: 45px;
