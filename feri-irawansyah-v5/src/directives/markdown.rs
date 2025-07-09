@@ -77,16 +77,16 @@ pub fn MarkdownFromUrl(url: RwSignal<Option<String>>) -> impl IntoView {
         let set_content = set_content.clone();
         let set_error = set_error.clone();
         async move {
-            if url.get().is_none() {
-                set_error.set(Some("URL is empty".to_string()));
-            } else {
-                match Request::get(url.get().unwrap().as_str()).send().await {
+            if let Some(url) = url.get() {
+                match Request::get(url.as_str()).send().await {
                     Ok(res) => match res.text().await {
                         Ok(text) => set_content.set(Some(text)),
                         Err(e) => set_error.set(Some(format!("Error reading text: {e}"))),
                     },
                     Err(e) => set_error.set(Some(format!("Fetch error: {e}"))),
                 }
+            } else {
+                set_error.set(Some("URL is empty".to_string()));
             }
         }
     });

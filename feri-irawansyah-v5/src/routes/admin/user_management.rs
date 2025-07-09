@@ -23,6 +23,10 @@ pub fn UserManagement() -> impl IntoView {
 
     // experience state
     let experience: RwSignal<Vec<serde_json::Value>> = RwSignal::new(vec![serde_json::Value::Array(vec![])]);
+    let experience_page: RwSignal<i32> = RwSignal::new(1);
+    let experience_total: RwSignal<usize> = RwSignal::new(0);
+    let experience_loading: RwSignal<bool> = RwSignal::new(false);
+    let experience_limit = 50;
 
     let fetch_portfolio = move |page: i32| {
         let offset = (page - 1) * portfolio_limit;
@@ -66,9 +70,31 @@ pub fn UserManagement() -> impl IntoView {
         });
     };
 
+    let fetch_experience = move |page: i32| {
+        let offset = (page - 1) * experience_limit;
+        let url = format!(
+            "{}/data/table?tablename=experience&offset={}&limit={}&nidkey=experience_id",
+            BACKEND_URL,
+            offset,
+            experience_limit
+        );
+
+        spawn_local(async move {
+            experience_loading.set(true);
+            if let Ok(response) = Request::get(&url).send().await {
+                if let Ok(data) = response.json::<serde_json::Value>().await {
+                    experience.set(data["rows"].as_array().unwrap_or(&vec![]).to_vec());
+                    experience_total.set(data["total"].as_i64().unwrap_or(0) as usize);
+                }
+            }
+            experience_loading.set(false);
+        });
+    };
+
     Effect::new(move |_| {
         fetch_portfolio(portfolio_page.get());
         fetch_skills(skills_page.get());
+        fetch_experience(experience_page.get());
     });
 
     view! {
@@ -98,13 +124,13 @@ pub fn UserManagement() -> impl IntoView {
                         </div>
                         <div class="card-body">
                             <Table 
-                                table="skills".to_string() 
-                                data=skills.clone() 
-                                page=skills_page
-                                total=skills_total
-                                limit=skills_limit
-                                refresh=fetch_skills
-                                loading_data=skills_loading/>
+                                table="experience".to_string() 
+                                data=experience.clone() 
+                                page=experience_page
+                                total=experience_total
+                                limit=experience_limit
+                                refresh=fetch_experience
+                                loading_data=experience_loading/>
                         </div>
                     </div>
                 </div>
@@ -114,7 +140,14 @@ pub fn UserManagement() -> impl IntoView {
                             Skills
                         </div>
                         <div class="card-body">
-                            // <Table table="skills".to_string() data=data.clone()/>
+                            <Table 
+                                table="skills".to_string() 
+                                data=skills.clone() 
+                                page=skills_page
+                                total=skills_total
+                                limit=skills_limit
+                                refresh=fetch_skills
+                                loading_data=skills_loading/>
                         </div>
                     </div>
                 </div>

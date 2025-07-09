@@ -104,13 +104,25 @@ pub fn AdminLayout() -> impl IntoView {
                 </div>
             </div>
         </Show>
-        {move || match modal_state.note_url.get() {
-            None => view! { <p>"Loading..."</p> }.into_any(),
-            Some(_) => view! {
-                <ModalContainer title=modal_state.title.get() size=Some("xl".to_string()) modal_id="note-content".to_string()>
+        // <Show when=move || modal_state.note_url.get().is_some() fallback=move || view! { 
+        //     <ModalContainer title=modal_state.title.get() size=Some("xl".to_string()) modal_id="note-content".to_string()>
+        //         <h1 class="text-center">Loading...</h1>
+        //     </ModalContainer>
+        // } >
+        //     {move || view! { 
+        //         <ModalContainer title=modal_state.title.get() size=Some("xl".to_string()) modal_id="note-content".to_string()>
+        //             <MarkdownFromUrl url={modal_state.note_url}/>
+        //         </ModalContainer>
+        //      }}
+        // </Show>
+        <ModalContainer title=modal_state.title.get() size=Some("xl".to_string()) modal_id="note-content".to_string()>
+            <Show when=move || modal_state.note_url.get().is_some() fallback=move || view! { 
+                <h1 class="text-center">Loading...</h1>
+            } >
+                {move || view! { 
                     <MarkdownFromUrl url={modal_state.note_url}/>
-                </ModalContainer>
-             }.into_any()
-        }}
+                }}
+            </Show>
+        </ModalContainer>
     }
 }
