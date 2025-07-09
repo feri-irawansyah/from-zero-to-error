@@ -1,5 +1,6 @@
 @import "modules/variables";
 @import "modules/sweetalert-core";
+@import "modules/markdown.scss";
 
 * {
 	margin: 0;
@@ -1832,6 +1833,20 @@ section,
         color: var(--contrast-color) !important;
       }
 
+      small {
+          transition: all 0.3s ease;
+
+          &.date {
+            position: absolute;
+            right: 10px !important;
+            opacity: 1 !important;
+          }
+
+          &.read {
+            opacity: 0 !important;
+          }
+        }
+
       &:hover {
         .card-img {
           filter: blur(4px) !important;
@@ -1843,6 +1858,16 @@ section,
         p {
           text-decoration: underline;
           color: var(--contrast-color);
+        }
+
+        small {
+          &.date {
+            opacity: 0 !important;
+          }
+
+          &.read {
+            opacity: 1 !important;
+          }
         }
       }
     }

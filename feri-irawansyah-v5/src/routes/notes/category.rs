@@ -1,6 +1,6 @@
 use gloo_net::http::Request;
 use leptos::{prelude::*, task::spawn_local};
-use leptos_router::hooks::use_params_map;
+// use leptos_router::hooks::use_params_map;
 use crate::{app::BACKEND_URL, components::card_loading::CardLoading, contexts::{index::format_wib_date, models::{AppState, Notes, NotesData}}};
 use wasm_bindgen::JsCast;
 use leptos::web_sys::HtmlImageElement;
@@ -8,17 +8,17 @@ use leptos::web_sys::HtmlImageElement;
 #[allow(non_snake_case)]
 #[component]
 pub fn Category() -> impl IntoView {
-    let params = use_params_map();
-    let category = Memo::new(move |_| {
-        params.with(|p| p.get("category"))
-    });
+    // let params = use_params_map();
+    // let category = Memo::new(move |_| {
+    //     params.with(|p| p.get("category"))
+    // });
     let notes: RwSignal<Vec<Notes>> = RwSignal::new(vec![]);
     let (total, set_total) = signal(0);
     let (current_page, set_current_page) = signal(1);
     let (loading, set_loading) = signal(false);
     let state = expect_context::<AppState>();
 
-    let limit = 4;
+    let limit = 9;
 
     let filter = serde_json::json!({
         // "category": category.get().unwrap_or_else(|| "".to_string())
@@ -94,7 +94,8 @@ pub fn Category() -> impl IntoView {
                                                     <img class="rounded-circle" src="/assets/img/logo-ss.png" style="width: 1.5rem; height: 1.5rem;"/>
                                                     <span>{move || state.name.get()}</span>
                                                 </div>
-                                                <small class="text-white">{format_wib_date(&note.last_update)}</small>
+                                                <small class="text-white date">{format_wib_date(&note.last_update)}</small>
+                                                <small class="text-white read">Read more <i class="bi bi-arrow-right"></i></small>
                                             </div>
                                         </div>
                                     </a>

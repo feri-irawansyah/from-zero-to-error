@@ -11,7 +11,7 @@ pub fn NotesManagement() -> impl IntoView {
     let notes_page: RwSignal<i32> = RwSignal::new(1);
     let notes_total: RwSignal<usize> = RwSignal::new(0);
     let notes_loading: RwSignal<bool> = RwSignal::new(false);
-    let notes_limit = 4;
+    let notes_limit = 15;
 
     let fetch_notes = move |page: i32| {
         let offset = (page - 1) * notes_limit;
