@@ -29,7 +29,22 @@ pub struct Skill {
     pub progress: i32,
     pub star: i32,
     pub experience: i32,
+    pub tech_category: String,
+    pub last_update: Option<String>,
 }
+
+// {
+//             "description": "Rush adalah bahasa pemrograman favorit gue",
+//             "experience": 3,
+//             "image_src": "/svg/skills/rust.svg",
+//             "last_update": null,
+//             "progress": 95,
+//             "skill_id": 1,
+//             "star": 5,
+//             "tech_category": "backend",
+//             "title": "Rust",
+//             "url_docs": "https://www.rust-lang.org/"
+//         }
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct Portfolio {

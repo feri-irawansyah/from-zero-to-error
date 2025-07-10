@@ -672,9 +672,9 @@ section,
   width: 100%;
   min-height: 100vh;
   position: relative;
-  padding: 40px 0;
+  // padding: 40px 0;
   display: flex;
-  align-items: center;
+  align-items: end;
   justify-content: center;
 }
 
@@ -684,15 +684,15 @@ section,
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   z-index: 1;
-  object-position: right center;
+  object-position: top center;
 }
 
 .hero:before {
   content: "";
   background: color-mix(in srgb, var(--background-color), transparent 80%);
-  background: linear-gradient(to top, #252525, #222020a6 10%);
+  background: linear-gradient(to top, #252525, #222020a6 80%);
   position: absolute;
   inset: 0;
   z-index: 2;
@@ -702,11 +702,13 @@ section,
   .container {
     position: relative;
     z-index: 3;
+    // background-color: salmon;
+    margin-bottom: 0 !important;
 
     .row {
       justify-content: flex-start !important;
 
-      .col-lg-11 {
+      .col-lg-12 {
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -742,11 +744,12 @@ section,
               flex-wrap: wrap !important;
 
               span {
-                background-color: #2f3438;
+                background-color: var(--contrast-color);
+                font-weight: bold;
                 border-radius: 5px;
                 padding: 0 5px;
                 padding-bottom: 4px;
-                line-height: 0.6rem;
+                line-height: 0.9rem;
                 margin: 2px 0.3rem;
               }
             }
@@ -779,6 +782,30 @@ section,
             }
             small {
               font-size: 0.8rem !important;
+            }
+          }
+
+          &:hover {
+            .card-img {
+              filter: blur(4px) !important;
+              transition: filter 0.3s ease;
+            }
+            h5 {
+              text-decoration: underline;
+            }
+            p {
+              text-decoration: underline;
+              color: var(--contrast-color);
+            }
+
+            small {
+              &.date {
+                opacity: 0 !important;
+              }
+
+              &.read {
+                opacity: 1 !important;
+              }
             }
           }
         }

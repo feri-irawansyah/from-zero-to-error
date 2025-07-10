@@ -2,7 +2,7 @@ use gloo_net::http::Request;
 use leptos::{prelude::*, task::spawn_local};
 use wasm_bindgen::JsCast;
 use leptos::web_sys::HtmlImageElement;
-use crate::{app::BACKEND_URL, components::card_loading::CardLoading, contexts::{index::format_wib_date, models::{AppState, Notes, NotesData}}};
+use crate::{app::BACKEND_URL, components::{card_loading::CardLoading, skill_slider::{SkillMarquee, SkillSignals}}, contexts::{index::format_wib_date, models::{AppState, Notes, NotesData, Skill, SkillsData}}};
 
 #[allow(non_snake_case)]
 #[component]
@@ -11,8 +11,10 @@ pub fn Home() -> impl IntoView {
     let state: AppState = expect_context::<AppState>();
     let notes: RwSignal<Vec<Notes>> = RwSignal::new(vec![]);
     let (loading, set_loading) = signal(false);
+    let (loading_skill, set_loading_skill) = signal(false);
     let current_page: RwSignal<i32> = RwSignal::new(1);
     let limit = 3;
+    let signal_skills = SkillSignals::new();
 
     let fetch_notes = move |page: i32| {
         let offset = (page - 1) * limit;
@@ -34,8 +36,33 @@ pub fn Home() -> impl IntoView {
         });
     };
 
+    let fetch_skills = move || {
+        let url = format!(
+            "{}/data/table?tablename=skills&offset=0&limit=50&nidkey=skill_id",
+            BACKEND_URL
+        );
+
+        spawn_local(async move {
+            set_loading_skill(true);
+            if let Ok(response) = Request::get(&url).send().await {
+
+                let data = response.json::<SkillsData>().await;
+                
+                if let Ok(data) = data {
+                    let skills = data.rows.clone();
+                    signal_skills.techstack.set(skills.clone().into_iter().filter(|skill| skill.tech_category.to_lowercase().as_str() == "techstack").collect::<Vec<Skill>>());
+                    signal_skills.programming.set(skills.clone().into_iter().filter(|skill| skill.tech_category.to_lowercase().as_str() == "programming").collect::<Vec<Skill>>());
+                    signal_skills.devops.set(skills.clone().into_iter().filter(|skill| skill.tech_category.to_lowercase().as_str() == "devops").collect::<Vec<Skill>>());
+                }
+            }
+            set_loading_skill(false);
+        });
+    };
+
     Effect::new(move |_| {
         fetch_notes(current_page.get());
+        fetch_skills();
+        || ()
     });
 
     view! {
@@ -45,10 +72,31 @@ pub fn Home() -> impl IntoView {
                 <div class="row justify-content-center">
                     <div class="col-lg-12 mb-3" data-aos="slide-right" data-aos-delay="200">
                         <h2><span class="me-3 text-primary">Hi, "I'm"</span> Feri</h2>
-                        <p>Programmer 
+                        <p class="text-primary">Programmer 
                         </p>
                     </div>
-                    <div class="col-lg-11">
+                    <div class="col-lg-12">
+                        <div class="row mb-3" data-aos="slide-right" data-aos-delay="300">
+                           <Show when=move || !loading_skill.get() fallback=|| view! { <CardLoading delay={Some(300)} count={Some(3)}/> }>
+                                {move || view! {
+                                    <h4 class="fw-bold">My <span class="text-primary">Tech Stack</span></h4>
+                                    <div class="card card-marquee col-lg-8">
+                                        <SkillMarquee
+                                            skills=signal_skills.techstack
+                                            position=Some("left".to_string())
+                                        />
+                                        <SkillMarquee
+                                            skills=signal_skills.programming
+                                            position=Some("right".to_string())
+                                        />
+                                        <SkillMarquee
+                                            skills=signal_skills.devops
+                                            position=Some("left".to_string())
+                                        />
+                                    </div>
+                                }}
+                            </Show>
+                        </div>
                         <div class="d-flex flex-row justify-content-between" data-aos="slide-right" data-aos-delay="300">
                             <h4 class="fw-bold">Latest <span class="text-primary">Notes</span></h4>
                             <a class="btn see-all" href="/catatan">See All <i class="bi bi-arrow-right"></i></a>
@@ -97,58 +145,9 @@ pub fn Home() -> impl IntoView {
                                 }}
                             </Show>
                         </div>
-                        // <div class="row" data-aos="slide-right" data-aos-delay="300">
-                        //     <h4 class="fw-bold">My <span class="text-primary">Tech Stack</span></h4>
-                        //     <div class="card">
-                        //         <SkillMarquee/>
-                        //     </div>
-                        // </div>
                     </div>
                 </div>
             </div>
         </section>
-    }
-}
-
-use serde::Deserialize;
-
-#[derive(Debug, Clone, Deserialize)]
-struct Skill {
-    image_src: String,
-}
-
-#[derive(Debug, Deserialize)]
-struct SkillResponse {
-    rows: Vec<Skill>,
-}
-
-#[allow(non_snake_case)]
-#[component]
-pub fn SkillMarquee() -> impl IntoView {
-
-    let skills = RwSignal::new(vec![]);
-
-    Effect::new(move |_| {
-        spawn_local(async move {
-            if let Ok(response) = Request::get("https://snakesystem-api.shuttle.app/api/v1/data/table?tablename=skills&offset=0&limit=50&nidkey=skill_id").send().await {
-                if let Ok(data) = response.json::<SkillResponse>().await {
-                    skills.set(data.rows);
-                }
-            }
-        });
-    });
-
-    view! {
-        <div class="marquee-custom">
-            {move || {
-                let skills_clone = skills.get().clone();
-                {skills_clone.iter().map(|skill| view! {
-                    <div class="marquee-text">
-                        <img src=format!("/assets/{}", skill.image_src.clone())/>
-                    </div>
-                }).collect_view()}
-            }}
-        </div>
-
     }
 }
