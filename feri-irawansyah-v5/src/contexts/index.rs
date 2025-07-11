@@ -1,8 +1,8 @@
 use leptos::{leptos_dom::logging::console_log, prelude::*};
 use chrono::{DateTime, Datelike, FixedOffset, NaiveDate, Timelike, Utc};
 use serde_json::Value;
-
-use crate::leptos_ignore;
+use leptos::web_sys;
+use wasm_bindgen::JsCast;
 
 use crate::{contexts::models::ModalState, directives::table::Columns};
 
@@ -99,85 +99,89 @@ pub fn error_message(err: &Option<Value>) -> String {
     }
 }
 
-leptos_ignore! {
-    
-    pub fn format_cell_value(item: &serde_json::Value, col: &Columns,
+pub fn format_cell_value(item: &serde_json::Value, col: &Columns,
     // ) -> Option<leptos::prelude::View<leptos::html::HtmlElement<Td, Vec<AnyAttribute>, (leptos::html::HtmlElement<leptos::html::Span, Vec<AnyAttribute>, (String,)>,)>>> {
-    ) -> Option<View<impl IntoView>> {
+    ) -> Option<impl IntoView> {
     
-        let state: ModalState = expect_context::<ModalState>();
-    
-        let on_click = move |_| {
-            // kosong, atau bisa nanti diisi
-        };
-    
-        match col.field.as_str() {
-            "notes_id" | "tsv" | "portfolio_id" => {
-                let string = "hidden";
-    
-                Some(view! {
-                    <td class="d-none".to_string()>
-                        <a href="#".to_string()  on:click=on_click class="invisible".to_string() data-bs-toggle="".to_string() data-bs-target="".to_string()>{string.to_string()}</a>
-                    </td>
-                })
-            }
-    
-            "content" => {
-                let value = item.get(&col.field)?.as_str().unwrap_or("").to_string();
-                let title = item.get("title")?.as_str().unwrap_or("").to_string();
-    
-                
-                let get_url = move |value: &str| {
-                    state.note_url.set(Some(value.to_string()));
-                    state.title.set(title.to_string());
-                    console_log(&value);
-                };
-                
-                Some(view! {
-                    <td class="".to_string()>
-                        <a href="#".to_string() on:click=move |_| { get_url(&value); } class="".to_string() data-bs-toggle="modal".to_string() data-bs-target="#note-content".to_string()>{value.clone()}</a>
-                    </td>
-                })
-            }
-    
-            "last_update" => {
-                let value = item.get(&col.field)?.as_str().unwrap_or("");
-                let formatted = format!("🕒 {}", format_wib_datetime(value));
-                Some(view! {
-                    <td class="".to_string()>
-                        <a href="#".to_string() on:click=on_click class="text-muted".to_string() data-bs-toggle="".to_string() data-bs-target="".to_string()>{formatted}</a>
-                    </td>
-                })
-            }
-    
-            "category" => {
-                let status = item.get(&col.field)?.as_str().unwrap_or("-");
-                let class = format!("badge {}", match status {
-                    "fullstack" => "bg-success text-dark",
-                    "backend" => "bg-warning text-dark",
-                    "frontend" => "bg-info text-dark",
-                    "series" => "bg-danger text-dark",
-                    _ => "bg-secondary text-dark",
-                });
-                Some(
-                    view! {
-                        <td class="".to_string()>
-                            <a href="#".to_string() on:click=on_click class=class.to_string() data-bs-toggle="".to_string() data-bs-target="".to_string()>{status.to_string()}</a>
-                        </td>
-                    }
-                )
-            }
-    
-            _ => {
-                let value = item.get(&col.field)?.as_str().unwrap_or("-");
-                Some(
-                    view! {
-                        <td class="".to_string()>
-                            <a href="#".to_string() on:click=on_click class="text-muted".to_string() data-bs-toggle="".to_string() data-bs-target="".to_string()>{value.to_string()}</a>
-                        </td>
-                    }
-                )
+    let state: ModalState = expect_context::<ModalState>();
+
+    let on_click = move |ev: web_sys::MouseEvent| {
+        if let Some(target) = ev.target() {
+            let target: web_sys::HtmlElement = target.unchecked_into();
+            let value = target.get_attribute("data-value").unwrap_or_default();
+            let option = target.get_attribute("data-opstion").unwrap_or_default();
+            let key = target.get_attribute("data-key").unwrap_or_default();
+            console_log(&format!("value: {}, key: {}, option: {}", value, key, option));
+
+            if key == "content" {
+                state.note_url.set(Some(value.to_string()));
+                state.title.set(option.to_string());
             }
         }
+    };
+
+
+    match col.field.as_str() {
+        "notes_id" | "tsv" | "portfolio_id" => {
+            let string = "hidden";
+            let value = item.get(&col.field)?.as_str().unwrap_or("").to_string();
+
+            Some(view! {
+                <td class="d-none".to_string()>
+                    <a href="#".to_string() data-key=col.field.clone() data-value=value.clone() data-opstion="".to_string() on:click=on_click class="invisible".to_string() data-bs-toggle="".to_string() data-bs-target="".to_string()>{string.to_string()}</a>
+                </td>
+            })
+        }
+
+        "content" => {
+            let value = item.get(&col.field)?.as_str().unwrap_or("").to_string();
+            let title = item.get("title")?.as_str().unwrap_or("").to_string();
+            
+            Some(view! {
+                <td class="".to_string()>
+                    <a href="#".to_string() data-key=col.field.clone() data-opstion=title data-value=value.clone() on:click=on_click class="".to_string() data-bs-toggle="modal".to_string() data-bs-target="#note-content".to_string()>{value.clone()}</a>
+                </td>
+            })
+        }
+
+        "last_update" => {
+            let value = item.get(&col.field)?.as_str().unwrap_or("").to_string();
+            let formatted = format!("🕒 {}", format_wib_datetime(&value));
+            Some(view! {
+                <td class="".to_string()>
+                    <a href="#".to_string() data-key=col.field.clone() data-value=value.clone()  data-opstion="".to_string() on:click=on_click class="text-muted".to_string() data-bs-toggle="".to_string() data-bs-target="".to_string()>{formatted}</a>
+                </td>
+            })
+        }
+
+        "category" => {
+            let value = item.get(&col.field)?.as_str().unwrap_or("").to_string();
+            let status = item.get(&col.field)?.as_str().unwrap_or("-");
+            let class = format!("badge {}", match status {
+                "fullstack" => "bg-success text-dark",
+                "backend" => "bg-warning text-dark",
+                "frontend" => "bg-info text-dark",
+                "series" => "bg-danger text-dark",
+                _ => "bg-secondary text-dark",
+            });
+            Some(
+                view! {
+                    <td class="".to_string()>
+                        <a href="#".to_string() data-key=col.field.clone() data-value=value.clone()  data-opstion="".to_string() on:click=on_click class=class.to_string() data-bs-toggle="".to_string() data-bs-target="".to_string()>{status.to_string()}</a>
+                    </td>
+                }
+            )
+        }
+
+        _ => {
+            let value = item.get(&col.field)?.as_str().unwrap_or("").to_string();
+            Some(
+                view! {
+                    <td class="".to_string()>
+                        <a href="#".to_string() data-key=col.field.clone() data-value=value.clone() data-opstion="".to_string() on:click=on_click class="text-muted".to_string() data-bs-toggle="".to_string() data-bs-target="".to_string()>{value.to_string()}</a>
+                    </td>
+                }
+            )
+        }
     }
-}    
+}

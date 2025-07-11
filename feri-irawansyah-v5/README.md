@@ -72,7 +72,9 @@ This may be useful for integrating external tools which require a static site, e
 This template itself is released under the Unlicense. You should replace the LICENSE for your own application with an appropriate license if you plan to release it publicly.
 
 
-
-sqlx = { version = "0.8.6", features = ["postgres", "runtime-tokio-native-tls", "chrono"] }
-chrono = { version = "0.4.40", features = ["serde"] }
-once_cell = "1.21.3"
+env LEPTOS_OUTPUT_NAME=feri-irawansyah \
+    LEPTOS_SITE_ROOT=site \
+    LEPTOS_SITE_PKG_DIR=pkg \
+    LEPTOS_SITE_ADDR=127.0.0.1:3000 \
+    LEPTOS_ENV=PROD \
+    cargo leptos build --release
