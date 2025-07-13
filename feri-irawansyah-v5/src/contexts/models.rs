@@ -33,19 +33,6 @@ pub struct Skill {
     pub last_update: Option<String>,
 }
 
-// {
-//             "description": "Rush adalah bahasa pemrograman favorit gue",
-//             "experience": 3,
-//             "image_src": "/svg/skills/rust.svg",
-//             "last_update": null,
-//             "progress": 95,
-//             "skill_id": 1,
-//             "star": 5,
-//             "tech_category": "backend",
-//             "title": "Rust",
-//             "url_docs": "https://www.rust-lang.org/"
-//         }
-
 #[derive(Clone, Debug, PartialEq)]
 pub struct Portfolio {
     pub title: &'static str,
@@ -131,16 +118,16 @@ pub struct NoteData {
 #[derive(Clone, Debug, PartialEq, Deserialize)]
 pub struct NotesData {
     pub rows: Vec<Notes>,
-    #[allow(non_snake_case)]
-    pub totalNotFiltered: usize,
+    #[serde(rename = "totalNotFiltered")]
+    pub total_not_filtered: usize,
     pub total: usize,
 }
 
 #[derive(Clone, Debug, PartialEq, Deserialize)]
 pub struct SkillsData {
     pub rows: Vec<Skill>,
-    #[allow(non_snake_case)]
-    pub totalNotFiltered: usize,
+    #[serde(rename = "totalNotFiltered")]
+    pub total_not_filtered: usize,
     pub total: usize,
 }
 
@@ -158,5 +145,6 @@ pub struct AppState {
 pub struct ModalState {
     pub note_url: RwSignal<Option<String>>,
     pub title: RwSignal<String>,
+    pub data: RwSignal<serde_json::Value>
 }
 

@@ -81,11 +81,11 @@ pub fn Home() -> impl IntoView {
                                     <h4 class="fw-bold">My <span class="text-primary">Tech Stack</span></h4>
                                     <div class="card card-marquee col-lg-8">
                                         <SkillMarquee
-                                            skills=signal_skills.techstack
+                                            skills=signal_skills.programming
                                             position=Some("left".to_string())
                                         />
                                         <SkillMarquee
-                                            skills=signal_skills.programming
+                                            skills=signal_skills.techstack
                                             position=Some("right".to_string())
                                         />
                                         <SkillMarquee

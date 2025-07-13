@@ -28,43 +28,42 @@
 }
 
 .card-marquee {
-    background-color: transparent;
-    border: none;
-    padding: 0;
-    .marquee-wrapper {
-        display: flex;
-        align-items: center;
-        overflow: hidden;
-        height: 5rem;
-        background-color: color-mix(in srgb, var(--default-color), transparent 90%);;
-    }
-    .marquee-content {
-        height: 5rem;
-        padding: 1rem 0;
-        display: flex;
-        gap: 3rem;
-        animation: scroll-left 10s linear infinite;
-        white-space: nowrap;
-    }
+  background-color: transparent;
+  border: none;
+  padding: 0;
 
-    .marquee-right {
-        animation: scroll-right 10s linear infinite;
-    }
-    
-    .skill {
-      font-size: 1.2rem;
-      font-weight: bold;
-      padding: 0 1rem;
-      flex-shrink: 0;
-    }
-    
-    img {
-        width: 100% !important;
-        height: 100% !important;
-        border-radius: 10px;
-    }
+  .marquee-wrapper {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    height: 5rem;
+    background-color: color-mix(in srgb, var(--default-color), transparent 90%);
+  }
+
+  .marquee-content {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    height: 5rem;
+    white-space: nowrap;
+    animation: scroll-left 20s linear infinite;
+  }
+  
+  .marquee-right {
+    display: flex;
+    gap: 3rem;
+    height: 5rem;
+    white-space: nowrap;
+    animation: scroll-right 20s linear infinite;
+  }
+
+  .skill-icon {
+    width: 3rem;
+    height: 3rem;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
 }
-
 
 /* Infinite scroll animation */
 @keyframes scroll-left {

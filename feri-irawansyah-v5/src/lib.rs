@@ -32,6 +32,7 @@ pub mod components {
     pub mod about_tab;
     pub mod loading;
     pub mod card_loading;
+    pub mod modal_detail;
 }
 pub mod directives {
     pub mod markdown;

@@ -1,4 +1,4 @@
-use leptos::{leptos_dom::logging::console_log, prelude::*};
+use leptos::prelude::*;
 
 use crate::contexts::models::Skill;
 
@@ -29,7 +29,6 @@ pub fn SkillMarquee(skills: RwSignal<Vec<Skill>>, position: Option<String>) -> i
             <div class=format!("marquee-content marquee-{}", position.unwrap_or("".to_string()))>
                 {doubled_skills
                     .map(|skill| {
-                        console_log(format!("skill: {:?}", skill).as_str());
                         view! {
                             <img class="skill-icon" src=format!("/assets/{}", skill.image_src.clone()) alt={skill.title.clone()} />
                         }

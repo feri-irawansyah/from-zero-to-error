@@ -53,11 +53,18 @@ pub const BACKEND_URL: &str = "https://snakesystem-api.shuttle.app/api/v1";
         };
 
     }
+
+    export function openModal(modal_id) {
+        const modal = new bootstrap.Modal(document.getElementById(modal_id));
+        modal.show();
+
+    }
 ")]
 extern "C" {
     fn initAOS();
     pub fn refreshAOS();
     pub fn initTypeit();
+    pub fn openModal(modal_id: String);
 }
 
 #[allow(non_snake_case)]
@@ -78,6 +85,7 @@ pub fn App() -> impl IntoView {
     let modal_state = ModalState {
         title: RwSignal::new("".to_string()),
         note_url: RwSignal::new(None),
+        data: RwSignal::new(serde_json::Value::Null),
     };
 
     // Register biar bisa dipakai semua komponen
