@@ -46,6 +46,7 @@ async fn main() -> std::io::Result<()> {
                                 <script src="/js/bootstrap.bundle.min.js"></script>
                                 <script src="/js/aos.min.js"></script>
                                 <script src="/js/marquee.js"></script>
+                                <script src="/js/typeit.js"></script>
                             </head>
                             <body class="dark-background"> 
                                 <App/>
