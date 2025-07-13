@@ -2,7 +2,7 @@ use gloo_net::http::Request;
 use leptos::{prelude::*, task::spawn_local};
 use wasm_bindgen::JsCast;
 use leptos::web_sys::HtmlImageElement;
-use crate::{app::BACKEND_URL, components::{card_loading::CardLoading, skill_slider::{SkillMarquee, SkillSignals}}, contexts::{index::format_wib_date, models::{AppState, Notes, NotesData, Skill, SkillsData}}};
+use crate::{app::{initTypeit, BACKEND_URL}, components::{card_loading::CardLoading, skill_slider::{SkillMarquee, SkillSignals}}, contexts::{index::format_wib_date, models::{AppState, Notes, NotesData, Skill, SkillsData}}};
 
 #[allow(non_snake_case)]
 #[component]
@@ -72,8 +72,7 @@ pub fn Home() -> impl IntoView {
                 <div class="row justify-content-center">
                     <div class="col-lg-12 mb-3" data-aos="slide-right" data-aos-delay="200">
                         <h2><span class="me-3 text-primary">Hi, "I'm"</span> Feri</h2>
-                        <p class="text-primary">Programmer 
-                        </p>
+                        <p>A <span class="text-primary">Software Engineer</span> from Indonesia</p>
                     </div>
                     <div class="col-lg-12">
                         <div class="row mb-3" data-aos="slide-right" data-aos-delay="300">
@@ -149,5 +148,22 @@ pub fn Home() -> impl IntoView {
                 </div>
             </div>
         </section>
+    }
+}
+
+#[allow(non_snake_case)]
+#[component]
+pub fn Typewriter() -> impl IntoView {
+
+    // Jalankan JS saat mount
+    Effect::new(move |_| {
+        initTypeit();
+    });
+
+    view! {
+        <h2>
+            <span id="typewriter" class="typewriter"></span>
+            <span class="cursor">|</span>
+        </h2>
     }
 }

@@ -38,10 +38,26 @@ pub const BACKEND_URL: &str = "https://snakesystem-api.shuttle.app/api/v1";
             anchorPlacement: 'top-center',
         });
     }
+
+    export function initTypeit() {
+        window.startTypeIt = function () {
+        new TypeIt(`#typewriter`, {
+            strings: ['Programmer', 'Software Engineer', 'Freelancer'],
+            speed: 100,
+            breakLines: false,
+            loop: true,
+            deleteSpeed: 50,
+            nextStringDelay: 1000,
+            waitUntilVisible: true,
+        }).go();
+        };
+
+    }
 ")]
 extern "C" {
     fn initAOS();
     pub fn refreshAOS();
+    pub fn initTypeit();
 }
 
 #[allow(non_snake_case)]
