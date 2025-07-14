@@ -32,7 +32,7 @@ pub fn Contact() -> impl IntoView {
                         </a>
                     </div>
                     <div class="col-lg-6 mb-3">
-                        <h4><i class="bi bi-alarm"></i> Availability</h4>
+                        <h4><i class="bi bi-alarm me-2 text-primary"></i> Availability</h4>
                         <div class="row">
                             <div class="col-12 mb-3">
                                 <div class="card p-3">
@@ -78,7 +78,7 @@ pub fn Contact() -> impl IntoView {
                         </div>
                     </div>
                     <div class="col-lg-6 mb-3">
-                    <h4><i class="bi bi-envelope"></i> Contact Me</h4>
+                    <h4><i class="bi bi-envelope me-2 text-primary"></i> Contact Me</h4>
                         <form class="card p-3">
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">Email address</label>

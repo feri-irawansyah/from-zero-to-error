@@ -71,14 +71,14 @@ pub fn Home() -> impl IntoView {
             <div class="container" data-aos="fade-up" data-aos-delay="100">
                 <div class="row justify-content-center">
                     <div class="col-lg-12 mb-3" data-aos="slide-right" data-aos-delay="200">
-                        <h2><span class="me-3 text-primary">Hi, "I'm"</span> Feri</h2>
-                        <p>A <span class="text-primary">Software Engineer</span> from Indonesia</p>
+                        <h2><span class="me-3 text-info">Hi, "I'm"</span> Feri</h2>
+                        <p>A <span class="text-info">Software Engineer</span> from Indonesia</p>
                     </div>
                     <div class="col-lg-12">
                         <div class="row mb-3" data-aos="slide-right" data-aos-delay="300">
                            <Show when=move || !loading_skill.get() fallback=|| view! { <CardLoading delay={Some(300)} count={Some(3)}/> }>
                                 {move || view! {
-                                    <h4 class="fw-bold">My <span class="text-primary">Tech Stack</span></h4>
+                                    <h4 class="fw-bold">My <span class="text-info">Tech Stack</span></h4>
                                     <div class="card card-marquee col-lg-8">
                                         <SkillMarquee
                                             skills=signal_skills.programming

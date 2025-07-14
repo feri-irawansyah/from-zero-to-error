@@ -176,9 +176,17 @@ h6 {
 .to-dashboard {
   position: absolute !important;
   z-index: 1;
-  right: 1rem;
+  right: 4rem;
   top: 1rem;
   color: lighten($color: $primary, $amount: 15);
+}
+
+.app-settings {
+  position: absolute !important;
+  z-index: 1;
+  right: 1rem;
+  top: 1rem;
+  // color: lighten($color: $primary, $amount: 15);
 }
 
 .table-container {
@@ -972,8 +980,13 @@ section,
   }
 
   .skills {
+    max-height: 80vh !important;
+    overflow-y: visible;
+    padding: 0 !important;
+    height: 80vh;
     .list-skill {
       .card {
+        margin: 1rem 0;
         .card-header {
           .ms-auto {
             padding: 0 1rem;
@@ -1448,50 +1461,14 @@ section,
 .contact .info-item:hover i {
   background: $primary;
   color: var(--contrast-color);
-}
-
-.contact .php-email-form {
-  height: 100%;
-}
-
-.contact .php-email-form input[type=text],
-.contact .php-email-form input[type=email],
-.contact .php-email-form select,
-.contact .php-email-form textarea {
-  font-size: 14px;
-  padding: 10px 15px;
-  box-shadow: none;
-  border-radius: 0;
-  color: var(--default-color);
-  background-color: color-mix(in srgb, var(--background-color), transparent 50%);
-  border-color: color-mix(in srgb, var(--default-color), transparent 80%);
-}
-
-.contact .php-email-form input[type=text]:focus,
-.contact .php-email-form input[type=email]:focus,
-.contact .php-email-form select:focus,
-.contact .php-email-form textarea:focus {
-  border-color: $primary;
-}
-
-.contact .php-email-form input[type=text]::placeholder,
-.contact .php-email-form input[type=email]::placeholder,
-.contact .php-email-form select::placeholder,
-.contact .php-email-form textarea::placeholder {
-  color: color-mix(in srgb, var(--default-color), transparent 70%);
-}
-
-.contact .php-email-form button[type=submit] {
-  color: var(--contrast-color);
-  background: $primary;
-  border: 0;
-  padding: 10px 30px;
-  transition: 0.4s;
-  border-radius: 50px;
-}
-
-.contact .php-email-form button[type=submit]:hover {
-  background: color-mix(in srgb, $primary, transparent 25%);
+} 
+.contact {
+  .clock {
+    border: 1px solid $success;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    color: $info;
+  }
 }
 
 /*--------------------------------------------------------------

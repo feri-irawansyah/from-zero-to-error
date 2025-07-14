@@ -1,7 +1,7 @@
 use leptos::{leptos_dom::logging::console_log, prelude::*, task::spawn_local};
 use leptos_router::{components::Outlet, hooks::use_location, location::Location};
 
-use crate::{contexts::models::AppState, middleware::session::check_session};
+use crate::{contexts::models::{AppState, ModalState}, middleware::session::check_session};
 
 #[allow(non_snake_case)]
 #[component]
@@ -54,7 +54,55 @@ pub fn MenuList() -> impl IntoView {
                     <i class="bi bi-house-door-fill me-2"></i><span>Dashboard</span>
                 </a>
             </Show>
+            <AppSettings />
             <Outlet />
+        </div>
+    }
+}
+
+#[allow(non_snake_case)]
+#[component]
+pub fn AppSettings() -> impl IntoView {
+
+    let state = expect_context::<ModalState>();
+
+    let app_version = RwSignal::new(env!("CARGO_PKG_VERSION"));
+
+    view! {
+        <button class="btn btn-primary btn-sm app-settings" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"><i class="bi bi-gear"></i></button>
+
+        <div class="offcanvas offcanvas-end" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasScrollingLabel">Application Settings</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title text-warning">Application Version</h5>
+                                <div class="dropdown">
+                                    <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        V {move || app_version.get()}
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-dark"> 
+                                        <li><a class="dropdown-item disabled text-center">V5 Release</a></li>
+                                        <li><a class="dropdown-item active">V 5.0.0 <i class="bi bi-check"></i></a></li>
+                                        <li><hr class="dropdown-divider"/></li>
+                                        <li><a class="dropdown-item">V 4.0.0</a></li>
+                                        <li><a class="dropdown-item">V 3.0.0</a></li>
+                                        <li><a class="dropdown-item">V 2.0.0</a></li>
+                                        <li><a class="dropdown-item">V 1.0.0</a></li>
+                                    </ul>
+                                </div>
+                                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#aboutApp">About App</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr/>
+            </div>
         </div>
     }
 }

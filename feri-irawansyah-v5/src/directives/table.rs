@@ -59,6 +59,9 @@ pub fn Table(table: String, data: RwSignal<Vec<serde_json::Value>>, loading_data
                 <table class="table table-striped responsive-table">
                     <thead>
                         <tr>
+                            <Show when=move || !loading.get() fallback=|| view! {
+                                <a class="btn btn-primary disabled placeholder col-12" aria-disabled="true"></a>
+                            }>
                             {move || columns.get().iter().filter(|col| match col.field.as_str() {
                                 "notes_id" => false, // sembunyikan
                                 "tsv" => false, // sembunyikan
@@ -69,10 +72,13 @@ pub fn Table(table: String, data: RwSignal<Vec<serde_json::Value>>, loading_data
                                     <th>{col.title.clone()}</th>
                                 }
                             }).collect_view()}
+                            </Show>
                         </tr>
                     </thead>
                     <tbody>
-                        <Show when=move || !loading_data.get() fallback=|| view! { <span>loading...</span> }>
+                        <Show when=move || !loading_data.get() fallback=|| view! { 
+                            <a class="btn btn-primary disabled placeholder col-12" aria-disabled="true"></a>
+                         }>
                             {move || {
                                 data.get().iter().map(|item| {
                                     view! {

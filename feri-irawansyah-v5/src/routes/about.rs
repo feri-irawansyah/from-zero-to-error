@@ -27,6 +27,7 @@ pub fn About() -> impl IntoView {
                                 "Intro" => view! { <Intro/> }.into_any(),
                                 "Experience" => view! { <Experience/> }.into_any(),
                                 "Skills" => view! { <Skills /> }.into_any(),
+                                "Journey" => view! { <h2><Journey/></h2> }.into_any(),
                                 "Certifications" => view! { <h2>Certifications</h2> }.into_any(),
                                 _ => view! { <h2>Intro</h2> }.into_any(),
                             }
@@ -116,6 +117,33 @@ pub fn Experience() -> impl IntoView {
 
 #[allow(non_snake_case)]
 #[component]
+pub fn Journey() -> impl IntoView {
+
+    view! {
+        <div data-aos="slide-right" class="journey">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="d-flex justify-content-between">
+                            <div class="flex-column experience-left">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-briefcase"></i>
+                                    <div class="flex-column">
+                                        <h5>Curriculum Vitae</h5>
+                                        <p>"Access my updated curriculum vitae"</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+#[allow(non_snake_case)]
+#[component]
 pub fn Skills() -> impl IntoView {
     
     let skills: RwSignal<Vec<Skill>> = RwSignal::new(vec![]);
@@ -154,13 +182,13 @@ pub fn Skills() -> impl IntoView {
     view! {
         <div data-aos="slide-right" class="skills">
             <div class="row">
-                <div class="col-12 mb-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Skills</h5>
-                        </div>
-                    </div>
-                </div>
+                // <div class="col-12 mb-3">
+                //     <div class="card">
+                //         <div class="card-body">
+                //             <h5 class="card-title">Skills</h5>
+                //         </div>
+                //     </div>
+                // </div>
                 <Show when=move || !loading.get() fallback=move || view! { 
                     <div class="col-12">
                         <div class="card">
