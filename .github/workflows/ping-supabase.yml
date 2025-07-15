@@ -1,0 +1,13 @@
+name: Ping Supabase Storage
+
+on:
+  schedule:
+    - cron: '0 18 * * *' # Jam 1 pagi WIB (UTC+7), cron pakai UTC
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Curl ping to Supabase storage file
+        run: |
+          curl -I https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/favicon.ico
