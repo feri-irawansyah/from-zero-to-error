@@ -66,7 +66,10 @@ pub fn AppSettings() -> impl IntoView {
 
     let state = expect_context::<ModalState>();
 
-    let app_version = RwSignal::new(env!("CARGO_PKG_VERSION"));
+    let toggle = move || {
+        state.title.set("Application Settings".to_string());
+        state.note_url.set(None);
+    };
 
     view! {
         <button class="btn btn-primary btn-sm app-settings" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling"><i class="bi bi-gear"></i></button>
@@ -80,11 +83,13 @@ pub fn AppSettings() -> impl IntoView {
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title text-warning">Application Version</h5>
+                            <div class="card-header">
+                                <h5 class="card-title">Version</h5>
+                            </div>
+                            <div class="card-body d-flex flex-row gap-3">
                                 <div class="dropdown">
-                                    <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        V {move || app_version.get()}
+                                    <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        V 5.0.0
                                     </button>
                                     <ul class="dropdown-menu dropdown-menu-dark"> 
                                         <li><a class="dropdown-item disabled text-center">V5 Release</a></li>
@@ -96,7 +101,7 @@ pub fn AppSettings() -> impl IntoView {
                                         <li><a class="dropdown-item">V 1.0.0</a></li>
                                     </ul>
                                 </div>
-                                <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#aboutApp">About App</button>
+                                <button type="button" class="btn btn-info btn-sm" onclick=toggle data-bs-toggle="modal" data-bs-target="#aboutApp">About App</button>
                             </div>
                         </div>
                     </div>

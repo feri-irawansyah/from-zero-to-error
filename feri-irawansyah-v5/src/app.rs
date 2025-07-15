@@ -9,7 +9,7 @@ use wasm_bindgen::prelude::wasm_bindgen;
 use crate::{
     components:: {
         admin_layout::AdminLayout, catatan_layout::CatatanLayout, loading::LoadingScreen, menu_list::MenuList
-    }, contexts::models::{AppState, ModalState}, middleware::session::SessionData, routes::{
+    }, contexts::models::{AppState, ModalState}, directives::modal_container::ModalContainer, middleware::session::SessionData, routes::{
         about::About, admin::{dashboard::Dashboard, notes_management::NotesManagement, user_management::UserManagement}, contact::Contact, home::Home, login::Login, notes::{
             category::Category, list_catatan::ListCatatan, slug::Slug
         }, notfound::NotFound, portfolio::Portfolio, services::Services
@@ -97,6 +97,7 @@ pub fn App() -> impl IntoView {
     });
 
     let state = expect_context::<AppState>();
+    let modal_state = expect_context::<ModalState>();
 
     view! {
         // injects a stylesheet into the document <head>
@@ -136,6 +137,19 @@ pub fn App() -> impl IntoView {
                             <Route path=WildcardSegment("any") view=NotFound/>
                         </Routes>
                     </div>
+                     <ModalContainer title=modal_state.title size=Some("lg".to_string()) modal_id="aboutApp".to_string()>
+                        <Show when=move || modal_state.title.get() != "" fallback=move || view! { 
+                            <h1 class="text-center">Loading...</h1>
+                        } >
+                            {move || view! { 
+                                <div class="row">
+                                    <div class="col-12">
+                                        {state.name.get()}
+                                    </div>
+                                </div>
+                            }}
+                        </Show>
+                    </ModalContainer>
                 </div>
             </main>
         </Router>
