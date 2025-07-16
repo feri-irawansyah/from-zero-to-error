@@ -21,7 +21,6 @@ async fn main() -> std::io::Result<()> {
         let site_root = leptos_options.site_root.clone().to_string();
 
         println!("listening on http://{}", &addr);
-        println!("Serving files from {}", &site_root);
 
         App::new()
             // serve JS/WASM/CSS from `pkg`
@@ -33,6 +32,8 @@ async fn main() -> std::io::Result<()> {
             // serve the favicon from /favicon.ico
             .service(favicon)
             .service(static_from_supabase)
+            .service(sitemap)
+            .service(robots)
             .leptos_routes(routes, {
                 let leptos_options = leptos_options.clone();
                 move || {
@@ -41,6 +42,7 @@ async fn main() -> std::io::Result<()> {
                         <html lang="en">
                             <head>
                                 <meta charset="utf-8"/>
+                                <meta name="robots" content="index, follow"/>
                                 <meta name="viewport" content="width=device-width, initial-scale=1"/>
                                 <AutoReload options=leptos_options.clone() />
                                 <HydrationScripts options=leptos_options.clone()/>
@@ -65,17 +67,29 @@ async fn main() -> std::io::Result<()> {
     .await
 }
 
-// #[cfg(feature = "ssr")]
-// #[actix_web::get("favicon.ico")]
-// async fn favicon(
-//     leptos_options: actix_web::web::Data<leptos::config::LeptosOptions>,
-// ) -> actix_web::Result<actix_files::NamedFile> {
-//     let leptos_options = leptos_options.into_inner();
-//     let site_root = &leptos_options.site_root;
-//     Ok(actix_files::NamedFile::open(format!(
-//         "{site_root}/favicon.ico"
-//     ))?)
-// }
+#[cfg(feature = "ssr")]
+#[actix_web::get("sitemap.xml")]
+async fn sitemap(
+    leptos_options: actix_web::web::Data<leptos::config::LeptosOptions>,
+) -> actix_web::Result<actix_files::NamedFile> {
+    let leptos_options = leptos_options.into_inner();
+    let site_root = &leptos_options.site_root;
+    Ok(actix_files::NamedFile::open(format!(
+        "{site_root}/sitemap.xml"
+    ))?)
+}
+
+#[cfg(feature = "ssr")]
+#[actix_web::get("robots.txt")]
+async fn robots(
+    leptos_options: actix_web::web::Data<leptos::config::LeptosOptions>,
+) -> actix_web::Result<actix_files::NamedFile> {
+    let leptos_options = leptos_options.into_inner();
+    let site_root = &leptos_options.site_root;
+    Ok(actix_files::NamedFile::open(format!(
+        "{site_root}/robots.txt"
+    ))?)
+}
 
 #[cfg(feature = "ssr")]
 #[actix_web::get("/favicon.ico")]
@@ -85,7 +99,7 @@ async fn favicon() -> actix_web::Result<actix_web::HttpResponse> {
 
     let url = "https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/favicon.ico";
 
-    let mut response = reqwest::get(url).await.map_err(|_| {
+    let response = reqwest::get(url).await.map_err(|_| {
         actix_web::error::ErrorBadGateway("Failed to fetch favicon from Supabase")
     })?;
 
@@ -131,7 +145,7 @@ async fn static_from_supabase(
     );
 
     // Fetch file from Supabase
-    let mut response = match reqwest::get(&supabase_url).await {
+    let response = match reqwest::get(&supabase_url).await {
         Ok(resp) => resp,
         Err(_) => return Err(actix_web::error::ErrorBadGateway("Failed to fetch file")),
     };
