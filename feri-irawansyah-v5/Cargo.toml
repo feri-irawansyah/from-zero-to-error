@@ -27,6 +27,7 @@ reactive_stores = "0.2.2"
 gloo-timers = "0.3.0"
 gloo-net = "0.6.0"
 urlencoding = "2.1.3"
+reqwest = { version = "0.12.22", features = ["json", "stream", "gzip", "brotli", "deflate", "rustls-tls"], optional = true }
 
 [features]
 csr = ["leptos/csr"]
@@ -34,6 +35,7 @@ hydrate = ["leptos/hydrate"]
 ssr = [
   "dep:actix-files",
   "dep:actix-web",
+  "dep:reqwest",
   "dep:leptos_actix",
   "dep:syntect",
   "dep:pulldown-cmark",
