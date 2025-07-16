@@ -103,7 +103,7 @@ pub fn App() -> impl IntoView {
         // injects a stylesheet into the document <head>
         // id=leptos means cargo-leptos will hot-reload this stylesheet
         <Stylesheet id="leptos" href="/pkg/feri-irawansyah.css"/>
-        <Stylesheet id="aos" href="/css/aos.min.css"/>
+        <Stylesheet id="aos" href="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/css/aos.min.css"/>
         <Stylesheet id="icons" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"/>
 
         // sets the document title
