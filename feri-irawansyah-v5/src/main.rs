@@ -21,6 +21,7 @@ async fn main() -> std::io::Result<()> {
         let site_root = leptos_options.site_root.clone().to_string();
 
         println!("listening on http://{}", &addr);
+        println!("Serving files from {}", &site_root);
 
         App::new()
             // serve JS/WASM/CSS from `pkg`
@@ -43,10 +44,10 @@ async fn main() -> std::io::Result<()> {
                                 <AutoReload options=leptos_options.clone() />
                                 <HydrationScripts options=leptos_options.clone()/>
                                 <MetaTags/>
-                                <script src="/js/bootstrap.bundle.min.js"></script>
-                                <script src="/js/aos.min.js"></script>
-                                <script src="/js/marquee.js"></script>
-                                <script src="/js/typeit.js"></script>
+                                <script src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/js/bootstrap.bundle.min.js"></script>
+                                <script src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/js/aos.min.js"></script>
+                                <script src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/js/marquee.js"></script>
+                                <script src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/js/typeit.js"></script>
                             </head>
                             <body class="dark-background"> 
                                 <App/>
