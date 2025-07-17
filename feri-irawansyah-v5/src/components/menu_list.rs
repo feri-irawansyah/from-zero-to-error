@@ -28,8 +28,8 @@ pub fn MenuList() -> impl IntoView {
 
     view! {
         <div class="menu-list col-2 p-0 scroll-custom">
-            <img src="/assets/img/feri.jpg" alt="feri" class="rounded-circle img-fluid about-img mb-1" />
-            <h5 class="fw-bold mb-0">{move || state.name.get()}<img class="real-image" src="/assets/img/real.png" alt="feri" /></h5>
+            <img src="/assets/img/feri.webp" alt="feri" class="rounded-circle img-fluid about-img mb-1"  loading="lazy" />
+            <h5 class="fw-bold mb-0">{move || state.name.get()}<img class="real-image" src="/assets/img/real.png" alt="feri"  loading="lazy"/></h5>
             <p class="mt-0">Software Engineer From Indonesia</p>
             <ul class="list-unstyled">
                 <li class:active=move || (location.pathname)() == "/"><a href="/"><i class="bi bi-house"></i> <span>Home</span></a></li>

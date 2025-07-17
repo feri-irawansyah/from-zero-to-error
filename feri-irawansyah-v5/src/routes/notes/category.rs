@@ -51,7 +51,7 @@ pub fn Category() -> impl IntoView {
     });
 
     view! { 
-        <div class="row category" data-aos="slide-left">
+        <div class="d-flex category" data-aos="slide-left">
             <Show
                 when=move || { loading.get() == false }
                 fallback=|| view! { <CardLoading delay={Some(0)} count={Some(3)} /> }
@@ -66,16 +66,16 @@ pub fn Category() -> impl IntoView {
                             {notes_clone.iter().enumerate().map(|(i, note)| view! {
                                 <div class="col-lg-4 col-md-6 d-flex align-items-stretch"  data-aos="fade-up" data-aos-delay={format!("{}", i * 200)} data-aos-duration="1000">
                                     <a class="card text-center" href=format!("/catatan/{}/{}", note.category.clone(), note.slug.clone())>
-                                        <img src=format!("/assets/img/notes/{}.png", note.slug.clone())
+                                        <img src=format!("/assets/img/notes/{}.webp", note.slug.clone())
                                             alt={note.title.clone()}
                                             on:error=move |e: leptos::ev::ErrorEvent| {
                                                 if let Some(target) = e.target() {
                                                     if let Ok(img) = target.dyn_into::<HtmlImageElement>() {
-                                                        img.set_src("/assets/img/notes/default.jpg");
+                                                        img.set_src("/assets/img/notes/default.webp");
                                                     }
                                                 }
                                             }
-                                            class="card-img rounded py-1"/>
+                                            class="card-img rounded py-1" loading="lazy"/>
                                         <div class="card-img-overlay">
                                             <div class="hashtag">
                                                 {
@@ -91,7 +91,7 @@ pub fn Category() -> impl IntoView {
                                         <div class="card-footer text-body-secondary">
                                             <div class="d-flex justify-content-between">
                                                 <div class="d-flex gap-2">
-                                                    <img class="rounded-circle" src="/assets/img/logo-ss.png" style="width: 1.5rem; height: 1.5rem;"/>
+                                                    <img class="rounded-circle" src="/assets/img/logo-ss.webp" style="width: 1.5rem; height: 1.5rem;" loading="lazy"/>
                                                     <span>{move || state.name.get()}</span>
                                                 </div>
                                                 <small class="text-white date">{format_wib_date(&note.last_update)}</small>

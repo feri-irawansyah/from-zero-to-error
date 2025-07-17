@@ -230,7 +230,7 @@ pub fn Skills() -> impl IntoView {
                                             <div class="card-body">
                                                 <div class="row">
                                                     <div class="col-md-4">
-                                                        <img class="img-fluid" src=format!("/assets/{}", skill.image_src.clone()) alt=skill.title.clone() />
+                                                        <img class="img-fluid" src=format!("/assets/{}", skill.image_src.clone()) alt=skill.title.clone() loading="lazy" />
                                                     </div>
                                                     <div class="col-md-8">
                                                         <p class="card-text">{skill.description.clone()}</p>

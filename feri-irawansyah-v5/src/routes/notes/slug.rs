@@ -50,23 +50,23 @@ pub fn Slug() -> impl IntoView {
                 fallback=move || {
                     view! { 
                         <div class="author d-flex flex-row align-items-start justify-content-start w-100">
-                            <img src="/assets/img/logo-ss.png" class="mb-3 rounded-circle" width="50px" alt=""/>
+                            <img src="/assets/img/logo-ss.webp" class="mb-3 rounded-circle" width="50px" alt="" loading="lazy"/>
                             <div class="flex-column">
                                 <a class="text-decoration-none text-muted" href="https://github.com/feri-irawansyah" target="_blank">
-                                {move || state.name.get().to_string()} <img src="/assets/img/real.png" width="20px" alt=""/></a>
+                                {move || state.name.get().to_string()} <img src="/assets/img/real.png" width="20px" alt="" loading="lazy"/></a>
                                 <p class="text-muted">{format_wib_date(&note.get().last_update)}</p>
                             </div>
                         </div>
                         <div class="w-100"  data-aos="fade-up" data-aos-duration="1000">
                             <div class="image-content d-flex justify-content-center" >
-                                <img class="img-fluid rounded" src={format!("/assets/img/notes/{}.png", note.get().slug)} alt={note.get().title} 
+                                <img class="img-fluid rounded" src={format!("/assets/img/notes/{}.webp", note.get().slug)} alt={note.get().title} 
                                     on:error=move |e: leptos::ev::ErrorEvent| {
                                         if let Some(target) = e.target() {
                                             if let Ok(img) = target.dyn_into::<HtmlImageElement>() {
                                                 img.set_src("/assets/img/notes/default.jpg");
                                             }
                                         }
-                                    }/>
+                                    } loading="lazy"/>
                             </div>
                             <div class="markdown-body">
                                 <MarkdownFromUrl url={content}/>

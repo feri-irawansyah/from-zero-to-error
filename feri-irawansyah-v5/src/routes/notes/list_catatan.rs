@@ -9,7 +9,7 @@ pub fn ListCatatan() -> impl IntoView {
     let categories = vec![
         Category {
             name: "backend",
-            image: "/assets/img/backend.png",
+            image: "/assets/img/backend.webp",
             title: "Backend",
             desc: "Intip catatan tentang aplikasi backend dengan performa tinggi dan modern sekalian nyobain.",
             list_tech: &[
@@ -18,7 +18,7 @@ pub fn ListCatatan() -> impl IntoView {
         },
         Category {
             name: "frontend",
-            image: "/assets/img/frontend.png",
+            image: "/assets/img/frontend.webp",
             title: "Frontend",
             desc: "Lu mungkin bakal suka liat catatan tentang tampilan aplikasi yang oke dan interaktif.",
             list_tech: &[
@@ -27,7 +27,7 @@ pub fn ListCatatan() -> impl IntoView {
         },
         Category {
             name: "fullstack",
-            image: "/assets/img/fullstack.png",
+            image: "/assets/img/fullstack.webp",
             title: "Fullstack",
             desc: "Kombinasi backend dan frontend dalam satu catatan mungkin bisa jadi inspirasi baru bang.",
             list_tech: &[
@@ -36,7 +36,7 @@ pub fn ListCatatan() -> impl IntoView {
         },
         Category {
             name: "random",
-            image: "/assets/img/random.png",
+            image: "/assets/img/random.webp",
             title: "Random",
             desc: "Jangan ngoding mulu bang ntar pingsan kita, kita juga manusia bukan robot. Robot aja bisa error.",
             list_tech: &[
@@ -45,7 +45,7 @@ pub fn ListCatatan() -> impl IntoView {
         },
         Category {
             name: "series",
-            image: "/assets/img/series.png",
+            image: "/assets/img/series.webp",
             title: "Series",
             desc: "Kita bacotin teknologi yang ada dimuka bumi dalam konteks pebelajaran.",
             list_tech: &[
@@ -60,7 +60,7 @@ pub fn ListCatatan() -> impl IntoView {
                 view! {
                     <div class="col-md-4 my-3" data-aos="fade-up" data-aos-delay={format!("{}", i * 100)}>
                         <a class="card p-3 text-decoration-none h-100" href=format!("/catatan/{}", cat.name)>
-                            <img src={cat.image} class="card-img-top" alt={cat.title}/>
+                            <img src={cat.image} class="card-img-top" alt={cat.title} loading="lazy"/>
                             <div class="card-body">
                                 <h4 class="card-title">{cat.title}</h4>
                                 <p class="card-text">{cat.desc}</p>

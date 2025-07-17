@@ -67,19 +67,25 @@ pub fn Home() -> impl IntoView {
 
     view! {
         <section id="hero" class="hero section"  data-aos="zoom-in">             
-            <img src="/assets/img/hero-bg.jpeg" alt="" />
+            <img src="/assets/img/hero-bg.jpeg" alt="" loading="lazy" />
             <div class="container" data-aos="fade-up" data-aos-delay="100">
                 <div class="row justify-content-center">
                     <div class="col-lg-12 mb-3" data-aos="slide-right" data-aos-delay="200">
-                        <h2><span class="me-3 text-info">Hi, "I'm"</span> Feri</h2>
+                        <h2><span class="me-3 text-primary">Hi, "I'm"</span> Feri</h2>
                         <p>A <span class="text-info">Software Engineer</span> from Indonesia</p>
                     </div>
                     <div class="col-lg-12">
                         <div class="row mb-3" data-aos="slide-right" data-aos-delay="300">
-                           <Show when=move || !loading_skill.get() fallback=|| view! { <CardLoading delay={Some(300)} count={Some(3)}/> }>
+                           <Show when=move || !loading_skill.get() fallback=|| view! { 
+                                <div class="card card-marquee">
+                                    <a class="btn btn-primary disabled placeholder fw bold fs-4" aria-disabled="true">Please wait...</a>
+                                    <a class="btn btn-primary disabled placeholder fw bold fs-4" aria-disabled="true">Please wait...</a>
+                                    <a class="btn btn-primary disabled placeholder fw bold fs-4" aria-disabled="true">Please wait...</a>
+                                </div>
+                            }>
                                 {move || view! {
-                                    <h4 class="fw-bold">My <span class="text-info">Tech Stack</span></h4>
-                                    <div class="card card-marquee col-lg-8">
+                                    <h4 class="fw-bold">My <span class="text-primary">Tech Stack</span></h4>
+                                    <div class="card card-marquee">
                                         <SkillMarquee
                                             skills=signal_skills.programming
                                             position=Some("left".to_string())
@@ -116,7 +122,7 @@ pub fn Home() -> impl IntoView {
                                                             }
                                                         }
                                                     }
-                                                class="card-img rounded py-1"/>
+                                                class="card-img rounded py-1" loading="lazy"/>
                                                 <div class="card-img-overlay">
                                                     <div class="hashtag">
                                                     {
@@ -132,7 +138,7 @@ pub fn Home() -> impl IntoView {
                                                 <div class="card-footer text-body-secondary">
                                                     <div class="d-flex justify-content-between">
                                                         <div class="d-flex gap-1 author">
-                                                            <img class="rounded-circle" src="/assets/img/logo-ss.png" style="width: 1.5rem; height: 1.5rem;"/>
+                                                            <img class="rounded-circle" src="/assets/img/logo-ss.png" style="width: 1.5rem; height: 1.5rem;" loading="lazy"/>
                                                             <span>{move || state.name.get()}</span>
                                                         </div>
                                                         <small class="text-white">{format_wib_date(&note.last_update)}</small>

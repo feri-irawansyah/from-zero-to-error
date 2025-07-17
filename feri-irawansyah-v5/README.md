@@ -71,6 +71,9 @@ This may be useful for integrating external tools which require a static site, e
 
 This template itself is released under the Unlicense. You should replace the LICENSE for your own application with an appropriate license if you plan to release it publicly.
 
+sudo systemctl restart feri-irawansyah.service
+
+scp ~/rust-project/from-zero-to-error/feri-irawansyah-v5/target/release/feri-irawansyah root@47.236.126.179:~/leptos-site/
 
 env LEPTOS_OUTPUT_NAME=feri-irawansyah \
     LEPTOS_SITE_ROOT=site \

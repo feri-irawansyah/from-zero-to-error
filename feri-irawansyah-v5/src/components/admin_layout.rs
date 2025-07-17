@@ -61,8 +61,8 @@ pub fn AdminLayout() -> impl IntoView {
                         }>
                         <ul>
                             <li class="logo"><a href="/">
-                                <img src="/assets/img/logo-ss.png" alt="feri" class="rounded-circle img-fluid about-img mb-1" /> 
-                                <h5>Feri Irawansyah <img class="real-image" src="/assets/img/real.png" alt="feri" /></h5>
+                                <img src="/assets/img/logo-ss.webp" alt="feri" class="rounded-circle img-fluid about-img mb-1" loading="lazy" /> 
+                                <h5>Feri Irawansyah <img class="real-image" src="/assets/img/real.png" alt="feri" loading="lazy" /></h5>
                                 <p>Software Engineer</p>
                             </a></li>
                             <li><a href="/admin"><i class="bi bi-grid"></i> <span>Dashboard</span></a></li>

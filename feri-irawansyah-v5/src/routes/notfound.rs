@@ -32,7 +32,7 @@ pub fn NotFound() -> impl IntoView {
                 </button>
             </div>
             <div class="container" data-aos="zoom-in" data-aos-delay="100">
-                <img class="img-fluid" src="https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif" alt="404" />
+                <img class="img-fluid" src="https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif" alt="404" loading="lazy" />
             </div>
         </section>
     }

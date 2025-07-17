@@ -30,7 +30,7 @@ pub fn SkillMarquee(skills: RwSignal<Vec<Skill>>, position: Option<String>) -> i
                 {doubled_skills
                     .map(|skill| {
                         view! {
-                            <img class="skill-icon" src=format!("/assets/{}", skill.image_src.clone()) alt={skill.title.clone()} />
+                            <img class="skill-icon" src=format!("/assets/{}", skill.image_src.clone()) alt={skill.title.clone()} loading="lazy" />
                         }
                     })
                     .collect::<Vec<_>>()}

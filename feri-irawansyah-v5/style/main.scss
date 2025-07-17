@@ -699,8 +699,8 @@ section,
 
 .hero:before {
   content: "";
-  background: color-mix(in srgb, var(--background-color), transparent 80%);
-  background: linear-gradient(to top, #252525, #222020a6 80%);
+  background: color-mix(in srgb, var(--background-color), transparent 30%);
+  background: linear-gradient(to top, #202020, #0f0f0fa6 100%);
   position: absolute;
   inset: 0;
   z-index: 2;
@@ -715,12 +715,19 @@ section,
 
     .row {
       justify-content: flex-start !important;
+      flex-direction: column;
 
       .col-lg-12 {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        max-width: fit-content;
+        // max-width: fit-content;
+        width: 100% !important;
+
+        .row {
+          flex-direction: row !important;
+          width: 100% !important;
+        }
 
         .see-all:hover {
           color: $primary;
@@ -2004,18 +2011,6 @@ section,
     to {
         transform: rotate(360deg);
     }
-}
-
-.marquee-custom  {
-  .marquee-text  {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    img {
-      width: 3rem;
-      border-radius: 5px;
-    }
-  }
 }
 
 /*--------------------------------------------------------------

@@ -46,7 +46,7 @@ pub fn Portfolio() -> impl IntoView {
                     {portfolio.iter().map(|p| view! {
                         <div class="col-lg-6">
                             <a class="card text-bg-dark" href={p.link} target="_blank">
-                                <img src={p.image} class="card-img" alt={p.title}/>
+                                <img src={p.image} class="card-img" alt={p.title} loading="lazy"/>
                                 <div class="card-img-overlay">
                                     <h5 class="card-title">{p.title}</h5>
                                     <p class="card-text">{p.description}</p>
@@ -56,7 +56,7 @@ pub fn Portfolio() -> impl IntoView {
                                             let link = t.link;
                                             move |_| navigate(&link, Default::default())
                                         }>
-                                            <span class="tech">#<small>{t.name}</small><img src={t.image} alt={t.name} /></span>
+                                            <span class="tech">#<small>{t.name}</small><img src={t.image} alt={t.name}  loading="lazy"/></span>
                                         </div>
                                     }).collect::<Vec<_>>()}
                                 </div>
