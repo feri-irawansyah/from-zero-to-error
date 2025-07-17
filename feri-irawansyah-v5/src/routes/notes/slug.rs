@@ -57,7 +57,7 @@ pub fn Slug() -> impl IntoView {
                                 <p class="text-muted">{format_wib_date(&note.get().last_update)}</p>
                             </div>
                         </div>
-                        <div class="w-100"  data-aos="fade-up" data-aos-duration="1000">
+                        <div class="w-100 slug-content"  data-aos="fade-up" data-aos-duration="1000">
                             <div class="image-content d-flex justify-content-center" >
                                 <img class="img-fluid rounded" src={format!("/assets/img/notes/{}.webp", note.get().slug)} alt={note.get().title} 
                                     on:error=move |e: leptos::ev::ErrorEvent| {

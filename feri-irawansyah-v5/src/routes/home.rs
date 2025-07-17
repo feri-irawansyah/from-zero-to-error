@@ -79,8 +79,6 @@ pub fn Home() -> impl IntoView {
                            <Show when=move || !loading_skill.get() fallback=|| view! { 
                                 <div class="card card-marquee">
                                     <a class="btn btn-primary disabled placeholder fw bold fs-4" aria-disabled="true">Please wait...</a>
-                                    <a class="btn btn-primary disabled placeholder fw bold fs-4" aria-disabled="true">Please wait...</a>
-                                    <a class="btn btn-primary disabled placeholder fw bold fs-4" aria-disabled="true">Please wait...</a>
                                 </div>
                             }>
                                 {move || view! {

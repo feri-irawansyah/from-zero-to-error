@@ -1,6 +1,28 @@
 use leptos::prelude::*;
 use serde::{Deserialize, Serialize};
 
+#[derive(Debug, Serialize, Deserialize)]
+pub struct ActionResult<T, E> {
+    pub result: bool,
+    pub message: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub data: Option<T>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub error: Option<E>,
+}
+
+// Implementasi Default
+impl<T, E> Default for ActionResult<T, E> {
+    fn default() -> Self {
+        Self {
+            result: false, // Default-nya false
+            message: String::new(),
+            data: None,
+            error: None,
+        }
+    }
+}
+
 use crate::middleware::session::SessionData; 
 
 #[derive(Clone, Debug, PartialEq, Deserialize)]
@@ -17,6 +39,14 @@ pub struct ErrorResponse {
 pub struct LoginRequest {
     pub email: String,
     pub password: String
+}
+
+#[derive(Clone, Debug, PartialEq, Serialize, Default, Deserialize)]
+pub struct EmailRequest {
+    pub name: String,
+    pub recipient: String,
+    pub subject: String,
+    pub message: String
 }
 
 #[derive(Clone, Debug, PartialEq, Deserialize)]

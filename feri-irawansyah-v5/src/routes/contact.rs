@@ -1,10 +1,71 @@
-use leptos::prelude::*;
+use leptos::{leptos_dom::logging::console_log, prelude::*};
+use leptos_sweetalert::{Swal, SwalIcon, SwalOptions};
 
-use crate::components::clock::Clock;
+use crate::{components::clock::Clock, contexts::models::EmailRequest, middleware::email::send_email};
 
 #[allow(non_snake_case)]
 #[component]
 pub fn Contact() -> impl IntoView {
+
+    let form = RwSignal::new(EmailRequest::default());
+
+    let on_submit = Action::new(move |_: &()| {
+        let email = form.get().name;
+        let password = form.get().recipient;
+        
+        async move {
+            
+            match send_email(EmailRequest { name: form.get().name, recipient: form.get().recipient, subject: form.get().subject, message: form.get().message }).await {
+
+                Ok(res) => {
+                    Swal::fire(SwalOptions {
+                        title: "This is a title",
+                        text: "This is some text",
+                        icon: SwalIcon::SUCCESS,
+                        confirm_button_text: "LETS GO",
+                        show_cancel_button: true,
+                        show_deny_button: true,
+                        ..SwalOptions::default()
+                    });
+                },
+                Err(err) => {
+                    // show_alert("Login Gagal", &err.to_string(), &"error".to_string());
+                    // let err_parsed: serde_json::Value = serde_json::from_str(&err.to_string()).unwrap();
+                    // console_log(&err_parsed["message"].to_string());
+                    let err_str = format!("{:?}", err);
+
+                    console_log(&err_str);
+
+                    if let Some(json_str) = err_str.strip_prefix("ServerError(\"").and_then(|s| s.strip_suffix("\")")) {
+                        console_log(json_str);
+                        if let Ok(json) = serde_json::from_str::<serde_json::Value>(json_str) {
+                            console_log(format!("JSON: {:?}", json["message"].as_str().unwrap_or("Unknown error")).as_str());
+                            let message_err = json["message"].as_str().unwrap_or("Unknown error");
+                            let error_detail = json["error"].as_str().unwrap_or("No details");
+
+                            console_log(message_err);
+                            console_log(error_detail);
+
+                        } else {
+                            console_log("Failed to parse JSON");
+                        }
+                    } else {
+                        console_log("Failed to extract JSON string");
+                    }
+                    // message.set(format!("Error: {:?}", err));
+                    Swal::fire(SwalOptions {
+                        title: "This is a title",
+                        text: "This is some text",
+                        icon: SwalIcon::ERROR,
+                        confirm_button_text: "LETS GO",
+                        show_cancel_button: true,
+                        show_deny_button: true,
+                        ..SwalOptions::default()
+                    });
+                }
+            }
+        }
+    });
     
     view! {
         <section id="contact" class="contact section" data-aos="fade-right">     
@@ -79,20 +140,88 @@ pub fn Contact() -> impl IntoView {
                     </div>
                     <div class="col-lg-6 mb-3">
                     <h4><i class="bi bi-envelope me-2 text-primary"></i> Contact Me</h4>
-                        <form class="card p-3">
+                        <form class="card p-3" on:submit=move |e| {
+                            e.prevent_default();
+
+                            let fullname = form().name.clone();
+                            let email = form().recipient.clone();
+                            let subject = form().subject.clone();
+                            let message = form().message.clone();
+
+                            if fullname.is_empty() || email.is_empty() || message.is_empty() {
+                                Swal::fire(SwalOptions {
+                                    title: "Error",
+                                    text: "Please fill in all fields",
+                                    icon: SwalIcon::ERROR,
+                                    confirm_button_text: "OK",
+                                    show_cancel_button: false,
+                                    show_deny_button: false,
+                                    ..SwalOptions::default()
+                                });
+                                return;
+                            }
+
+                            on_submit.dispatch(());
+                        }>
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Email address</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"/>
+                                <label for="fullname" class="form-label">"Full Name"</label>
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="fullname"
+                                    prop:value=move || form().name.clone()
+                                    on:input=move |ev| {
+                                        form.update(|f| f.name = event_target_value(&ev));
+                                    }
+                                />
                             </div>
+
                             <div class="mb-3">
-                                <label for="exampleInputPassword1" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="exampleInputPassword1"/>
+                                <label for="email" class="form-label">"Email address"</label>
+                                <input
+                                    type="email"
+                                    class="form-control"
+                                    id="email"
+                                    prop:value=move || form().recipient.clone()
+                                    on:input=move |ev| {
+                                        form.update(|f| f.recipient = event_target_value(&ev));
+                                    }
+                                />
                             </div>
+
                             <div class="mb-3">
-                                <label for="exampleFormControlTextarea1" class="form-label">Message</label>
-                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                <label for="subject" class="form-label">"Subject"</label>
+                                <select
+                                    class="form-select"
+                                    id="subject"
+                                    prop:value=move || form().subject.clone()
+                                    on:input=move |ev| {
+                                        form.update(|f| f.subject = event_target_value(&ev));
+                                    }
+                                >
+                                    <option value="">"Choose..."</option>
+                                    <option value="Feedback">"Feedback"</option>
+                                    <option value="Support">"Support"</option>
+                                    <option value="Other">"Other"</option>
+                                </select>
                             </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
+
+                            <div class="mb-3">
+                                <label for="message" class="form-label">"Message"</label>
+                                <textarea
+                                    class="form-control"
+                                    id="message"
+                                    rows="3"
+                                    prop:value=move || form().message.clone()
+                                    on:input=move |ev| {
+                                        form.update(|f| f.message = event_target_value(&ev));
+                                    }
+                                ></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">
+                                "Submit"
+                            </button>
                         </form>
                     </div>
                 </div>

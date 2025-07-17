@@ -42,6 +42,7 @@ pub mod directives {
 }
 pub mod middleware {
     pub mod session;
+    pub mod email;
 }
 
 #[cfg(feature = "hydrate")]
