@@ -10,31 +10,25 @@ pub fn Contact() -> impl IntoView {
     let form = RwSignal::new(EmailRequest::default());
 
     let on_submit = Action::new(move |_: &()| {
-        let email = form.get().name;
-        let password = form.get().recipient;
         
         async move {
             
             match send_email(EmailRequest { name: form.get().name, recipient: form.get().recipient, subject: form.get().subject, message: form.get().message }).await {
 
                 Ok(res) => {
+                    console_log(format!("Response: {:#?}", res).as_str());
                     Swal::fire(SwalOptions {
-                        title: "This is a title",
-                        text: "This is some text",
+                        title: format!("{}", res.message),
+                        text: "This is some text".to_owned(),
                         icon: SwalIcon::SUCCESS,
-                        confirm_button_text: "LETS GO",
+                        confirm_button_text: "LETS GO".to_owned(),
                         show_cancel_button: true,
-                        show_deny_button: true,
+                        show_deny_button: false,
                         ..SwalOptions::default()
                     });
                 },
                 Err(err) => {
-                    // show_alert("Login Gagal", &err.to_string(), &"error".to_string());
-                    // let err_parsed: serde_json::Value = serde_json::from_str(&err.to_string()).unwrap();
-                    // console_log(&err_parsed["message"].to_string());
                     let err_str = format!("{:?}", err);
-
-                    console_log(&err_str);
 
                     if let Some(json_str) = err_str.strip_prefix("ServerError(\"").and_then(|s| s.strip_suffix("\")")) {
                         console_log(json_str);
@@ -52,14 +46,13 @@ pub fn Contact() -> impl IntoView {
                     } else {
                         console_log("Failed to extract JSON string");
                     }
-                    // message.set(format!("Error: {:?}", err));
                     Swal::fire(SwalOptions {
                         title: "This is a title",
                         text: "This is some text",
                         icon: SwalIcon::ERROR,
                         confirm_button_text: "LETS GO",
                         show_cancel_button: true,
-                        show_deny_button: true,
+                        show_deny_button: false,
                         ..SwalOptions::default()
                     });
                 }
@@ -148,7 +141,7 @@ pub fn Contact() -> impl IntoView {
                             let subject = form().subject.clone();
                             let message = form().message.clone();
 
-                            if fullname.is_empty() || email.is_empty() || message.is_empty() {
+                            if fullname.is_empty() || email.is_empty() || message.is_empty() || subject.is_empty() {
                                 Swal::fire(SwalOptions {
                                     title: "Error",
                                     text: "Please fill in all fields",
