@@ -30,13 +30,13 @@
 .card-marquee {
   background-color: transparent;
   border: none;
-  padding: 0;
+  padding: 0 0.4rem !important;
 
   .marquee-wrapper {
     width: 100%;
     overflow: hidden;
     position: relative;
-    height: 5rem;
+    margin: 0;
     // background-color: color-mix(in srgb, var(--default-color), transparent 90%);
   }
 
@@ -44,17 +44,41 @@
     display: flex;
     align-items: center;
     gap: 3rem;
-    height: 5rem;
+    padding: 0.3rem !important;
     white-space: nowrap;
-    animation: scroll-left 20s linear infinite;
+    animation: scroll-left 30s linear infinite;
+
+    .marquee-item {
+      background-color: #252525;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border-top-left-radius: 4rem;
+      border-bottom-left-radius: 4rem;
+      border-top-right-radius: 4rem;
+      border-bottom-right-radius: 4rem;
+      padding: 0.3rem 1rem;
+      gap: 0.5rem;
+      border: 1px solid $dark;
+      img {
+        width: 1.5rem;
+        height: 1.5rem;
+        object-fit: contain;
+      }
+
+      span {
+        font-size: 1.1rem;
+        font-weight: 600;
+      }
+    }
   }
   
   .marquee-right {
     display: flex;
     gap: 3rem;
-    height: 5rem;
     white-space: nowrap;
-    animation: scroll-right 20s linear infinite;
+    animation: scroll-right 30s linear infinite;
   }
 
   .skill-icon {
@@ -76,10 +100,10 @@
 }
 
 @keyframes scroll-right {
-  100% {
-    transform: translateX(100%);
-  }
   0% {
+    transform: translateX(-50%);
+  }
+  100% {
     transform: translateX(0%);
   }
 }

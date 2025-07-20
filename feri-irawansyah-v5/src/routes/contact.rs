@@ -169,34 +169,36 @@ pub fn Contact() -> impl IntoView {
                                 />
                             </div>
 
-                            <div class="mb-3">
-                                <label for="email" class="form-label">"Email address"</label>
-                                <input
-                                    type="email"
-                                    class="form-control"
-                                    id="email"
-                                    prop:value=move || form().recipient.clone()
-                                    on:input=move |ev| {
-                                        form.update(|f| f.recipient = event_target_value(&ev));
-                                    }
-                                />
-                            </div>
+                            <div class="row mb-3">
+                                <div class="col-lg-6">
+                                    <label for="email" class="form-label">"Email address"</label>
+                                    <input
+                                        type="email"
+                                        class="form-control"
+                                        id="email"
+                                        prop:value=move || form().recipient.clone()
+                                        on:input=move |ev| {
+                                            form.update(|f| f.recipient = event_target_value(&ev));
+                                        }
+                                    />
+                                </div>
 
-                            <div class="mb-3">
-                                <label for="subject" class="form-label">"Subject"</label>
-                                <select
-                                    class="form-select"
-                                    id="subject"
-                                    prop:value=move || form().subject.clone()
-                                    on:input=move |ev| {
-                                        form.update(|f| f.subject = event_target_value(&ev));
-                                    }
-                                >
-                                    <option value="">"Choose..."</option>
-                                    <option value="Feedback">"Feedback"</option>
-                                    <option value="Support">"Support"</option>
-                                    <option value="Other">"Other"</option>
-                                </select>
+                                <div class="col-lg-6">
+                                    <label for="subject" class="form-label">"Subject"</label>
+                                    <select
+                                        class="form-select"
+                                        id="subject"
+                                        prop:value=move || form().subject.clone()
+                                        on:input=move |ev| {
+                                            form.update(|f| f.subject = event_target_value(&ev));
+                                        }
+                                    >
+                                        <option value="">"Choose..."</option>
+                                        <option value="Feedback">"Feedback"</option>
+                                        <option value="Support">"Support"</option>
+                                        <option value="Other">"Other"</option>
+                                    </select>
+                                </div>
                             </div>
 
                             <div class="mb-3">

@@ -68,21 +68,31 @@ pub fn Home() -> impl IntoView {
     view! {
         <section id="hero" class="hero section"  data-aos="zoom-in">             
             <img src="/assets/img/hero-bg.jpeg" alt="" loading="lazy" />
-            <div class="container" data-aos="fade-up" data-aos-delay="100">
+            <div class="container" data-aos="fade-up">
                 <div class="row justify-content-center">
-                    <div class="col-lg-12 mb-3" data-aos="slide-right" data-aos-delay="200">
-                        <h2><span class="me-3 text-primary">Hi, "I'm"</span> Feri</h2>
-                        <p>A <span class="text-info">Software Engineer</span> from Indonesia</p>
+                    <div class="col-lg-10 mb-3 headline" data-aos="zoom-in" data-aos-delay="100">
+                        <h2><span class="me-3 text-primary">Hi, "✨" "I'm"</span> Feri</h2>
+                        <p><span class="text-info">Software Engineer</span> yang doyan ngoprek tentang teknologi. Gue paling suka pake <span class="text-info">Rust</span> bikin AI, Desktop, dan Web. </p>
+                        <p>Di waktu senggang, gue suka nulis artikel tentang teknologi, biasanya berkaitan sama hal yang gue ekplor untuk berbagi dan biar gue engga lupa juga. <a class="text-primary text-decoration-none fw-bold" href="/about" rel="noopener noreferrer">Selengkapnya <i class="bi bi-arrow-right"></i></a></p>
+                        <div class="d-flex justify-content-start gap-3 pt-3 social">
+                            <a href="#about" class="btn btn-success"><i class="bi bi-whatsapp me-2"></i> <span>Whatsapp</span></a> 
+                            <a href="#about" class="btn btn-warning"><i class="bi bi-envelope me-2"></i> <span>Email</span></a> 
+                            <a href="#about" class="btn btn-dark"><i class="bi bi-github me-2"></i> <span>Github</span></a> 
+                            <a href="#about" class="btn btn-danger"><i class="bi bi-instagram me-2"></i> <span>Instagram</span></a> 
+                        </div>
+                        <hr/>
                     </div>
                     <div class="col-lg-12">
-                        <div class="row mb-3" data-aos="slide-right" data-aos-delay="300">
+                        <div class="d-flex flex-row justify-content-between" data-aos="fade-in" data-aos-delay="300">
+                            <h4 class="fw-bold">My <span class="text-primary">Tech Stack</span></h4>
+                        </div>
+                        <div class="row mb-3" data-aos="zoom-in" data-aos-delay="200">
                            <Show when=move || !loading_skill.get() fallback=|| view! { 
                                 <div class="card card-marquee">
                                     <a class="btn btn-primary disabled placeholder fw bold fs-4" aria-disabled="true">Please wait...</a>
                                 </div>
                             }>
                                 {move || view! {
-                                    <h4 class="fw-bold">My <span class="text-primary">Tech Stack</span></h4>
                                     <div class="card card-marquee">
                                         <SkillMarquee
                                             skills=signal_skills.programming
@@ -100,11 +110,16 @@ pub fn Home() -> impl IntoView {
                                 }}
                             </Show>
                         </div>
-                        <div class="d-flex flex-row justify-content-between" data-aos="slide-right" data-aos-delay="300">
+                        <div class="d-flex flex-row justify-content-between" data-aos="fade-in" data-aos-delay="300">
+                            <div class="col-lg-10">
+                                <hr/>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-row justify-content-between" data-aos="fade-in" data-aos-delay="300">
                             <h4 class="fw-bold">Latest <span class="text-primary">Notes</span></h4>
                             <a class="btn see-all" href="/catatan">See All <i class="bi bi-arrow-right"></i></a>
                         </div>
-                        <div class="row mb-3" data-aos="slide-right" data-aos-delay="300">
+                        <div class="row mb-3" data-aos="fade-in" data-aos-delay="300">
                             <Show when=move || !loading.get() fallback=|| view! { <CardLoading delay={Some(300)} count={Some(3)}/> }>
                                 {move || {
                                     let notes_clone = notes.get().clone();
@@ -139,7 +154,8 @@ pub fn Home() -> impl IntoView {
                                                             <img class="rounded-circle" src="/assets/img/logo-ss.png" style="width: 1.5rem; height: 1.5rem;" loading="lazy"/>
                                                             <span>{move || state.name.get()}</span>
                                                         </div>
-                                                        <small class="text-white">{format_wib_date(&note.last_update)}</small>
+                                                        <small class="text-white date">{format_wib_date(&note.last_update)}</small>
+                                                        <small class="text-white read">Read more <i class="bi bi-arrow-right"></i></small>
                                                     </div>
                                                 </div>
                                             </a>

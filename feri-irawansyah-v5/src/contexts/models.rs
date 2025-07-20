@@ -63,21 +63,15 @@ pub struct Skill {
     pub last_update: Option<String>,
 }
 
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Deserialize)]
 pub struct Portfolio {
-    pub title: &'static str,
-    pub description: &'static str,
-    pub category: &'static str,
-    pub image: &'static str,
-    pub link: &'static str,
-    pub techs: Vec<Tech>
-}
-
-#[derive(Clone, Debug, PartialEq)]
-pub struct Tech {
-    pub name: &'static str,
-    pub image: &'static str,
-    pub link: &'static str
+    pub portfolio_id: i32,
+    pub title: String,
+    pub description: String,
+    pub url_docs: String,
+    pub image_src: String,
+    pub tech: Vec<i32>,
+    pub last_update: Option<String>,
 }
 
 #[derive(Clone, Debug, PartialEq)]
@@ -156,6 +150,14 @@ pub struct NotesData {
 #[derive(Clone, Debug, PartialEq, Deserialize)]
 pub struct SkillsData {
     pub rows: Vec<Skill>,
+    #[serde(rename = "totalNotFiltered")]
+    pub total_not_filtered: usize,
+    pub total: usize,
+}
+
+#[derive(Clone, Debug, PartialEq, Deserialize)]
+pub struct PortfolioData {
+    pub rows: Vec<Portfolio>,
     #[serde(rename = "totalNotFiltered")]
     pub total_not_filtered: usize,
     pub total: usize,

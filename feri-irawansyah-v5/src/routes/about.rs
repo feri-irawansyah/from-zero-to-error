@@ -182,21 +182,19 @@ pub fn Skills() -> impl IntoView {
     view! {
         <div data-aos="slide-right" class="skills">
             <div class="row">
-                // <div class="col-12 mb-3">
-                //     <div class="card">
-                //         <div class="card-body">
-                //             <h5 class="card-title">Skills</h5>
-                //         </div>
-                //     </div>
-                // </div>
                 <Show when=move || !loading.get() fallback=move || view! { 
-                    <div class="col-12">
-                        <div class="card">
+                    <div class="col-12" data-aos="fade-bottom">
+                        <div class="card border-0 w-100 h-100 bg-primary">
                             <div class="card-body">
-                                <h5 class="card-title">Loading...</h5>
+                                <div class="d-flex justify-content-center">
+                                    <div class="spinner-border" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    
                  }>
                     <Show when=move || !skills.get().is_empty() fallback=move || view! { 
                         <div class="col-12">
@@ -209,11 +207,11 @@ pub fn Skills() -> impl IntoView {
                     }>
                         {move || {
                             let list_skill = skills.get().clone();
-                            list_skill.iter().map(|skill| {
+                            list_skill.iter().enumerate().map(|(i, skill)| {
                                 let max = 5;
                                 let rating = skill.star;
                                 view! {
-                                    <div class="col-6 col-lg-3 col-md-2 list-skill">
+                                    <div class="col-6 col-lg-3 col-md-2 list-skill" data-aos="fade-up" data-aos-delay=format!("{}", i * 100)>
                                         <div class="card">
                                             <div class="card-header d-flex justify-content-between">
                                                 <h5 class="card-title">{skill.title.clone()}</h5>
