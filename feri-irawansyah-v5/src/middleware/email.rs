@@ -8,7 +8,7 @@ pub fn EmailTemplate(username: String, message: String) -> impl IntoView {
     view! {
         <html>
             <head>
-                <meta charset="UTF-8"/>
+                <meta charset="UTF-8" />
                 <style>
                     "
                     body {
@@ -39,9 +39,9 @@ pub fn EmailTemplate(username: String, message: String) -> impl IntoView {
             <body>
                 <div class="container">
                     <h1>"Hello, " {username.clone()} "!"</h1>
-                    <p inner_html={message}></p>
-                    <hr/>
-                    <p>Salam,<br/>Tech Snake System</p>
+                    <p inner_html=message></p>
+                    <hr />
+                    <p>Salam,<br />Tech Snake System</p>
                 </div>
             </body>
         </html>

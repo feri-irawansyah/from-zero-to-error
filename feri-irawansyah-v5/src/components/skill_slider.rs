@@ -26,12 +26,20 @@ pub fn SkillMarquee(skills: RwSignal<Vec<Skill>>, position: Option<String>) -> i
 
     view! {
         <div class="marquee-wrapper">
-            <div class=format!("marquee-content marquee-{}", position.unwrap_or("".to_string()))>
+            <div class=format!(
+                "marquee-content marquee-{}",
+                position.unwrap_or("".to_string()),
+            )>
                 {doubled_skills
                     .map(|skill| {
                         view! {
                             <div class="marquee-item">
-                                <img class="skill-icon" src=format!("/assets/{}", skill.image_src.clone()) alt={skill.title.clone()} loading="lazy" />
+                                <img
+                                    class="skill-icon"
+                                    src=format!("/assets/{}", skill.image_src.clone())
+                                    alt=skill.title.clone()
+                                    loading="lazy"
+                                />
                                 <span>{skill.title.clone()}</span>
                             </div>
                         }

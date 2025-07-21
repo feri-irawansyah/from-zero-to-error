@@ -41,19 +41,22 @@ async fn main() -> std::io::Result<()> {
                         <!DOCTYPE html>
                         <html lang="en">
                             <head>
-                                <meta charset="utf-8"/>
-                                <meta name="robots" content="index, follow"/>
-                                <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                                <meta charset="utf-8" />
+                                <meta name="robots" content="index, follow" />
+                                <meta
+                                    name="viewport"
+                                    content="width=device-width, initial-scale=1"
+                                />
                                 <AutoReload options=leptos_options.clone() />
-                                <HydrationScripts options=leptos_options.clone()/>
-                                <MetaTags/>
+                                <HydrationScripts options=leptos_options.clone() />
+                                <MetaTags />
                                 <script src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/js/bootstrap.bundle.min.js"></script>
                                 <script src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/js/aos.min.js"></script>
                                 <script src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/js/marquee.js"></script>
                                 <script src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/js/typeit.js"></script>
                             </head>
-                            <body class="dark-background"> 
-                                <App/>
+                            <body class="dark-background">
+                                <App />
                             </body>
                         </html>
                     }

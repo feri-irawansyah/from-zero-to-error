@@ -102,52 +102,49 @@ pub fn UserManagement() -> impl IntoView {
             <div class="row">
                 <div class="col-12 portfolio">
                     <div class="card">
-                        <div class="card-header">
-                            Portfolio
-                        </div>
+                        <div class="card-header">Portfolio</div>
                         <div class="card-body">
-                            <Table 
-                                table="portfolio".to_string() 
-                                data=portfolio.clone() 
+                            <Table
+                                table="portfolio".to_string()
+                                data=portfolio.clone()
                                 page=portfolio_page
                                 total=portfolio_total
                                 limit=portfolio_limit
                                 refresh=fetch_portfolio
-                                loading_data=portfolio_loading/>
+                                loading_data=portfolio_loading
+                            />
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 experience">
                     <div class="card">
-                        <div class="card-header">
-                            Experience
-                        </div>
+                        <div class="card-header">Experience</div>
                         <div class="card-body">
-                            <Table 
-                                table="experience".to_string() 
-                                data=experience.clone() 
+                            <Table
+                                table="experience".to_string()
+                                data=experience.clone()
                                 page=experience_page
                                 total=experience_total
                                 limit=experience_limit
                                 refresh=fetch_experience
-                                loading_data=experience_loading/>
+                                loading_data=experience_loading
+                            />
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 skills">
                     <div class="card">
-                        <div class="card-header">
-                            Skills
-                        </div>
+                        <div class="card-header">Skills</div>
                         <div class="card-body">
-                            <Table 
-                                table="skills".to_string() 
-                                data=skills.clone() 
+                            <Table
+                                table="skills".to_string()
+                                data=skills.clone()
                                 page=skills_page
                                 total=skills_total
                                 limit=skills_limit
                                 refresh=fetch_skills
-                                loading_data=skills_loading/>
+                                loading_data=skills_loading
+                            />
                         </div>
                     </div>
                 </div>

@@ -1179,6 +1179,25 @@ section,
       }
     }
 
+    .pined {
+      background-color: $success;
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: flex;
+      justify-content: end;
+      align-items: center;
+      padding: 0 1rem;
+      font-size: 1.3rem;
+      border-bottom-left-radius: 1rem;
+      // color: $dark;
+      font-weight: bold;
+
+      span {
+        line-height: 0;
+      }
+    }
+
     .card-tech {
       display: inline-flex;
       flex-direction: row !important;

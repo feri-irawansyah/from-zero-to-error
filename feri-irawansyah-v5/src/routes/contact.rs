@@ -61,42 +61,70 @@ pub fn Contact() -> impl IntoView {
     });
     
     view! {
-        <section id="contact" class="contact section" data-aos="fade-right">     
+        <section id="contact" class="contact section" data-aos="fade-right">
             <div class="container section-title" data-aos="slide-right" data-aos-delay="100">
                 <h2>Contact Me</h2>
-                <p>I am a Software Engineer dedicated to building efficient, scalable, and user-friendly digital solutions. With a strong background in web development, I am used to working with various modern technologies such as JavaScript/TypeScript, Svelte, Rust, and various other frameworks.</p>
-            </div>   
-             <div class="container" data-aos="slide-right" data-aos-delay="200">
+                <p>
+                    I am a Software Engineer dedicated to building efficient, scalable, and user-friendly digital solutions. With a strong background in web development, I am used to working with various modern technologies such as JavaScript/TypeScript, Svelte, Rust, and various other frameworks.
+                </p>
+            </div>
+            <div class="container" data-aos="slide-right" data-aos-delay="200">
                 <div class="row">
                     <div class="col-12 mb-3 d-flex gap-2 justify-content-start">
-                        <a class="btn btn-success" href="https://wa.me/6282323443535" target="_blank">
-                            <i class="bi bi-whatsapp"></i> WhatsApp
+                        <a
+                            class="btn btn-success"
+                            href="https://wa.me/6282323443535"
+                            target="_blank"
+                        >
+                            <i class="bi bi-whatsapp"></i>
+                            WhatsApp
                         </a>
-                        <a class="btn btn-primary" href="https://wa.me/6282323443535" target="_blank">
-                            <i class="bi bi-linkedin"></i> Linkedin
+                        <a
+                            class="btn btn-primary"
+                            href="https://wa.me/6282323443535"
+                            target="_blank"
+                        >
+                            <i class="bi bi-linkedin"></i>
+                            Linkedin
                         </a>
                         <a class="btn btn-info" href="https://wa.me/6282323443535" target="_blank">
-                            <i class="bi bi-twitter"></i> Twitter
+                            <i class="bi bi-twitter"></i>
+                            Twitter
                         </a>
                         <a class="btn btn-dark" href="https://wa.me/6282323443535" target="_blank">
-                            <i class="bi bi-github"></i> Github
+                            <i class="bi bi-github"></i>
+                            Github
                         </a>
-                        <a class="btn btn-danger" href="https://wa.me/6282323443535" target="_blank">
-                            <i class="bi bi-instagram"></i> Instagram
+                        <a
+                            class="btn btn-danger"
+                            href="https://wa.me/6282323443535"
+                            target="_blank"
+                        >
+                            <i class="bi bi-instagram"></i>
+                            Instagram
                         </a>
                     </div>
                     <div class="col-lg-6 mb-3">
-                        <h4><i class="bi bi-alarm me-2 text-primary"></i> Availability</h4>
+                        <h4>
+                            <i class="bi bi-alarm me-2 text-primary"></i>
+                            Availability
+                        </h4>
                         <div class="row">
                             <div class="col-12 mb-3">
                                 <div class="card p-3">
-                                    <p class="card-text"><i class="bi bi-clock"></i> Jakarta Indonesia</p>
-                                    <Clock/>
+                                    <p class="card-text">
+                                        <i class="bi bi-clock"></i>
+                                        Jakarta Indonesia
+                                    </p>
+                                    <Clock />
                                 </div>
                             </div>
                             <div class="col-12 mb-3">
                                 <div class="card p-3">
-                                    <div class="alert alert-primary d-flex align-items-center" role="alert">
+                                    <div
+                                        class="alert alert-primary d-flex align-items-center"
+                                        role="alert"
+                                    >
                                         <i class="bi bi-info-circle me-2"></i>
                                         <div>
                                             Response time: I typically respond within 24-48 hours.
@@ -105,26 +133,29 @@ pub fn Contact() -> impl IntoView {
 
                                     <div class="d-flex justify-content-between">
                                         <span>Monday - Friday</span>
-                                        <div class="alert alert-primary p-1 d-flex align-items-center" role="alert">
-                                            <div>
-                                                09:00 - 17:00
-                                            </div>
+                                        <div
+                                            class="alert alert-primary p-1 d-flex align-items-center"
+                                            role="alert"
+                                        >
+                                            <div>09:00 - 17:00</div>
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-between">
                                         <span>Saturday</span>
-                                        <div class="alert alert-primary p-1 d-flex align-items-center" role="alert">
-                                            <div>
-                                                By Appointment
-                                            </div>
+                                        <div
+                                            class="alert alert-primary p-1 d-flex align-items-center"
+                                            role="alert"
+                                        >
+                                            <div>By Appointment</div>
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-between">
                                         <span>Sunday</span>
-                                        <div class="alert alert-primary p-1 d-flex align-items-center" role="alert">
-                                            <div>
-                                                Rest Day
-                                            </div>
+                                        <div
+                                            class="alert alert-primary p-1 d-flex align-items-center"
+                                            role="alert"
+                                        >
+                                            <div>Rest Day</div>
                                         </div>
                                     </div>
                                 </div>
@@ -132,32 +163,39 @@ pub fn Contact() -> impl IntoView {
                         </div>
                     </div>
                     <div class="col-lg-6 mb-3">
-                    <h4><i class="bi bi-envelope me-2 text-primary"></i> Contact Me</h4>
-                        <form class="card p-3" on:submit=move |e| {
-                            e.prevent_default();
-
-                            let fullname = form().name.clone();
-                            let email = form().recipient.clone();
-                            let subject = form().subject.clone();
-                            let message = form().message.clone();
-
-                            if fullname.is_empty() || email.is_empty() || message.is_empty() || subject.is_empty() {
-                                Swal::fire(SwalOptions {
-                                    title: "Error",
-                                    text: "Please fill in all fields",
-                                    icon: SwalIcon::ERROR,
-                                    confirm_button_text: "OK",
-                                    show_cancel_button: false,
-                                    show_deny_button: false,
-                                    ..SwalOptions::default()
-                                });
-                                return;
+                        <h4>
+                            <i class="bi bi-envelope me-2 text-primary"></i>
+                            Contact Me
+                        </h4>
+                        <form
+                            class="card p-3"
+                            on:submit=move |e| {
+                                e.prevent_default();
+                                let fullname = form().name.clone();
+                                let email = form().recipient.clone();
+                                let subject = form().subject.clone();
+                                let message = form().message.clone();
+                                if fullname.is_empty() || email.is_empty() || message.is_empty()
+                                    || subject.is_empty()
+                                {
+                                    Swal::fire(SwalOptions {
+                                        title: "Error",
+                                        text: "Please fill in all fields",
+                                        icon: SwalIcon::ERROR,
+                                        confirm_button_text: "OK",
+                                        show_cancel_button: false,
+                                        show_deny_button: false,
+                                        ..SwalOptions::default()
+                                    });
+                                    return;
+                                }
+                                on_submit.dispatch(());
                             }
-
-                            on_submit.dispatch(());
-                        }>
+                        >
                             <div class="mb-3">
-                                <label for="fullname" class="form-label">"Full Name"</label>
+                                <label for="fullname" class="form-label">
+                                    "Full Name"
+                                </label>
                                 <input
                                     type="text"
                                     class="form-control"
@@ -171,7 +209,9 @@ pub fn Contact() -> impl IntoView {
 
                             <div class="row mb-3">
                                 <div class="col-lg-6">
-                                    <label for="email" class="form-label">"Email address"</label>
+                                    <label for="email" class="form-label">
+                                        "Email address"
+                                    </label>
                                     <input
                                         type="email"
                                         class="form-control"
@@ -184,7 +224,9 @@ pub fn Contact() -> impl IntoView {
                                 </div>
 
                                 <div class="col-lg-6">
-                                    <label for="subject" class="form-label">"Subject"</label>
+                                    <label for="subject" class="form-label">
+                                        "Subject"
+                                    </label>
                                     <select
                                         class="form-select"
                                         id="subject"
@@ -202,7 +244,9 @@ pub fn Contact() -> impl IntoView {
                             </div>
 
                             <div class="mb-3">
-                                <label for="message" class="form-label">"Message"</label>
+                                <label for="message" class="form-label">
+                                    "Message"
+                                </label>
                                 <textarea
                                     class="form-control"
                                     id="message"
@@ -220,7 +264,7 @@ pub fn Contact() -> impl IntoView {
                         </form>
                     </div>
                 </div>
-             </div>     
+            </div>
         </section>
     }
 }

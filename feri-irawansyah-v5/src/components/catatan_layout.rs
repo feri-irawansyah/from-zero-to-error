@@ -26,47 +26,48 @@ pub fn CatatanLayout() -> impl IntoView {
         <section id="catatan" class="catatan section" data-aos="fade-left">
 
             <div class="container">
-                <Show
-                    when=move || { category.get().is_some() }
-                    fallback=|| view! { <span></span> }
-                >
+                <Show when=move || { category.get().is_some() } fallback=|| view! { <span></span> }>
                     <Show
                         when=move || { !slug.get().is_some() }
                         fallback=move || {
                             let cat = category.get().clone().unwrap_or("".to_string());
-                            view! { 
-                                <a class="btn text-start back" href={format!("/catatan/{}", cat)}>
-                                    <i class="bi bi-arrow-left-circle me-2"></i>Kembali
+                            view! {
+                                <a class="btn text-start back" href=format!("/catatan/{}", cat)>
+                                    <i class="bi bi-arrow-left-circle me-2"></i>
+                                    Kembali
                                 </a>
                             }
                         }
                     >
                         <a class="btn text-start back" href="/catatan">
-                            <i class="bi bi-arrow-left-circle me-2"></i>Kembali
+                            <i class="bi bi-arrow-left-circle me-2"></i>
+                            Kembali
                         </a>
                     </Show>
                 </Show>
             </div>
-            
+
             <div class="container section-title" data-aos="fade-left" data-aos-delay="100">
-                
+
                 <h2>Catatan {move || state.name.get()}</h2>
                 <Show
                     when=move || !state.title.get().is_empty()
-                    fallback=|| view! {
-                        <p>
-                            "Catatan gue tutorial, wawasan teknologi, opini gajelas, kadang membingungkan, dan ide - ide tentang teknologi yang disusun untuk memicu ide dan terkadang memecahkan masalah kadang juga engga."
-                        </p>
+                    fallback=|| {
+                        view! {
+                            <p>
+                                "Catatan gue tutorial, wawasan teknologi, opini gajelas, kadang membingungkan, dan ide - ide tentang teknologi yang disusun untuk memicu ide dan terkadang memecahkan masalah kadang juga engga."
+                            </p>
+                        }
                     }
                 >
                     <h5 class="text-uppercase fw-bold">{move || state.title.get()}</h5>
-                    <hr/>
+                    <hr />
                 </Show>
             </div>
 
             <div class="container" data-aos="fade-up" data-aos-delay="200">
-    
-                <Outlet/>
+
+                <Outlet />
 
             </div>
         </section>

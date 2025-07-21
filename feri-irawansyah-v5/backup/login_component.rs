@@ -82,12 +82,10 @@ pub fn Login() -> impl IntoView {
                 placeholder="Password"
                 on:input=move |e| password.set(event_target_value(&e))
             />
-            <button on:click=move |_| { 
+            <button on:click=move |_| {
                 console_log("tombol di click");
                 on_submit.dispatch(());
-             }>
-                "Login"
-            </button>
+            }>"Login"</button>
             <p>{move || message.get()}</p>
         </div>
     }

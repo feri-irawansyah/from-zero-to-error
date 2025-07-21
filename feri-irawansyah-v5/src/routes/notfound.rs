@@ -28,11 +28,17 @@ pub fn NotFound() -> impl IntoView {
                 <h2>404</h2>
                 <p>Page Not Found</p>
                 <button class="btn btn-primary mt-3" on:click=go_back_and_reload>
-                    <i class="bi bi-arrow-left-circle me-2"></i>Kembali
+                    <i class="bi bi-arrow-left-circle me-2"></i>
+                    Kembali
                 </button>
             </div>
             <div class="container" data-aos="zoom-in" data-aos-delay="100">
-                <img class="img-fluid" src="https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif" alt="404" loading="lazy" />
+                <img
+                    class="img-fluid"
+                    src="https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif"
+                    alt="404"
+                    loading="lazy"
+                />
             </div>
         </section>
     }

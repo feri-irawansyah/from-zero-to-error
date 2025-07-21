@@ -49,51 +49,96 @@ pub fn AdminLayout() -> impl IntoView {
     });
 
     view! {
-        <Show when=move || state.session.get().usernid != 0 fallback=move || view! { <span></span>} >
+        <Show
+            when=move || state.session.get().usernid != 0
+            fallback=move || view! { <span></span> }
+        >
             <div class="container-fluid admin-layout scroll-custom" data-aos="fade-left">
                 <div class="d-flex">
                     <div class=move || {
-                            if is_open.get() {
-                                "sidebar"
-                            } else {
-                                "sidebar collapsed"
-                            }
-                        }>
+                        if is_open.get() { "sidebar" } else { "sidebar collapsed" }
+                    }>
                         <ul>
-                            <li class="logo"><a href="/">
-                                <img src="/assets/img/logo-ss.webp" alt="feri" class="rounded-circle img-fluid about-img mb-1" loading="lazy" /> 
-                                <h5>Feri Irawansyah <img class="real-image" src="/assets/img/real.png" alt="feri" loading="lazy" /></h5>
-                                <p>Software Engineer</p>
-                            </a></li>
-                            <li><a href="/admin"><i class="bi bi-grid"></i> <span>Dashboard</span></a></li>
-                            <li><a href="/admin/user"><i class="bi bi-person"></i> <span>User Management</span></a></li>
-                            <li><a href="/admin/notes-management"><i class="bi bi-journal-code"></i><span>Notes Management</span></a></li>
-                            <li><a href="/"><i class="bi bi-box-arrow-left"></i> <span>Kembali</span></a></li>
+                            <li class="logo">
+                                <a href="/">
+                                    <img
+                                        src="/assets/img/logo-ss.webp"
+                                        alt="feri"
+                                        class="rounded-circle img-fluid about-img mb-1"
+                                        loading="lazy"
+                                    />
+                                    <h5>
+                                        Feri Irawansyah
+                                        <img
+                                            class="real-image"
+                                            src="/assets/img/real.png"
+                                            alt="feri"
+                                            loading="lazy"
+                                        />
+                                    </h5>
+                                    <p>Software Engineer</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/admin">
+                                    <i class="bi bi-grid"></i>
+                                    <span>Dashboard</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/admin/user">
+                                    <i class="bi bi-person"></i>
+                                    <span>User Management</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/admin/notes-management">
+                                    <i class="bi bi-journal-code"></i>
+                                    <span>Notes Management</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/">
+                                    <i class="bi bi-box-arrow-left"></i>
+                                    <span>Kembali</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                     <div class=move || {
-                            if is_open.get() {
-                                "main-area"
-                            } else {
-                                "main-area expanded"
-                            }
-                        }>
+                        if is_open.get() { "main-area" } else { "main-area expanded" }
+                    }>
                         <nav class="navbar">
                             <div class="container-fluid">
                                 <div class="navbar-brand">
                                     <div class="d-flex align-items-start">
-                                        <button class="menu-toggle" on:click=move |_| is_open.set(!is_open.get())><i class="bi bi-list"></i></button>
+                                        <button
+                                            class="menu-toggle"
+                                            on:click=move |_| is_open.set(!is_open.get())
+                                        >
+                                            <i class="bi bi-list"></i>
+                                        </button>
                                         <h5 class="fw-bold mb-0">Snakesystem Admin Area</h5>
                                     </div>
                                     <div class="d-flex align-items-start navigation">
-                                        <a href=move || format!("/{}", segment1.get())>{move || format!("/{}", segment1.get())}</a>
-                                        <a href=move || format!("/{}/{}", segment1.get(), segment2.get())>{move || format!("/{}", segment2.get())}</a>
+                                        <a href=move || {
+                                            format!("/{}", segment1.get())
+                                        }>{move || format!("/{}", segment1.get())}</a>
+                                        <a href=move || {
+                                            format!("/{}/{}", segment1.get(), segment2.get())
+                                        }>{move || format!("/{}", segment2.get())}</a>
                                     </div>
                                 </div>
                                 <div class="navbar-nav">
-                                    <a class="nav-link"><i class="bi bi-bell"></i></a>
-                                    <a class="nav-link"><i class="bi bi-person"></i></a>
-                                    <a class="nav-link"><i class="bi bi-box-arrow-right"></i></a>
+                                    <a class="nav-link">
+                                        <i class="bi bi-bell"></i>
+                                    </a>
+                                    <a class="nav-link">
+                                        <i class="bi bi-person"></i>
+                                    </a>
+                                    <a class="nav-link">
+                                        <i class="bi bi-box-arrow-right"></i>
+                                    </a>
                                 </div>
                             </div>
                         </nav>
@@ -104,15 +149,18 @@ pub fn AdminLayout() -> impl IntoView {
                 </div>
             </div>
         </Show>
-        <ModalContainer title=modal_state.title size=Some("xl".to_string()) modal_id="note-content".to_string()>
-            <Show when=move || modal_state.note_url.get().is_some() fallback=move || view! { 
-                <h1 class="text-center">Loading...</h1>
-            } >
-                {move || view! { 
-                    <MarkdownFromUrl url={modal_state.note_url}/>
-                }}
+        <ModalContainer
+            title=modal_state.title
+            size=Some("xl".to_string())
+            modal_id="note-content".to_string()
+        >
+            <Show
+                when=move || modal_state.note_url.get().is_some()
+                fallback=move || view! { <h1 class="text-center">Loading...</h1> }
+            >
+                {move || view! { <MarkdownFromUrl url=modal_state.note_url /> }}
             </Show>
         </ModalContainer>
-        <ModalDetail/>
+        <ModalDetail />
     }
 }

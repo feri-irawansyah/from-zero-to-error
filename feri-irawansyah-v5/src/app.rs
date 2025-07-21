@@ -102,51 +102,68 @@ pub fn App() -> impl IntoView {
     view! {
         // injects a stylesheet into the document <head>
         // id=leptos means cargo-leptos will hot-reload this stylesheet
-        <Stylesheet id="leptos" href="/pkg/feri-irawansyah.css"/>
-        <Stylesheet id="aos" href="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/css/aos.min.css"/>
-        <Stylesheet id="icons" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"/>
+        <Stylesheet id="leptos" href="/pkg/feri-irawansyah.css" />
+        <Stylesheet
+            id="aos"
+            href="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/css/aos.min.css"
+        />
+        <Stylesheet
+            id="icons"
+            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+        />
 
         // sets the document title
-        <Title text="Feri Irawansyah"/>
+        <Title text="Feri Irawansyah" />
 
         // content for this welcome page
         <Router>
-        <main data-bs-theme="dark">
-            <div class="container-fluid">
-                <LoadingScreen visible=state.loading/>
+            <main data-bs-theme="dark">
+                <div class="container-fluid">
+                    <LoadingScreen visible=state.loading />
                     <div class="row main-content">
                         <Routes fallback=move || "Not found.">
                             <ParentRoute path=leptos_router::path!("/") view=MenuList>
-                                <Route path=StaticSegment("") view=Home/>
-                                <Route path=StaticSegment("about") view=About/>
-                                <Route path=StaticSegment("services") view=Services/>
-                                <Route path=StaticSegment("portfolio") view=Portfolio/>
-                                <ParentRoute path=leptos_router::path!("/catatan") view=CatatanLayout>
+                                <Route path=StaticSegment("") view=Home />
+                                <Route path=StaticSegment("about") view=About />
+                                <Route path=StaticSegment("services") view=Services />
+                                <Route path=StaticSegment("portfolio") view=Portfolio />
+                                <ParentRoute
+                                    path=leptos_router::path!("/catatan")
+                                    view=CatatanLayout
+                                >
                                     <Route path=leptos_router::path!("") view=ListCatatan />
                                     <Route path=leptos_router::path!(":category") view=Category />
                                     <Route path=leptos_router::path!(":category/:slug") view=Slug />
                                 </ParentRoute>
-                                <Route path=StaticSegment("contact") view=Contact/>
+                                <Route path=StaticSegment("contact") view=Contact />
                             </ParentRoute>
                             <ParentRoute path=leptos_router::path!("/admin") view=AdminLayout>
                                 <Route path=leptos_router::path!("") view=Dashboard />
                                 <Route path=leptos_router::path!("user") view=UserManagement />
-                                <Route path=leptos_router::path!("notes-management") view=NotesManagement />
+                                <Route
+                                    path=leptos_router::path!("notes-management")
+                                    view=NotesManagement
+                                />
                             </ParentRoute>
-                            <Route path=StaticSegment("login") view=Login/>
-                            <Route path=WildcardSegment("any") view=NotFound/>
+                            <Route path=StaticSegment("login") view=Login />
+                            <Route path=WildcardSegment("any") view=NotFound />
                         </Routes>
                     </div>
-                     <ModalContainer title=modal_state.title size=Some("lg".to_string()) modal_id="aboutApp".to_string()>
-                        <Show when=move || modal_state.title.get() != "" fallback=move || view! { 
-                            <h1 class="text-center">Loading...</h1>
-                        } >
-                            {move || view! { 
-                                <div class="row">
-                                    <div class="col-12">
-                                        {state.name.get()}
+                    <ModalContainer
+                        title=modal_state.title
+                        size=Some("lg".to_string())
+                        modal_id="aboutApp".to_string()
+                    >
+                        <Show
+                            when=move || modal_state.title.get() != ""
+                            fallback=move || view! { <h1 class="text-center">Loading...</h1> }
+                        >
+                            {move || {
+                                view! {
+                                    <div class="row">
+                                        <div class="col-12">{state.name.get()}</div>
                                     </div>
-                                </div>
+                                }
                             }}
                         </Show>
                     </ModalContainer>

@@ -56,28 +56,46 @@ pub fn ListCatatan() -> impl IntoView {
      
     view! {
         <div class="row" data-aos="slide-left">
-            {categories.into_iter().enumerate().map(|(i, cat)| {
-                view! {
-                    <div class="col-md-4 my-3" data-aos="fade-up" data-aos-delay={format!("{}", i * 100)}>
-                        <a class="card p-3 text-decoration-none h-100" href=format!("/catatan/{}", cat.name)>
-                            <img src={cat.image} class="card-img-top" alt={cat.title} loading="lazy"/>
-                            <div class="card-body">
-                                <h4 class="card-title">{cat.title}</h4>
-                                <p class="card-text">{cat.desc}</p>
-                            </div>
-                            <div class="card-footer">
-                                <div class="d-flex flex-row gap-2 flex-wrap">
-                                    {cat.list_tech.iter().map(|tech| {
-                                        view! {
-                                            <span class="badge bg-primary">#{*tech}</span>
-                                        }
-                                    }).collect_view()}
+            {categories
+                .into_iter()
+                .enumerate()
+                .map(|(i, cat)| {
+                    view! {
+                        <div
+                            class="col-md-4 my-3"
+                            data-aos="fade-up"
+                            data-aos-delay=format!("{}", i * 100)
+                        >
+                            <a
+                                class="card p-3 text-decoration-none h-100"
+                                href=format!("/catatan/{}", cat.name)
+                            >
+                                <img
+                                    src=cat.image
+                                    class="card-img-top"
+                                    alt=cat.title
+                                    loading="lazy"
+                                />
+                                <div class="card-body">
+                                    <h4 class="card-title">{cat.title}</h4>
+                                    <p class="card-text">{cat.desc}</p>
                                 </div>
-                            </div>
-                        </a>
-                    </div>
-                }
-            }).collect_view()}
+                                <div class="card-footer">
+                                    <div class="d-flex flex-row gap-2 flex-wrap">
+                                        {cat
+                                            .list_tech
+                                            .iter()
+                                            .map(|tech| {
+                                                view! { <span class="badge bg-primary">#{*tech}</span> }
+                                            })
+                                            .collect_view()}
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    }
+                })
+                .collect_view()}
         </div>
     }
 }

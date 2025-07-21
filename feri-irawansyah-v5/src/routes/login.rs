@@ -78,16 +78,29 @@ pub fn Login() -> impl IntoView {
                     <form on:submit=on_submit>
                         <div class="mb-3">
                             <label class="form-label">"Email address"</label>
-                            <input type="text" class="form-control" placeholder="Email" on:input=move |e| email.set(event_target_value(&e))/>
+                            <input
+                                type="text"
+                                class="form-control"
+                                placeholder="Email"
+                                on:input=move |e| email.set(event_target_value(&e))
+                            />
                         </div>
                         <div class="mb-3">
                             <label class="form-label">"Password"</label>
-                            <input type="password" class="form-control" placeholder="Password" on:input=move |e| password.set(event_target_value(&e))/>
+                            <input
+                                type="password"
+                                class="form-control"
+                                placeholder="Password"
+                                on:input=move |e| password.set(event_target_value(&e))
+                            />
                         </div>
                         <button type="submit" class="btn btn-primary w-100">
                             "Login"
                         </button>
-                        <a class="btn btn-link w-100" href="/"><i class="bi bi-house me-2"></i><span>Back to Home</span></a>
+                        <a class="btn btn-link w-100" href="/">
+                            <i class="bi bi-house me-2"></i>
+                            <span>Back to Home</span>
+                        </a>
                     </form>
                 </div>
             </div>

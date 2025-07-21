@@ -141,7 +141,19 @@ pub fn format_cell_value(item: &serde_json::Value, col: &Columns,
 
             Some(view! {
                 <td class="d-none".to_string()>
-                    <a href="#".to_string() data-key=col.field.clone() on:dblclick=double_click data-value=value.clone() data-row=item.to_string() on:click=on_click class="invisible".to_string() data-bs-toggle="".to_string() data-bs-target="".to_string()>{string.to_string()}</a>
+                    <a
+                        href="#".to_string()
+                        data-key=col.field.clone()
+                        on:dblclick=double_click
+                        data-value=value.clone()
+                        data-row=item.to_string()
+                        on:click=on_click
+                        class="invisible".to_string()
+                        data-bs-toggle="".to_string()
+                        data-bs-target="".to_string()
+                    >
+                        {string.to_string()}
+                    </a>
                 </td>
             })
         }
@@ -151,7 +163,19 @@ pub fn format_cell_value(item: &serde_json::Value, col: &Columns,
             
             Some(view! {
                 <td class="".to_string()>
-                    <a href="#".to_string() data-key=col.field.clone() on:dblclick=double_click data-value=value.clone() data-row=item.to_string() on:click=on_click class="".to_string() data-bs-toggle="modal".to_string() data-bs-target="#note-content".to_string()>{value.clone()}</a>
+                    <a
+                        href="#".to_string()
+                        data-key=col.field.clone()
+                        on:dblclick=double_click
+                        data-value=value.clone()
+                        data-row=item.to_string()
+                        on:click=on_click
+                        class="".to_string()
+                        data-bs-toggle="modal".to_string()
+                        data-bs-target="#note-content".to_string()
+                    >
+                        {value.clone()}
+                    </a>
                 </td>
             })
         }
@@ -161,7 +185,19 @@ pub fn format_cell_value(item: &serde_json::Value, col: &Columns,
             let formatted = format!("🕒 {}", format_wib_datetime(&value));
             Some(view! {
                 <td class="".to_string()>
-                    <a href="#".to_string() data-key=col.field.clone() on:dblclick=double_click data-value=value.clone()  data-row=item.to_string() on:click=on_click class="text-muted".to_string() data-bs-toggle="".to_string() data-bs-target="".to_string()>{formatted}</a>
+                    <a
+                        href="#".to_string()
+                        data-key=col.field.clone()
+                        on:dblclick=double_click
+                        data-value=value.clone()
+                        data-row=item.to_string()
+                        on:click=on_click
+                        class="text-muted".to_string()
+                        data-bs-toggle="".to_string()
+                        data-bs-target="".to_string()
+                    >
+                        {formatted}
+                    </a>
                 </td>
             })
         }
@@ -179,7 +215,19 @@ pub fn format_cell_value(item: &serde_json::Value, col: &Columns,
             Some(
                 view! {
                     <td class="".to_string()>
-                        <a href="#".to_string() data-key=col.field.clone() on:dblclick=double_click data-value=value.clone()  data-row=item.to_string() on:click=on_click class=class.to_string() data-bs-toggle="".to_string() data-bs-target="".to_string()>{status.to_string()}</a>
+                        <a
+                            href="#".to_string()
+                            data-key=col.field.clone()
+                            on:dblclick=double_click
+                            data-value=value.clone()
+                            data-row=item.to_string()
+                            on:click=on_click
+                            class=class.to_string()
+                            data-bs-toggle="".to_string()
+                            data-bs-target="".to_string()
+                        >
+                            {status.to_string()}
+                        </a>
                     </td>
                 }
             )
@@ -190,7 +238,19 @@ pub fn format_cell_value(item: &serde_json::Value, col: &Columns,
             Some(
                 view! {
                     <td class="".to_string()>
-                        <a href="#".to_string() data-key=col.field.clone() on:dblclick=double_click data-value=value.clone() data-row=item.to_string() on:click=on_click class="text-muted".to_string() data-bs-toggle="".to_string() data-bs-target="".to_string()>{value.to_string()}</a>
+                        <a
+                            href="#".to_string()
+                            data-key=col.field.clone()
+                            on:dblclick=double_click
+                            data-value=value.clone()
+                            data-row=item.to_string()
+                            on:click=on_click
+                            class="text-muted".to_string()
+                            data-bs-toggle="".to_string()
+                            data-bs-target="".to_string()
+                        >
+                            {value.to_string()}
+                        </a>
                     </td>
                 }
             )

@@ -43,18 +43,17 @@ pub fn NotesManagement() -> impl IntoView {
             <div class="row">
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-header">
-                            Notes Management
-                        </div>
+                        <div class="card-header">Notes Management</div>
                         <div class="card-body">
                             <Table
-                                table="notes".to_string() 
-                                data=notes.clone() 
+                                table="notes".to_string()
+                                data=notes.clone()
                                 page=notes_page
                                 total=notes_total
                                 limit=notes_limit
                                 refresh=fetch_notes
-                                loading_data=notes_loading/>
+                                loading_data=notes_loading
+                            />
                         </div>
                     </div>
                 </div>

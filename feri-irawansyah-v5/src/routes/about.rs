@@ -18,16 +18,23 @@ pub fn About() -> impl IntoView {
             <div class="container" data-aos="slide-right" data-aos-delay="200">
 
                 <div class="row justify-content-start">
-                    <AboutTab menu_item={menu_item} />
+                    <AboutTab menu_item=menu_item />
                 </div>
                 <div class="row justify-content-start">
                     <div class="col-12 content">
                         {move || {
                             match menu_item.get() {
-                                "Intro" => view! { <Intro/> }.into_any(),
-                                "Experience" => view! { <Experience/> }.into_any(),
+                                "Intro" => view! { <Intro /> }.into_any(),
+                                "Experience" => view! { <Experience /> }.into_any(),
                                 "Skills" => view! { <Skills /> }.into_any(),
-                                "Journey" => view! { <h2><Journey/></h2> }.into_any(),
+                                "Journey" => {
+                                    view! {
+                                        <h2>
+                                            <Journey />
+                                        </h2>
+                                    }
+                                        .into_any()
+                                }
                                 "Certifications" => view! { <h2>Certifications</h2> }.into_any(),
                                 _ => view! { <h2>Intro</h2> }.into_any(),
                             }
@@ -36,7 +43,6 @@ pub fn About() -> impl IntoView {
                 </div>
             </div>
         </section>
-
     }
 }
 
@@ -49,26 +55,66 @@ pub fn Intro() -> impl IntoView {
     view! {
         <div data-aos="slide-right">
             <h2>Software Engineer & Developer.</h2>
-            <p>"Hi, I'm Feri, commonly known as snakesystem —a Rust & C# Programmer, AI Engineer and Software Engineer. Based in West Java, Indonesia. I create Web-based applications, RESTfull API, Desktop using Rust and C# focusing on performance, clean code and scalable."</p>
-            <p>"Personally, I am a child of odd-job laborers. I have worked since I was in elementary school to pay for school, helped by my parents' endless prayers. This has shaped me to have determination, focus, and discipline, the same energy that I pour into every line of code."</p>
-            <p>"What's next? I am fully involved in the world of technology to overcome challenges and needs in the world using technology by developing Tech Snake System as an application development organization."</p>
-            <p>"Have a crazy idea or just curious about technology? Contact me, let's build something great together!"</p>
-            <hr/>
+            <p>
+                "Hi, I'm Feri, commonly known as snakesystem —a Rust & C# Programmer, AI Engineer and Software Engineer. Based in West Java, Indonesia. I create Web-based applications, RESTfull API, Desktop using Rust and C# focusing on performance, clean code and scalable."
+            </p>
+            <p>
+                "Personally, I am a child of odd-job laborers. I have worked since I was in elementary school to pay for school, helped by my parents' endless prayers. This has shaped me to have determination, focus, and discipline, the same energy that I pour into every line of code."
+            </p>
+            <p>
+                "What's next? I am fully involved in the world of technology to overcome challenges and needs in the world using technology by developing Tech Snake System as an application development organization."
+            </p>
+            <p>
+                "Have a crazy idea or just curious about technology? Contact me, let's build something great together!"
+            </p>
+            <hr />
             <div class="row mt-3">
                 <div class="col-lg-6">
                     <ul>
-                        <li><i class="bi bi-chevron-right"></i> <strong>Birth Date:</strong> <span>09 Juni 2000</span></li>
-                        <li><i class="bi bi-chevron-right"></i> <strong>Website:</strong> <span>www.feri-irawansyah.github.io</span></li>
-                        <li><i class="bi bi-chevron-right"></i> <strong>Phone:</strong> <span>+62 82323443535</span></li>
-                        <li><i class="bi bi-chevron-right"></i> <strong>City:</strong> <span>DKI Jakarta, Indonesia</span></li>
+                        <li>
+                            <i class="bi bi-chevron-right"></i>
+                            <strong>Birth Date:</strong>
+                            <span>09 Juni 2000</span>
+                        </li>
+                        <li>
+                            <i class="bi bi-chevron-right"></i>
+                            <strong>Website:</strong>
+                            <span>www.feri-irawansyah.github.io</span>
+                        </li>
+                        <li>
+                            <i class="bi bi-chevron-right"></i>
+                            <strong>Phone:</strong>
+                            <span>+62 82323443535</span>
+                        </li>
+                        <li>
+                            <i class="bi bi-chevron-right"></i>
+                            <strong>City:</strong>
+                            <span>DKI Jakarta, Indonesia</span>
+                        </li>
                     </ul>
                 </div>
                 <div class="col-lg-6">
                     <ul>
-                        <li><i class="bi bi-chevron-right"></i> <strong>Age:</strong> <span>{usia}</span></li>
-                        <li><i class="bi bi-chevron-right"></i> <strong>Degree:</strong> <span>Sarjana Teknik Informatika</span></li>
-                        <li><i class="bi bi-chevron-right"></i> <strong>Email:</strong> <span>feryirawansyah09@gmail.com</span></li>
-                        <li><i class="bi bi-chevron-right"></i> <strong>Freelance:</strong> <span>Available</span></li>
+                        <li>
+                            <i class="bi bi-chevron-right"></i>
+                            <strong>Age:</strong>
+                            <span>{usia}</span>
+                        </li>
+                        <li>
+                            <i class="bi bi-chevron-right"></i>
+                            <strong>Degree:</strong>
+                            <span>Sarjana Teknik Informatika</span>
+                        </li>
+                        <li>
+                            <i class="bi bi-chevron-right"></i>
+                            <strong>Email:</strong>
+                            <span>feryirawansyah09@gmail.com</span>
+                        </li>
+                        <li>
+                            <i class="bi bi-chevron-right"></i>
+                            <strong>Freelance:</strong>
+                            <span>Available</span>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -96,16 +142,23 @@ pub fn Experience() -> impl IntoView {
                                         <p>"Access my updated curriculum vitae"</p>
                                     </div>
                                 </div>
-                                <div class="alert alert-success d-flex align-items-center" role="alert">
+                                <div
+                                    class="alert alert-success d-flex align-items-center"
+                                    role="alert"
+                                >
                                     <i class="bi bi-bookmark-check"></i>
-                                    <div>
-                                        {format!("{}+ Years", experience)} Experience
-                                    </div>
+                                    <div>{format!("{}+ Years", experience)}Experience</div>
                                 </div>
                             </div>
                             <div class="flex-column experience-right justify-content-end me-3">
-                                <button class="btn" type="button"><i class="bi bi-eye me-2"></i> <span>Preview</span></button>
-                                <button class="btn" type="button"><i class="bi bi-download me-2"></i> <span>Download</span></button>
+                                <button class="btn" type="button">
+                                    <i class="bi bi-eye me-2"></i>
+                                    <span>Preview</span>
+                                </button>
+                                <button class="btn" type="button">
+                                    <i class="bi bi-download me-2"></i>
+                                    <span>Download</span>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -154,7 +207,7 @@ pub fn Skills() -> impl IntoView {
     let fetch_notes = move |page: i32| {
         let offset = (page - 1) * limit;
         let url = format!(
-            "{}/data/table?tablename=skills&offset={}&limit={}&nidkey=skill_id",
+            "{}/data/table?tablename=skills&offset={}&limit={}&nidkey=skill_id&sort=skill_id&order=asc",
             BACKEND_URL,
             offset,
             limit
@@ -182,66 +235,106 @@ pub fn Skills() -> impl IntoView {
     view! {
         <div data-aos="slide-right" class="skills">
             <div class="row">
-                <Show when=move || !loading.get() fallback=move || view! { 
-                    <div class="col-12" data-aos="fade-bottom">
-                        <div class="card border-0 w-100 h-100 bg-primary">
-                            <div class="card-body">
-                                <div class="d-flex justify-content-center">
-                                    <div class="spinner-border" role="status">
-                                        <span class="visually-hidden">Loading...</span>
+                <Show
+                    when=move || !loading.get()
+                    fallback=move || {
+                        view! {
+                            <div class="col-12" data-aos="fade-bottom">
+                                <div class="card border-0 w-100 h-100 bg-primary">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-center">
+                                            <div class="spinner-border" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    
-                 }>
-                    <Show when=move || !skills.get().is_empty() fallback=move || view! { 
-                        <div class="col-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title">No Data</h5>
+                        }
+                    }
+                >
+                    <Show
+                        when=move || !skills.get().is_empty()
+                        fallback=move || {
+                            view! {
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title">No Data</h5>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    }>
+                            }
+                        }
+                    >
                         {move || {
                             let list_skill = skills.get().clone();
-                            list_skill.iter().enumerate().map(|(i, skill)| {
-                                let max = 5;
-                                let rating = skill.star;
-                                view! {
-                                    <div class="col-6 col-lg-3 col-md-2 list-skill" data-aos="fade-up" data-aos-delay=format!("{}", i * 100)>
-                                        <div class="card">
-                                            <div class="card-header d-flex justify-content-between">
-                                                <h5 class="card-title">{skill.title.clone()}</h5>
-                                                <div class="ms-auto d-flex justify-content-between">
-                                                    {move || {
-                                                        (0..max).map(|i| {
-                                                            view! { 
-                                                                <i class=format!("bi bi-star-fill{}", if i < rating { " text-warning" } else { "" })></i>
-                                                            }
-                                                        }).collect_view()
-                                                    }}
-                                                </div>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="row">
-                                                    <div class="col-md-4">
-                                                        <img class="img-fluid" src=format!("/assets/{}", skill.image_src.clone()) alt=skill.title.clone() loading="lazy" />
+                            list_skill
+                                .iter()
+                                .enumerate()
+                                .map(|(i, skill)| {
+                                    let max = 5;
+                                    let rating = skill.star;
+                                    view! {
+                                        <div
+                                            class="col-6 col-lg-3 col-md-2 list-skill"
+                                            data-aos="fade-up"
+                                            data-aos-delay=format!("{}", i * 100)
+                                        >
+                                            <div class="card">
+                                                <div class="card-header d-flex justify-content-between">
+                                                    <h5 class="card-title">{skill.title.clone()}</h5>
+                                                    <div class="ms-auto d-flex justify-content-between">
+                                                        {move || {
+                                                            (0..max)
+                                                                .map(|i| {
+                                                                    view! {
+                                                                        <i class=format!(
+                                                                            "bi bi-star-fill{}",
+                                                                            if i < rating { " text-warning" } else { "" },
+                                                                        )></i>
+                                                                    }
+                                                                })
+                                                                .collect_view()
+                                                        }}
                                                     </div>
-                                                    <div class="col-md-8">
-                                                        <p class="card-text">{skill.description.clone()}</p>
-                                                        <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                                                            <div class="progress-bar" style=format!("width: {}%", skill.progress)>{skill.progress}%</div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-md-4">
+                                                            <img
+                                                                class="img-fluid"
+                                                                src=format!("/assets/{}", skill.image_src.clone())
+                                                                alt=skill.title.clone()
+                                                                loading="lazy"
+                                                            />
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <p class="card-text">{skill.description.clone()}</p>
+                                                            <div
+                                                                class="progress"
+                                                                role="progressbar"
+                                                                aria-label="Example with label"
+                                                                aria-valuenow="25"
+                                                                aria-valuemin="0"
+                                                                aria-valuemax="100"
+                                                            >
+                                                                <div
+                                                                    class="progress-bar"
+                                                                    style=format!("width: {}%", skill.progress)
+                                                                >
+                                                                    {skill.progress}
+                                                                    %
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                }
-                            }).collect_view()
+                                    }
+                                })
+                                .collect_view()
                         }}
                     </Show>
                 </Show>

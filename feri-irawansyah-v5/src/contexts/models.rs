@@ -72,6 +72,7 @@ pub struct Portfolio {
     pub image_src: String,
     pub tech: Vec<i32>,
     pub last_update: Option<String>,
+    pub pined: bool
 }
 
 #[derive(Clone, Debug, PartialEq)]
