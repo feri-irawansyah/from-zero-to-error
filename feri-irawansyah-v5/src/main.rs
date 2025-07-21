@@ -95,42 +95,54 @@ async fn robots(
 }
 
 #[cfg(feature = "ssr")]
-#[actix_web::get("/favicon.ico")]
-async fn favicon() -> actix_web::Result<actix_web::HttpResponse> {
-    use actix_web::http::header::{self, HeaderValue};
-    use reqwest::StatusCode;
-
-    let url = "https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/favicon.ico";
-
-    let response = reqwest::get(url).await.map_err(|_| {
-        actix_web::error::ErrorBadGateway("Failed to fetch favicon from Supabase")
-    })?;
-
-    if response.status() != StatusCode::OK {
-        return Err(actix_web::error::ErrorNotFound("Favicon not found"));
-    }
-
-    let content_type = response
-        .headers()
-        .get("content-type")
-        .and_then(|val| val.to_str().ok())
-        .map(|s| s.to_owned())
-        .unwrap_or_else(|| "image/x-icon".to_string());
-
-    let bytes = response
-        .bytes()
-        .await
-        .map_err(|_| actix_web::error::ErrorInternalServerError("Failed to read favicon"))?;
-
-    Ok(actix_web::HttpResponse::Ok()
-        .insert_header((
-            header::CONTENT_TYPE,
-            HeaderValue::from_str(&content_type)
-                .unwrap_or_else(|_| HeaderValue::from_static("image/x-icon")),
-        ))
-        .insert_header((header::CACHE_CONTROL, "public, max-age=86400"))
-        .body(bytes))
+#[actix_web::get("favicon.ico")]
+async fn favicon(
+    leptos_options: actix_web::web::Data<leptos::LeptosOptions>,
+) -> actix_web::Result<actix_files::NamedFile> {
+    let leptos_options = leptos_options.into_inner();
+    let site_root = &leptos_options.site_root;
+    Ok(actix_files::NamedFile::open(format!(
+        "{site_root}/favicon.ico"
+    ))?)
 }
+
+// #[cfg(feature = "ssr")]
+// #[actix_web::get("/favicon.ico")]
+// async fn favicon() -> actix_web::Result<actix_web::HttpResponse> {
+//     use actix_web::http::header::{self, HeaderValue};
+//     use reqwest::StatusCode;
+
+//     let url = "https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/favicon.ico";
+
+//     let response = reqwest::get(url).await.map_err(|_| {
+//         actix_web::error::ErrorBadGateway("Failed to fetch favicon from Supabase")
+//     })?;
+
+//     if response.status() != StatusCode::OK {
+//         return Err(actix_web::error::ErrorNotFound("Favicon not found"));
+//     }
+
+//     let content_type = response
+//         .headers()
+//         .get("content-type")
+//         .and_then(|val| val.to_str().ok())
+//         .map(|s| s.to_owned())
+//         .unwrap_or_else(|| "image/x-icon".to_string());
+
+//     let bytes = response
+//         .bytes()
+//         .await
+//         .map_err(|_| actix_web::error::ErrorInternalServerError("Failed to read favicon"))?;
+
+//     Ok(actix_web::HttpResponse::Ok()
+//         .insert_header((
+//             header::CONTENT_TYPE,
+//             HeaderValue::from_str(&content_type)
+//                 .unwrap_or_else(|_| HeaderValue::from_static("image/x-icon")),
+//         ))
+//         .insert_header((header::CACHE_CONTROL, "public, max-age=86400"))
+//         .body(bytes))
+// }
 
 #[cfg(feature = "ssr")]
 #[actix_web::get("/{folder:assets}/{tail:.*}")]
