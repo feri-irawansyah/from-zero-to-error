@@ -201,8 +201,9 @@ pub fn Skills() -> impl IntoView {
     
     let skills: RwSignal<Vec<Skill>> = RwSignal::new(vec![]);
     let (loading, set_loading) = signal(false);
-    let current_page = RwSignal::new(1);
-    let limit = 50;
+    let (total, set_total) = signal(0);
+    let (current_page, set_current_page) = signal(1);
+    let limit = 20;
 
     let fetch_notes = move |page: i32| {
         let offset = (page - 1) * limit;
@@ -219,6 +220,7 @@ pub fn Skills() -> impl IntoView {
                 if response.status() == 200 {
                     if let Ok(data) = response.json::<SkillsData>().await {
                         skills.set(data.rows);
+                        set_total(data.total);
                     }
                 } else {
                     console_log(format!("Error: {}", response.status()).as_str());
@@ -337,6 +339,56 @@ pub fn Skills() -> impl IntoView {
                                 .collect_view()
                         }}
                     </Show>
+                    <nav class="pagination-container">
+                        <ul class="pagination justify-content-end">
+                            <li class=format!(
+                                "page-item {}",
+                                if current_page.get() == 1 { "disabled" } else { "" },
+                            )>
+                                <button
+                                    class="page-link"
+                                    on:click=move |_| set_current_page(current_page.get() - 1)
+                                >
+                                    <i class="bi bi-caret-left-fill"></i>
+                                </button>
+                            </li>
+                            {
+                                let total_pages = (total.get() as f64 / limit as f64).ceil() as i32;
+                                (1..=total_pages)
+                                    .map(|i| {
+                                        view! {
+                                            <li class=format!(
+                                                "page-item {}",
+                                                if current_page.get() == i { "active" } else { "" },
+                                            )>
+                                                <button
+                                                    class="page-link"
+                                                    on:click=move |_| set_current_page(i)
+                                                >
+                                                    {i}
+                                                </button>
+                                            </li>
+                                        }
+                                    })
+                                    .collect_view()
+                            }
+                            <li class=format!(
+                                "page-item {}",
+                                if current_page.get() * limit >= total.get().try_into().unwrap() {
+                                    "disabled"
+                                } else {
+                                    ""
+                                },
+                            )>
+                                <button
+                                    class="page-link"
+                                    on:click=move |_| set_current_page(current_page.get() + 1)
+                                >
+                                    <i class="bi bi-caret-right-fill"></i>
+                                </button>
+                            </li>
+                        </ul>
+                    </nav>
                 </Show>
             </div>
         </div>

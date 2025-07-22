@@ -7,7 +7,6 @@ use crate::{app::BACKEND_URL, components::card_loading::CardLoading, contexts::m
 #[component]
 pub fn Portfolio() -> impl IntoView {
 
-    let navigate = leptos_router::hooks::use_navigate();
     let portfolio: RwSignal<Vec<Portfolio>> = RwSignal::new(vec![]);
     let (total, set_total) = signal(0);
     let (current_page, set_current_page) = signal(1);
@@ -92,7 +91,7 @@ pub fn Portfolio() -> impl IntoView {
                             portfolio.get().iter().map(|p| {
                                 let tech = p.tech.clone();
                                 view! {
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-6 card-container">
                                         <a class="card text-bg-dark" href=p.url_docs.clone() target="_blank">
                                             <img src=format!("/assets/{}", p.image_src.clone()) class="card-img" alt=p.title.clone() loading="lazy"/>
                                             <div class="card-img-overlay">
@@ -113,6 +112,7 @@ pub fn Portfolio() -> impl IntoView {
                                                             let skill = find_skill_by_id(&skills.get(), skill_id);
                                                             skill.map(|s| { view! {
                                                                     <a class="tech" title=s.title.clone() href=format!("{}", s.url_docs.clone()) target="_blank">
+                                                                        <span>{s.title.clone()}</span>
                                                                         <img src=format!("/assets/{}", s.image_src.clone()) alt=s.title.clone() loading="lazy"/>
                                                                     </a>
                                                                 }
@@ -129,6 +129,58 @@ pub fn Portfolio() -> impl IntoView {
                             })
                             .collect::<Vec<_>>()
                         }}
+                        <nav class=move || {
+                            if total.get() as i32 <= limit { "d-none" } else { "pagination-container" }
+                        }>
+                            <ul class="pagination justify-content-end">
+                                <li class=format!(
+                                    "page-item {}",
+                                    if current_page.get() == 1 { "disabled" } else { "" },
+                                )>
+                                    <button
+                                        class="page-link"
+                                        on:click=move |_| set_current_page(current_page.get() - 1)
+                                    >
+                                        <i class="bi bi-caret-left-fill"></i>
+                                    </button>
+                                </li>
+                                {
+                                    let total_pages = (total.get() as f64 / limit as f64).ceil() as i32;
+                                    (1..=total_pages)
+                                        .map(|i| {
+                                            view! {
+                                                <li class=format!(
+                                                    "page-item {}",
+                                                    if current_page.get() == i { "active" } else { "" },
+                                                )>
+                                                    <button
+                                                        class="page-link"
+                                                        on:click=move |_| set_current_page(i)
+                                                    >
+                                                        {i}
+                                                    </button>
+                                                </li>
+                                            }
+                                        })
+                                        .collect_view()
+                                }
+                                <li class=format!(
+                                    "page-item {}",
+                                    if current_page.get() * limit >= total.get().try_into().unwrap() {
+                                        "disabled"
+                                    } else {
+                                        ""
+                                    },
+                                )>
+                                    <button
+                                        class="page-link"
+                                        on:click=move |_| set_current_page(current_page.get() + 1)
+                                    >
+                                        <i class="bi bi-caret-right-fill"></i>
+                                    </button>
+                                </li>
+                            </ul>
+                        </nav>
                     </Show>
                 </div>
             </div>

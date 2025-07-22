@@ -157,7 +157,7 @@ pub fn Home() -> impl IntoView {
                                 <i class="bi bi-arrow-right"></i>
                             </a>
                         </div>
-                        <div class="row mb-3" data-aos="fade-in" data-aos-delay="300">
+                        <div class="row mb-3 latest-notes" data-aos="fade-in" data-aos-delay="300">
                             <Show
                                 when=move || !loading.get()
                                 fallback=|| view! { <CardLoading delay=Some(300) count=Some(3) /> }

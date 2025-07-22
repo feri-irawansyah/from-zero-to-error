@@ -107,3 +107,21 @@
     transform: translateX(0%);
   }
 }
+
+@media screen and (max-width: 768px) {
+  .card-marquee {
+    margin: 0 !important;
+
+    .marquee-content {
+      padding: 5px !important;
+      gap: 5px;
+
+      .marquee-item {
+        padding: 10px !important;
+        span  {
+          display: none;
+        }
+      }
+    }
+  }
+}
