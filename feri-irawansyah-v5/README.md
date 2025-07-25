@@ -75,6 +75,19 @@ sudo systemctl restart feri-irawansyah.service
 
 scp ~/rust-project/from-zero-to-error/feri-irawansyah-v5/target/release/feri-irawansyah root@47.236.126.179:~/leptos-site/
 
+sudo nano /etc/nginx/nginx.conf
+
+http {
+    # ... konfigurasi lainnya ...
+
+    proxy_cache_path /var/cache/nginx/supabase_assets_cache levels=1:2 keys_zone=STATIC:10m max_size=100m inactive=7d use_temp_path=off;
+
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
+
+    # dll...
+}
+
 env LEPTOS_OUTPUT_NAME=feri-irawansyah \
     LEPTOS_SITE_ROOT=site \
     LEPTOS_SITE_PKG_DIR=pkg \

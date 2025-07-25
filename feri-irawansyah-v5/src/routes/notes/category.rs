@@ -84,12 +84,12 @@ pub fn Category() -> impl IntoView {
                                                     )
                                                 >
                                                     <img
-                                                        src=format!("/assets/img/notes/{}.webp", note.slug.clone())
+                                                        src=format!("https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/notes/{}.webp", note.slug.clone())
                                                         alt=note.title.clone()
                                                         on:error=move |e: leptos::ev::ErrorEvent| {
                                                             if let Some(target) = e.target() {
                                                                 if let Ok(img) = target.dyn_into::<HtmlImageElement>() {
-                                                                    img.set_src("/assets/img/notes/default.webp");
+                                                                    img.set_src("https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/notes/default.webp");
                                                                 }
                                                             }
                                                         }
@@ -121,7 +121,7 @@ pub fn Category() -> impl IntoView {
                                                             <div class="d-flex gap-2">
                                                                 <img
                                                                     class="rounded-circle"
-                                                                    src="/assets/img/logo-ss.webp"
+                                                                    src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/logo-ss.webp"
                                                                     style="width: 1.5rem; height: 1.5rem;"
                                                                     loading="lazy"
                                                                 />

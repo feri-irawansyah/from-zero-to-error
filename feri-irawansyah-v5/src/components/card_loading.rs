@@ -18,7 +18,7 @@ pub fn CardLoading(delay: Option<i32>, count: Option<i32>) -> impl IntoView {
                     >
                         <div class="card w-100" aria-hidden="true">
                             <img
-                                src="/assets/img/loading.webp"
+                                src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/loading.webp"
                                 class="card-img py-2"
                                 alt="Ngga ada"
                                 loading="lazy"

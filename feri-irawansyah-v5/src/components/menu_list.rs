@@ -9,6 +9,7 @@ pub fn MenuList() -> impl IntoView {
     
     let location: Location = use_location();
     let state = expect_context::<AppState>();
+    let show = RwSignal::new(false);
 
     Effect::new(move |_| {
         spawn_local(async move { 
@@ -26,52 +27,56 @@ pub fn MenuList() -> impl IntoView {
         });
     });
 
+    let toggle_show = move |_| {
+        show.update(|show| *show = !*show);
+    };
+
     view! {
-        <div class="menu-list col-2 p-0 scroll-custom">
+        <div class=move || format!("menu-list col-2 p-0 scroll-custom {}", if show.get() { "show" } else { "" })>
             <img
-                src="/assets/img/feri.webp"
+                src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/feri.webp"
                 alt="feri"
                 class="rounded-circle img-fluid about-img mb-1"
                 loading="lazy"
             />
             <h5 class="fw-bold mb-0">
                 {move || state.name.get()}
-                <img class="real-image" src="/assets/img/real.png" alt="feri" loading="lazy" />
+                <img class="real-image" src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/real.png" alt="feri" loading="lazy" />
             </h5>
             <p class="mt-0">Software Engineer From Indonesia</p>
             <ul class="list-unstyled">
                 <li class:active=move || (location.pathname)() == "/">
-                    <a href="/">
+                    <a href="/" on:click=move |_| show.set(false)>
                         <i class="bi bi-house"></i>
                         <span>Home</span>
                     </a>
                 </li>
                 <li class:active=move || (location.pathname)() == "/about">
-                    <a href="/about">
+                    <a href="/about" on:click=move |_| show.set(false)>
                         <i class="bi bi-person"></i>
                         <span>About</span>
                     </a>
                 </li>
                 <li class:active=move || (location.pathname)() == "/portfolio">
-                    <a href="/portfolio">
+                    <a href="/portfolio" on:click=move |_| show.set(false)>
                         <i class="bi bi-journal-code"></i>
                         <span>Portfolio</span>
                     </a>
                 </li>
                 <li class:active=move || (location.pathname)().contains("catatan")>
-                    <a href="/catatan">
+                    <a href="/catatan" on:click=move |_| show.set(false)>
                         <i class="bi bi-journal-text"></i>
                         <span>Catatan</span>
                     </a>
                 </li>
                 <li class:active=move || (location.pathname)() == "/services">
-                    <a href="/services">
+                    <a href="/services" on:click=move |_| show.set(false)>
                         <i class="bi bi-briefcase"></i>
                         <span>Services</span>
                     </a>
                 </li>
                 <li class:active=move || (location.pathname)() == "/contact">
-                    <a href="/contact">
+                    <a href="/contact" on:click=move |_| show.set(false)>
                         <i class="bi bi-envelope"></i>
                         <span>Contact</span>
                     </a>
@@ -96,7 +101,9 @@ pub fn MenuList() -> impl IntoView {
                     <span>Dashboard</span>
                 </a>
             </Show>
-            <AppSettings />
+            <button class="btn btn-primary btn-sm menu-toggle-mobile" type="button" on:click=toggle_show>
+                <i class="bi bi-list"></i>
+            </button>
             <Outlet />
         </div>
     }

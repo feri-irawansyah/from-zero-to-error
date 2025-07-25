@@ -36,7 +36,7 @@ pub fn SkillMarquee(skills: RwSignal<Vec<Skill>>, position: Option<String>) -> i
                             <div class="marquee-item">
                                 <img
                                     class="skill-icon"
-                                    src=format!("/assets/{}", skill.image_src.clone())
+                                    src=format!("{}", skill.image_src.clone())
                                     alt=skill.title.clone()
                                     loading="lazy"
                                 />

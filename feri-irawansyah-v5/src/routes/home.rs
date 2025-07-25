@@ -67,7 +67,7 @@ pub fn Home() -> impl IntoView {
 
     view! {
         <section id="hero" class="hero section" data-aos="zoom-in">
-            <img src="/assets/img/hero-bg.jpeg" alt="" loading="lazy" />
+            <img src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/hero-bg.webp" alt="" loading="lazy" />
             <div class="container" data-aos="fade-up">
                 <div class="row justify-content-center">
                     <div class="col-lg-10 mb-3 headline" data-aos="zoom-in" data-aos-delay="100">
@@ -169,11 +169,11 @@ pub fn Home() -> impl IntoView {
                                             view! {
                                                 <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay=format!("{}", i * 200) data-aos-duration="1000">
                                                     <a class="card text-center" href=format!("/catatan/{}/{}", note.category.clone(), note.slug.clone(),)>
-                                                        <img src=format!("/assets/img/notes/{}.png", note.slug.clone()) alt=note.title.clone()
+                                                        <img src=format!("https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/notes/{}.webp", note.slug.clone()) alt=note.title.clone()
                                                             on:error=move |e: leptos::ev::ErrorEvent| {
                                                                 if let Some(target) = e.target() {
                                                                     if let Ok(img) = target.dyn_into::<HtmlImageElement>() {
-                                                                        img.set_src("/assets/img/notes/default.jpg");
+                                                                        img.set_src("https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/notes/default.webp");
                                                                     }
                                                                 }
                                                             }
@@ -205,7 +205,7 @@ pub fn Home() -> impl IntoView {
                                                                 <div class="d-flex gap-1 author">
                                                                     <img
                                                                         class="rounded-circle"
-                                                                        src="/assets/img/logo-ss.png"
+                                                                        src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/logo-ss.webp"
                                                                         style="width: 1.5rem; height: 1.5rem;"
                                                                         loading="lazy"
                                                                     />

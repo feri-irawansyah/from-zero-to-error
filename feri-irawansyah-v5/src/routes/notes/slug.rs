@@ -51,7 +51,7 @@ pub fn Slug() -> impl IntoView {
                     view! {
                         <div class="author d-flex flex-row align-items-start justify-content-start w-100">
                             <img
-                                src="/assets/img/logo-ss.webp"
+                                src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/logo-ss.webp"
                                 class="mb-3 rounded-circle"
                                 width="50px"
                                 alt=""
@@ -65,7 +65,7 @@ pub fn Slug() -> impl IntoView {
                                 >
                                     {move || state.name.get().to_string()}
                                     <img
-                                        src="/assets/img/real.png"
+                                        src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/real.png"
                                         width="20px"
                                         alt=""
                                         loading="lazy"
@@ -78,12 +78,12 @@ pub fn Slug() -> impl IntoView {
                             <div class="image-content d-flex justify-content-center">
                                 <img
                                     class="img-fluid rounded"
-                                    src=format!("/assets/img/notes/{}.webp", note.get().slug)
+                                    src=format!("https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/notes/{}.webp", note.get().slug)
                                     alt=note.get().title
                                     on:error=move |e: leptos::ev::ErrorEvent| {
                                         if let Some(target) = e.target() {
                                             if let Ok(img) = target.dyn_into::<HtmlImageElement>() {
-                                                img.set_src("/assets/img/notes/default.jpg");
+                                                img.set_src("https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/notes/default.webp");
                                             }
                                         }
                                     }

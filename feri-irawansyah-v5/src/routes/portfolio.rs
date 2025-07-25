@@ -93,7 +93,7 @@ pub fn Portfolio() -> impl IntoView {
                                 view! {
                                     <div class="col-lg-6 card-container">
                                         <a class="card text-bg-dark" href=p.url_docs.clone() target="_blank">
-                                            <img src=format!("/assets/{}", p.image_src.clone()) class="card-img" alt=p.title.clone() loading="lazy"/>
+                                            <img src=format!("{}", p.image_src.clone()) class="card-img" alt=p.title.clone() loading="lazy"/>
                                             <div class="card-img-overlay">
                                                 <h4 class="card-title view-project">
                                                     <span>View Project</span>
@@ -113,7 +113,7 @@ pub fn Portfolio() -> impl IntoView {
                                                             skill.map(|s| { view! {
                                                                     <a class="tech" title=s.title.clone() href=format!("{}", s.url_docs.clone()) target="_blank">
                                                                         <span>{s.title.clone()}</span>
-                                                                        <img src=format!("/assets/{}", s.image_src.clone()) alt=s.title.clone() loading="lazy"/>
+                                                                        <img src=format!("{}", s.image_src.clone()) alt=s.title.clone() loading="lazy"/>
                                                                     </a>
                                                                 }
                                                             })

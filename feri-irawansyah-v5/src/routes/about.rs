@@ -306,7 +306,7 @@ pub fn Skills() -> impl IntoView {
                                                         <div class="col-md-4">
                                                             <img
                                                                 class="img-fluid"
-                                                                src=format!("/assets/{}", skill.image_src.clone())
+                                                                src=format!("{}", skill.image_src.clone())
                                                                 alt=skill.title.clone()
                                                                 loading="lazy"
                                                             />

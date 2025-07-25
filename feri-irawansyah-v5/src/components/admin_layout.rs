@@ -62,7 +62,7 @@ pub fn AdminLayout() -> impl IntoView {
                             <li class="logo">
                                 <a href="/">
                                     <img
-                                        src="/assets/img/logo-ss.webp"
+                                        src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/logo-ss.webp"
                                         alt="feri"
                                         class="rounded-circle img-fluid about-img mb-1"
                                         loading="lazy"
@@ -71,7 +71,7 @@ pub fn AdminLayout() -> impl IntoView {
                                         Feri Irawansyah
                                         <img
                                             class="real-image"
-                                            src="/assets/img/real.png"
+                                            src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/real.png"
                                             alt="feri"
                                             loading="lazy"
                                         />

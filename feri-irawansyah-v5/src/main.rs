@@ -31,7 +31,7 @@ async fn main() -> std::io::Result<()> {
             // .service(Files::new("/assets", &site_root))
             // serve the favicon from /favicon.ico
             .service(favicon)
-            .service(static_from_supabase)
+            // .service(static_from_supabase)
             .service(sitemap)
             .service(robots)
             .leptos_routes(routes, {
@@ -144,55 +144,55 @@ async fn favicon(
 //         .body(bytes))
 // }
 
-#[cfg(feature = "ssr")]
-#[actix_web::get("/{folder:assets}/{tail:.*}")]
-async fn static_from_supabase(
-    path: actix_web::web::Path<(String, String)>,
-) -> actix_web::Result<actix_web::HttpResponse> {
-    use actix_web::http::header::{self, HeaderValue};
-    use reqwest::StatusCode;
+// #[cfg(feature = "ssr")]
+// #[actix_web::get("/{folder:assets}/{tail:.*}")]
+// async fn static_from_supabase(
+//     path: actix_web::web::Path<(String, String)>,
+// ) -> actix_web::Result<actix_web::HttpResponse> {
+//     use actix_web::http::header::{self, HeaderValue};
+//     use reqwest::StatusCode;
 
-    let (folder, tail) = path.into_inner();
+//     let (folder, tail) = path.into_inner();
 
-    let supabase_url = format!(
-        "https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/{}/{}",
-        folder, tail
-    );
+//     let supabase_url = format!(
+//         "https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/{}/{}",
+//         folder, tail
+//     );
 
-    // Fetch file from Supabase
-    let response = match reqwest::get(&supabase_url).await {
-        Ok(resp) => resp,
-        Err(_) => return Err(actix_web::error::ErrorBadGateway("Failed to fetch file")),
-    };
+//     // Fetch file from Supabase
+//     let response = match reqwest::get(&supabase_url).await {
+//         Ok(resp) => resp,
+//         Err(_) => return Err(actix_web::error::ErrorBadGateway("Failed to fetch file")),
+//     };
 
-    // Check if file exists
-    if response.status() != StatusCode::OK {
-        return Err(actix_web::error::ErrorNotFound("File not found"));
-    }
+//     // Check if file exists
+//     if response.status() != StatusCode::OK {
+//         return Err(actix_web::error::ErrorNotFound("File not found"));
+//     }
 
-    // Ambil content-type dulu
-    let content_type = response
-        .headers()
-        .get("content-type")
-        .and_then(|val| val.to_str().ok())
-        .map(|s| s.to_owned()) // convert ke String supaya gak borrow
-        .unwrap_or_else(|| "application/octet-stream".to_string());
+//     // Ambil content-type dulu
+//     let content_type = response
+//         .headers()
+//         .get("content-type")
+//         .and_then(|val| val.to_str().ok())
+//         .map(|s| s.to_owned()) // convert ke String supaya gak borrow
+//         .unwrap_or_else(|| "application/octet-stream".to_string());
 
-    // Baru ambil bytes-nya setelahnya
-    let bytes = response
-        .bytes()
-        .await
-        .map_err(|_| actix_web::error::ErrorInternalServerError("Failed to read file"))?;
+//     // Baru ambil bytes-nya setelahnya
+//     let bytes = response
+//         .bytes()
+//         .await
+//         .map_err(|_| actix_web::error::ErrorInternalServerError("Failed to read file"))?;
 
-    Ok(actix_web::HttpResponse::Ok()
-        .insert_header((
-            header::CONTENT_TYPE,
-            HeaderValue::from_str(&content_type)
-                .unwrap_or_else(|_| HeaderValue::from_static("application/octet-stream")),
-        ))
-        .insert_header((header::CACHE_CONTROL, "public, max-age=86400"))
-        .body(bytes))
-}
+//     Ok(actix_web::HttpResponse::Ok()
+//         .insert_header((
+//             header::CONTENT_TYPE,
+//             HeaderValue::from_str(&content_type)
+//                 .unwrap_or_else(|_| HeaderValue::from_static("application/octet-stream")),
+//         ))
+//         .insert_header((header::CACHE_CONTROL, "public, max-age=86400"))
+//         .body(bytes))
+// }
 
 
 #[cfg(not(any(feature = "ssr", feature = "csr")))]
