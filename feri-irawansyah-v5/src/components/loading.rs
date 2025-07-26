@@ -5,10 +5,11 @@ use leptos::prelude::*;
 pub fn LoadingScreen(visible: RwSignal<bool>) -> impl IntoView {
     view! {
         <Show when=move || visible.get()>
-            <div class="loading-screen fade-in">
-                <div class="spinner"></div>
-                <span>Please wait...</span>
-            </div>
+            // <div class="loading-screen fade-in">
+            //     <div class="spinner"></div>
+            //     <span>Please wait...</span>
+            // </div>
+            <div id="preloader"></div>
         </Show>
     }
 }

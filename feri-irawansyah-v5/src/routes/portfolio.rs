@@ -20,7 +20,7 @@ pub fn Portfolio() -> impl IntoView {
     let fetch_portfolio = move |page: i32| {
         let offset = (page - 1) * limit;
         let url = format!(
-            "{}/data/table?tablename=portfolio&offset={}&limit={}&nidkey=portfolio_id",
+            "{}/data/table?tablename=portfolio&offset={}&limit={}&nidkey=portfolio_id&sort=last_update&order=desc",
             BACKEND_URL,
             offset,
             limit
@@ -81,7 +81,7 @@ pub fn Portfolio() -> impl IntoView {
                     I am a Software Engineer dedicated to building efficient, scalable, and user-friendly digital solutions. With a strong background in web development, I am used to working with various modern technologies such as JavaScript/TypeScript, Svelte, Rust, and various other frameworks.
                 </p>
             </div>
-            <div class="container" data-aos="slide-right" data-aos-delay="200">
+            <div class="container portfolio-container" data-aos="slide-right" data-aos-delay="200">
                 <div class="row justify-content-start">
                     <Show
                         when=move || !loading.get()

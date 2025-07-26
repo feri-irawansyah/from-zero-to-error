@@ -36,7 +36,7 @@ pub fn Services() -> impl IntoView {
                                 <h3>Backend Development</h3>
                             </a>
                             <p>
-                                Lorem ipsum dolor sit amet consectetur adipiscing elit pellentesque habitant morbi.
+                                "I build fast, secure and scalable backend systems using technologies like Rust (Actix/Axum), NodeJS/Bun (Express/Hono) and C# (.NET/.NET Core). My focus is on API efficiency, clean code structure, solid database integration and good documentation."
                             </p>
                         </div>
                     </div>
@@ -63,7 +63,7 @@ pub fn Services() -> impl IntoView {
                                 <h3>Frontend Web Development</h3>
                             </a>
                             <p>
-                                Lorem ipsum dolor sit amet consectetur adipiscing elit pellentesque habitant morbi.
+                                "Creating attractive and responsive user interfaces using Svelte and React. I prioritize user experience (UX) and consistent design, with the help of CSS frameworks like Bootstrap or CSS preprocessors like Sass."
                             </p>
                         </div>
                     </div>
@@ -90,7 +90,7 @@ pub fn Services() -> impl IntoView {
                                 <h3>Seo Optimization</h3>
                             </a>
                             <p>
-                                Lorem ipsum dolor sit amet consectetur adipiscing elit pellentesque habitant morbi.
+                                "I help improve your website's visibility in search engines through optimizing HTML structure, site speed, proper use of metadata, and effective content strategies to appear on the first page of search engines."
                             </p>
                         </div>
                     </div>
@@ -117,7 +117,7 @@ pub fn Services() -> impl IntoView {
                                 <h3>Database Management</h3>
                             </a>
                             <p>
-                                Lorem ipsum dolor sit amet consectetur adipiscing elit pellentesque habitant morbi.
+                                "Experience in designing, managing, and optimizing relational (PostgreSQL, SQL Server) and non-relational (MongoDB) databases. I ensure data integrity and optimal query performance."
                             </p>
                             <a
                                 href="/services/database"
@@ -149,7 +149,7 @@ pub fn Services() -> impl IntoView {
                                 <h3>Mentoring</h3>
                             </a>
                             <p>
-                                Lorem ipsum dolor sit amet consectetur adipiscing elit pellentesque habitant morbi.
+                                "Not only building or developing applications, I also provide mentoring sessions for individuals or teams who want to learn more about programming, software architecture, and best practices in system development."
                             </p>
                             <a
                                 href="/services/mentoring"
@@ -181,7 +181,7 @@ pub fn Services() -> impl IntoView {
                                 <h3>Software Architecture</h3>
                             </a>
                             <p>
-                                Lorem ipsum dolor sit amet consectetur adipiscing elit pellentesque habitant morbi.
+                                "I design modular and maintainable software architectures, using approaches such as DDD, service-oriented architecture, and clean code principles. The goal: to ensure projects are scalable and easy to develop in the long term."
                             </p>
                             <a
                                 href="/services/software-architecture"

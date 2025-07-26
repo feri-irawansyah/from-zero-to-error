@@ -53,8 +53,12 @@ pub fn Category() -> impl IntoView {
     view! {
         <div class="d-flex category" data-aos="slide-left">
             <Show
-                when=move || { loading.get() == false }
-                fallback=|| view! { <CardLoading delay=Some(0) count=Some(3) /> }
+                when=move || { !loading.get() }
+                fallback=|| view! { 
+                    <div class="loading-category" data-aos="fade-up">
+                        <CardLoading delay=Some(0) count=Some(3) />
+                    </div>
+                 }
             >
                 <Show
                     when=move || { !notes.get().is_empty() }

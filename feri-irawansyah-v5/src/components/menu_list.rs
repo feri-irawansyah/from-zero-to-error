@@ -13,7 +13,7 @@ pub fn MenuList() -> impl IntoView {
 
     Effect::new(move |_| {
         spawn_local(async move { 
-            state.loading.set(true);
+            // state.loading.set(true);
             let response = check_session().await;
             match response {
                 Ok(session) => {
@@ -23,7 +23,7 @@ pub fn MenuList() -> impl IntoView {
                     console_log(format!("Error: {:#?}", error).as_str());
                 }
             }
-            state.loading.set(false);
+            // state.loading.set(false);
         });
     });
 
@@ -33,8 +33,7 @@ pub fn MenuList() -> impl IntoView {
 
     view! {
         <div class=move || format!("menu-list col-2 p-0 scroll-custom {}", if show.get() { "show" } else { "" })>
-            <img
-                src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/feri.webp"
+            <img src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/feri.webp"
                 alt="feri"
                 class="rounded-circle img-fluid about-img mb-1"
                 loading="lazy"
@@ -51,12 +50,6 @@ pub fn MenuList() -> impl IntoView {
                         <span>Home</span>
                     </a>
                 </li>
-                <li class:active=move || (location.pathname)() == "/about">
-                    <a href="/about" on:click=move |_| show.set(false)>
-                        <i class="bi bi-person"></i>
-                        <span>About</span>
-                    </a>
-                </li>
                 <li class:active=move || (location.pathname)() == "/portfolio">
                     <a href="/portfolio" on:click=move |_| show.set(false)>
                         <i class="bi bi-journal-code"></i>
@@ -67,6 +60,12 @@ pub fn MenuList() -> impl IntoView {
                     <a href="/catatan" on:click=move |_| show.set(false)>
                         <i class="bi bi-journal-text"></i>
                         <span>Catatan</span>
+                    </a>
+                </li>
+                <li class:active=move || (location.pathname)() == "/about">
+                    <a href="/about" on:click=move |_| show.set(false)>
+                        <i class="bi bi-person"></i>
+                        <span>About</span>
                     </a>
                 </li>
                 <li class:active=move || (location.pathname)() == "/services">

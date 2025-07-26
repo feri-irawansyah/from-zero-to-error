@@ -11,7 +11,7 @@ pub fn CardLoading(delay: Option<i32>, count: Option<i32>) -> impl IntoView {
             .map(|i| {
                 view! {
                     <div
-                        class=move || format!("col-md-{} d-flex align-items-stretch", 12 / count)
+                        class=move || format!("col-md-{} card-loading", 12 / count)
                         data-aos="zoom-in"
                         data-aos-delay=delay
                         data-aos-duration=format!("{}", i * 100)

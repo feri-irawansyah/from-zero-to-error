@@ -123,7 +123,6 @@ a:hover {
 
 main {
   .container-fluid {
-
     .menu-list {
       position: fixed !important;
     }
@@ -149,6 +148,14 @@ main {
         opacity: 0;
         width: 0 !important;
         transition: all 0.3s ease;
+
+        ul {
+          padding: 0 1rem !important;
+          li {
+            padding: 0 !important;
+            margin: 0.5rem 0 !important;
+          }
+        }
       }
 
       .show {
@@ -630,14 +637,14 @@ section,
 .section {
   color: var(--default-color);
   background-color: var(--background-color);
-  padding: 60px 0;
+  padding: 15px 0;
   overflow: clip;
 }
 
 @media screen and (min-width: 768px) {
   section,
   .section {
-    padding: 60px 3rem 60px 0;
+    padding: 30px 3rem 30px 0;
   }
 }
 
@@ -757,6 +764,7 @@ section,
     position: relative;
     z-index: 3;
     top: 0 !important;
+    padding: 0 1rem !important;
 
     .row {
       justify-content: flex-start !important;
@@ -772,16 +780,15 @@ section,
         .row {
           flex-direction: row !important;
           width: 100% !important;
-          padding: 0 0.5rem;
+          // padding: 0 0.5rem;
+          .align-items-stretch {
+            padding: 0.3rem !important;
+          }
         }
 
         .see-all:hover {
           color: $primary;
           text-decoration: underline;
-        }
-
-        .align-items-stretch {
-          padding: 0 0.2rem;
         }
         
         .card {
@@ -918,23 +925,6 @@ section,
   border-bottom: 2px solid $primary;
 }
 
-.hero .social-links {
-  margin-top: 25px;
-}
-
-.hero .social-links a {
-  font-size: 20px;
-  display: inline-block;
-  color: color-mix(in srgb, var(--default-color), transparent 30%);
-  line-height: 1;
-  margin-right: 20px;
-  transition: 0.3s;
-}
-
-.hero .social-links a:hover {
-  color: $primary;
-}
-
 @media screen and (max-width: 768px) {
   .hero h2 {
     font-size: 32px;
@@ -982,10 +972,17 @@ section,
 
           .card {
             .card-img-overlay {
+              position: relative;
               .hashtag {
+                // background-color: saddlebrown;
                 font-size: 0.8rem !important;
                 padding: 0 !important;
-                margin: 2px !important;
+                margin: 2px 0 !important;
+
+                span {
+                  margin: 0;
+                  background-color: transparent !important;
+                }
               }
               .card-title {
                 font-size: 1rem !important;
@@ -1036,6 +1033,13 @@ section,
   .nav-tabs {
     position: relative !important;
     z-index: 2;
+    border-color: $primary;
+    .nav-link {
+      color: $primary !important;
+      &.active {
+        color: #fff !important;
+      }
+    }
   }
   .content {
     position: relative !important;
@@ -1136,6 +1140,70 @@ section,
       right: 1.5rem;
     }
   }
+
+  @media screen and (max-width: 768px) {
+    
+    .nav-tabs {
+      position: relative !important;
+      z-index: 2;
+      width: 100% !important;
+      justify-content: center !important;
+
+      .nav-item {
+        margin: 0 !important;
+        padding: 0 !important;
+
+        .nav-link{
+          padding: 0.5rem !important;
+          color: $primary !important;
+
+          &.active {
+            color: #fff !important;
+          }
+        }
+      }
+    }
+
+    .skills {
+      padding: 0 0.5rem !important;
+      .list-skill {
+        padding: 0 !important;
+        margin: 0 !important;
+        .card {
+          margin: 0.2rem !important;
+        }
+        .card-header {
+          padding: 0 0.5rem;
+          display: flex;
+          flex-direction: column;
+          .card-title {
+            font-size: 0.8rem !important;
+            font-weight: bold;
+            margin-top: 5px;
+            margin-bottom: 0;
+          }
+
+          .ms-auto {
+            padding: 0 !important;
+            margin-left: 0 !important;
+            font-size: 10px;
+          }
+        }
+
+        .card-body {
+          padding: 0.3rem 1rem !important;
+          .card-text {
+            display: none;
+          }
+          .progress {
+            width: 100% !important;
+            margin: 0.5rem 0 !important;
+          }
+        }
+      }
+    }
+    
+  }
 }
 
 /*--------------------------------------------------------------
@@ -1201,6 +1269,10 @@ section,
 # Portfolio Section
 --------------------------------------------------------------*/
 .portfolio {
+  .portfolio-container {
+    max-height: 80vh;
+    overflow-y: auto;
+  }
   a.card {
     margin-bottom: 1rem;
     cursor: pointer;
@@ -1213,6 +1285,9 @@ section,
       transition: color 0.3s ease;
     }
     h5 {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: $info !important;
       transition: color 0.3s ease;
     }
   }
@@ -1301,7 +1376,7 @@ section,
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding: 0.5rem !important;
+        padding: 0.5rem;
         text-align: center !important;
 
         span {
@@ -1333,6 +1408,22 @@ section,
     }
     opacity: 1;
     background: linear-gradient(to top, #1b1b1b, #272626a6);
+  }
+
+  @media screen and (max-width: 768px) {
+    .container {
+      max-height: 60vh;
+      overflow-y: auto;
+
+      .tech {
+        padding: 0.2rem !important;
+        img {
+          width: 1rem !important;
+          height: 1rem !important;
+        }
+      }
+    }
+    
   }
 }
 
@@ -1591,6 +1682,44 @@ section,
     border-radius: 5px;
     color: $info;
   }
+  .contact-info{
+    .justify-content-start {
+      .btn {
+        i {
+          margin-right: 0.5rem;
+        }
+        &.btn-success {
+          color: #fff;
+        }
+        &.btn-danger {
+          color: #fff;
+        }
+      }
+    }
+
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .contact {
+    .container {
+      padding: 0 0.5rem;
+    }
+    .contact-info {
+      .btn {
+        span {
+          display: none;
+        }
+        &.btn-success {
+          color: #fff;
+        }
+        &.btn-danger {
+          color: #fff;
+        }
+      }
+    }
+  }
+  
 }
 
 /*--------------------------------------------------------------
@@ -1726,8 +1855,11 @@ section,
 # Catatan Section
 --------------------------------------------------------------*/
 .catatan {
-  padding-left: 1rem;
-  padding-right: 1rem;
+  .content-wrapper {
+    margin-top: 1rem;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
   .a:hover {
     .card-img {
       filter: blur(4px) !important;
@@ -1743,15 +1875,30 @@ section,
   }
 
   .category {
-    padding-top: 1.3rem;
+    .loading-category {
+      padding: 0;
+      display: flex;
+      flex-direction: row;
+      width: 100% !important;
 
+      .card-loading {
+        padding: 0.3rem;
+      }
+    }
+    padding: 0;
+    max-height: 70vh;
+    overflow-y: auto;
     .list-notes {
-      max-height: 70vh;
-      overflow-y: auto;
+      padding: 0;
+      margin: 0;
+
+      .align-items-stretch{
+        padding: 0.3rem !important;
+      }
     }
 
     .card {
-      margin: 1rem 0;
+      margin: 0;
       .card-img-overlay {
         background: linear-gradient(to top, #1b1b1b, #272626a6);
 
@@ -1852,7 +1999,52 @@ section,
   .back {
     margin: 0;
     margin-bottom: 1rem;
-    border: 1px solid var(--contrast-color);
+    padding: 0;
+  }
+
+  @media screen and (max-width: 768px) {
+    .container {
+      .category {
+        max-height: 100% !important;
+        height: 100% !important;
+        padding: 0;
+        .card-img-overlay {
+          position: relative;
+          .hashtag {
+            color: $info;
+            span {
+              padding: 0;
+              margin: 0;
+              margin-right: 0.5rem;
+            }
+          }
+        }
+      }
+
+      .slug-content{
+        .image-content{
+          img{
+            width: 100% !important;
+          }
+        }
+      }
+    }
+
+    .loading-category {
+      padding: 0;
+      display: flex !important;
+      flex-direction: column !important;
+      .card-loading {
+        padding: 0.3rem 0 !important;
+        width: 100% !important;
+      }
+    }
+
+    .back {
+      margin: 0 !important;
+      border: none;
+      padding: 0;
+    }
   }
 }
 

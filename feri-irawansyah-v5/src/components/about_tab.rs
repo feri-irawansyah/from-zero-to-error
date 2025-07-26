@@ -5,8 +5,8 @@ use leptos::{prelude::*};
 pub fn AboutTab(menu_item: RwSignal<&'static str>) -> impl IntoView {
 
     view! {
-        <ul class="col-12 nav nav-tabs mb-3 mx-3">
-            {["Intro", "Journey", "Experience", "Skills", "Certifications"]
+        <ul class="col-12 nav nav-tabs mb-3">
+            {["Intro", "Journey", "Experience", "Skills", "Certificate"]
                 .iter()
                 .map(|item| {
                     view! {

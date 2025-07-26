@@ -121,7 +121,7 @@ pub fn App() -> impl IntoView {
                 <div class="container-fluid">
                     <LoadingScreen visible=state.loading />
                     <div class="row main-content">
-                        <Routes fallback=move || "Not found.">
+                        <Routes fallback=move || view! { <div id="preloader"></div> }>
                             <ParentRoute path=leptos_router::path!("/") view=MenuList>
                                 <Route path=StaticSegment("") view=Home />
                                 <Route path=StaticSegment("about") view=About />

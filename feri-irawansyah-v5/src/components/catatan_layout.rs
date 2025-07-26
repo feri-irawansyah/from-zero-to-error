@@ -25,7 +25,9 @@ pub fn CatatanLayout() -> impl IntoView {
     view! {
         <section id="catatan" class="catatan section" data-aos="fade-left">
 
-            <div class="container">
+            <div class="container section-title" data-aos="fade-left">
+
+                <h2>Catatan {move || category.get()}</h2>
                 <Show when=move || { category.get().is_some() } fallback=|| view! { <span></span> }>
                     <Show
                         when=move || { !slug.get().is_some() }
@@ -47,9 +49,7 @@ pub fn CatatanLayout() -> impl IntoView {
                 </Show>
             </div>
 
-            <div class="container section-title" data-aos="fade-left" data-aos-delay="100">
-
-                <h2>Catatan {move || state.name.get()}</h2>
+            <div class="container content-wrapper" data-aos="fade-up" data-aos-delay="100">
                 <Show
                     when=move || !state.title.get().is_empty()
                     fallback=|| {
@@ -63,9 +63,6 @@ pub fn CatatanLayout() -> impl IntoView {
                     <h5 class="text-uppercase fw-bold">{move || state.title.get()}</h5>
                     <hr />
                 </Show>
-            </div>
-
-            <div class="container" data-aos="fade-up" data-aos-delay="200">
 
                 <Outlet />
 

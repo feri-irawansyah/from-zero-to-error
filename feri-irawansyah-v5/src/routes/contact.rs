@@ -64,11 +64,11 @@ pub fn Contact() -> impl IntoView {
         <section id="contact" class="contact section" data-aos="fade-right">
             <div class="container section-title" data-aos="slide-right" data-aos-delay="100">
                 <h2>Contact Me</h2>
+            </div>
+            <div class="container contact-info" data-aos="slide-right" data-aos-delay="200">
                 <p>
                     I am a Software Engineer dedicated to building efficient, scalable, and user-friendly digital solutions. With a strong background in web development, I am used to working with various modern technologies such as JavaScript/TypeScript, Svelte, Rust, and various other frameworks.
                 </p>
-            </div>
-            <div class="container" data-aos="slide-right" data-aos-delay="200">
                 <div class="row">
                     <div class="col-12 mb-3 d-flex gap-2 justify-content-start">
                         <a
@@ -77,7 +77,7 @@ pub fn Contact() -> impl IntoView {
                             target="_blank"
                         >
                             <i class="bi bi-whatsapp"></i>
-                            WhatsApp
+                            <span>WhatsApp</span>
                         </a>
                         <a
                             class="btn btn-primary"
@@ -85,15 +85,15 @@ pub fn Contact() -> impl IntoView {
                             target="_blank"
                         >
                             <i class="bi bi-linkedin"></i>
-                            Linkedin
+                            <span>Linkedin</span>
                         </a>
                         <a class="btn btn-info" href="https://wa.me/6282323443535" target="_blank">
                             <i class="bi bi-twitter"></i>
-                            Twitter
+                            <span>Twitter</span>
                         </a>
                         <a class="btn btn-dark" href="https://wa.me/6282323443535" target="_blank">
                             <i class="bi bi-github"></i>
-                            Github
+                            <span>GitHub</span>
                         </a>
                         <a
                             class="btn btn-danger"
@@ -101,7 +101,7 @@ pub fn Contact() -> impl IntoView {
                             target="_blank"
                         >
                             <i class="bi bi-instagram"></i>
-                            Instagram
+                            <span>Instagram</span>
                         </a>
                     </div>
                     <div class="col-lg-6 mb-3">

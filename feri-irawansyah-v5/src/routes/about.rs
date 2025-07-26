@@ -279,7 +279,7 @@ pub fn Skills() -> impl IntoView {
                                     let rating = skill.star;
                                     view! {
                                         <div
-                                            class="col-6 col-lg-3 col-md-2 list-skill"
+                                            class="col-4 col-lg-3 col-md-2 list-skill"
                                             data-aos="fade-up"
                                             data-aos-delay=format!("{}", i * 100)
                                         >

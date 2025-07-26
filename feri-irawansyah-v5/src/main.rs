@@ -25,38 +25,70 @@ async fn main() -> std::io::Result<()> {
         App::new()
             // serve JS/WASM/CSS from `pkg`
             .service(Files::new("/pkg", format!("{site_root}/pkg")))
-            // .service(Files::new("/js", format!("{site_root}/vendor/js")))
-            // .service(Files::new("/css", format!("{site_root}/vendor/css")))
-            // // serve other assets from the `assets` directory
-            // .service(Files::new("/assets", &site_root))
-            // serve the favicon from /favicon.ico
             .service(favicon)
-            // .service(static_from_supabase)
             .service(sitemap)
             .service(robots)
+            .service(ogimage)
             .leptos_routes(routes, {
                 let leptos_options = leptos_options.clone();
+                let gtm_script = r#"(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+                    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+                    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+                    })(window,document,'script','dataLayer','GTM-5JMF42BD');
+                "#;
                 move || {
+                    use leptos_meta::Meta;
+
                     view! {
                         <!DOCTYPE html>
                         <html lang="en">
                             <head>
+                                // ✅ Inject GTM script here
+                                <script
+                                    type="text/javascript"
+                                    inner_html=gtm_script
+                                />
                                 <meta charset="utf-8" />
                                 <meta name="robots" content="index, follow" />
                                 <meta
                                     name="viewport"
                                     content="width=device-width, initial-scale=1"
                                 />
+                                <Meta name="description" content="Website resmi Feri Irawansyah, Software Engineer Indonesia. Lihat portofolio, proyek, dan blog seputar teknologi."/>
+                                <Meta property="og:title" content="Feri Irawansyah - Software Engineer"/>
+                                <Meta property="og:description" content="Portofolio dan proyek terkini Feri Irawansyah."/>
+                                <Meta property="og:image" content="https://feri-irawansyah.my.id/og.webp"/>
+                                <Meta property="og:url" content="https://feri-irawansyah.my.id"/>
+                                <Meta name="robots" content="index, follow"/>
                                 <AutoReload options=leptos_options.clone() />
                                 <HydrationScripts options=leptos_options.clone() />
                                 <MetaTags />
+                                <Meta name="canonical" content="https://feri-irawansyah.my.id/"/>
                                 <script src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/js/bootstrap.bundle.min.js"></script>
                                 <script src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/js/aos.min.js"></script>
                                 <script src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/js/marquee.js"></script>
                                 <script src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/js/typeit.js"></script>
+                                
                             </head>
                             <body class="dark-background">
+                                <div id="preloader"></div>
                                 <App />
+                                <script>
+                                    const observer = new PerformanceObserver((list) => {
+                                        for (const entry of list.getEntries()) {
+                                        if (entry.name.endsWith(".wasm")) {
+                                            // WASM loaded, hilangkan loading screen
+                                            document.getElementById("preloader")?.remove();
+                                            observer.disconnect();
+                                        }
+                                        }
+                                    });
+
+                                    observer.observe({ type: "resource", buffered: true });
+                                </script>
+                                <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5JMF42BD"
+                                height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             </body>
                         </html>
                     }
@@ -103,6 +135,18 @@ async fn favicon(
     let site_root = &leptos_options.site_root;
     Ok(actix_files::NamedFile::open(format!(
         "{site_root}/favicon.ico"
+    ))?)
+}
+
+#[cfg(feature = "ssr")]
+#[actix_web::get("og.webp")]
+async fn ogimage(
+    leptos_options: actix_web::web::Data<leptos::config::LeptosOptions>,
+) -> actix_web::Result<actix_files::NamedFile> {
+    let leptos_options = leptos_options.into_inner();
+    let site_root = &leptos_options.site_root;
+    Ok(actix_files::NamedFile::open(format!(
+        "{site_root}/og.webp"
     ))?)
 }
 
