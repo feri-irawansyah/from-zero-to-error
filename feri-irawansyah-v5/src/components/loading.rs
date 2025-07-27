@@ -9,7 +9,7 @@ pub fn LoadingScreen(visible: RwSignal<bool>) -> impl IntoView {
             //     <div class="spinner"></div>
             //     <span>Please wait...</span>
             // </div>
-            <div id="preloader"></div>
+            <div id="js-preloader" class="js-preloader"></div>
         </Show>
     }
 }

@@ -35,12 +35,21 @@ pub fn ListCatatan() -> impl IntoView {
             ],
         },
         Category {
+            name: "devops",
+            image: "https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/devops.webp",
+            title: "Devops",
+            desc: "Catatan tentang bagaimana kita bisa menjalankan aplikasi dengan cepat dan mudah meski ngga punya server.",
+            list_tech: &[
+                "linux", "docker", "nginx", "kubernetes", "internet-information-service", "laragon", "load-balancer",
+            ],
+        },
+        Category {
             name: "random",
             image: "https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/random.webp",
             title: "Random",
             desc: "Jangan ngoding mulu bang ntar pingsan kita, kita juga manusia bukan robot. Robot aja bisa error.",
             list_tech: &[
-                "internet-information-service", "nginx", "laragon", "gajelas", "tapi", "bisa", "error", "olahraga", "makan",
+                "cerita-lucu", "pengalaman", "fullstuck-developer", "gajelas", "gabut", "bisa", "error", "olahraga", "makan",
             ],
         },
         Category {
@@ -49,7 +58,7 @@ pub fn ListCatatan() -> impl IntoView {
             title: "Series",
             desc: "Kita bacotin teknologi yang ada dimuka bumi dalam konteks pebelajaran.",
             list_tech: &[
-                "internet-information-service", "nginx", "laragon", "gajelas", "tapi", "bisa", "error", "olahraga", "makan",
+                "python-lemot", "rust-dewa-compiler", "php-realita-hidup", "c#-anak-manja", "node-module-isi-dosa",
             ],
         },
     ];

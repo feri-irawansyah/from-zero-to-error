@@ -76,22 +76,23 @@ pub fn AdminLayout() -> impl IntoView {
                                             loading="lazy"
                                         />
                                     </h5>
-                                    <p>Software Engineer</p>
+                                    <p>Admin Dashboard Area</p>
                                 </a>
+                                <hr/>
                             </li>
-                            <li>
+                            <li class:active=move || (location.pathname)() == "/admin">
                                 <a href="/admin">
                                     <i class="bi bi-grid"></i>
                                     <span>Dashboard</span>
                                 </a>
                             </li>
-                            <li>
+                            <li class:active=move || (location.pathname)() == "/admin/user">
                                 <a href="/admin/user">
                                     <i class="bi bi-person"></i>
                                     <span>User Management</span>
                                 </a>
                             </li>
-                            <li>
+                            <li class:active=move || (location.pathname)() == "/admin/notes-management">
                                 <a href="/admin/notes-management">
                                     <i class="bi bi-journal-code"></i>
                                     <span>Notes Management</span>

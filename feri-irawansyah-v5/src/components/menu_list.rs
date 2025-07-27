@@ -100,6 +100,19 @@ pub fn MenuList() -> impl IntoView {
                     <span>Dashboard</span>
                 </a>
             </Show>
+            <div class="btn-group version">
+                <button type="button" class="btn btn-danger btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    V5.0.0
+                </button>
+                <ul class="dropdown-menu px-1">
+                    <li><a class="dropdown-item bg-danger" href="https://feri-irawansyah.my.id">Latest(5.0.0) <i class="bi bi-check"></i></a></li>
+                    <li><hr class="dropdown-divider"/></li>
+                    <li><a class="dropdown-item" href="#">V4.0.0</a></li>
+                    <li><a class="dropdown-item" href="#">V3.0.0</a></li>
+                    <li><a class="dropdown-item" href="#">V2.0.0</a></li>
+                    <li><a class="dropdown-item" href="#">V1.0.0</a></li>
+                </ul>
+            </div>
             <button class="btn btn-primary btn-sm menu-toggle-mobile" type="button" on:click=toggle_show>
                 <i class="bi bi-list"></i>
             </button>

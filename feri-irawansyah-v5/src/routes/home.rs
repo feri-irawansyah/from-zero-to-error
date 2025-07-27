@@ -89,19 +89,39 @@ pub fn Home() -> impl IntoView {
                             </a>
                         </p>
                         <div class="d-flex justify-content-start gap-3 pt-3 social">
-                            <a href="#about" class="btn btn-success">
+                            <a href=move || {
+                                let nomor = "6282323443535";
+                                let pesan = "Halo Bro, Gue pingin diskusi lebih lanjut nih";
+                                let wa_url = format!(
+                                    "https://wa.me/{}?text={}",
+                                    nomor,
+                                    urlencoding::encode(pesan)
+                                );
+                                wa_url
+                            } rel="noopener noreferrer" class="btn btn-success" target="_blank">
                                 <i class="bi bi-whatsapp me-2"></i>
                                 <span>Whatsapp</span>
                             </a>
-                            <a href="#about" class="btn btn-warning">
+                            <a href=move || {
+                                let email = "feryirawansyah09@gmail.com";
+                                let subject = "Halo Feri";
+                                let body = "Saya ingin kerja sama dengan Anda.";
+                                let mailto_url = format!(
+                                    "mailto:{}?subject={}&body={}",
+                                    email,
+                                    urlencoding::encode(subject),
+                                    urlencoding::encode(body)
+                                );
+                                mailto_url
+                            } class="btn btn-warning" target="_blank">
                                 <i class="bi bi-envelope me-2"></i>
                                 <span>Email</span>
                             </a>
-                            <a href="#about" class="btn btn-dark">
+                            <a href="https://github.com/feri-irawansyah" class="btn btn-dark" target="_blank">
                                 <i class="bi bi-github me-2"></i>
                                 <span>Github</span>
                             </a>
-                            <a href="#about" class="btn btn-danger">
+                            <a href="https://www.instagram.com/fery_ir.1" class="btn btn-danger" target="_blank">
                                 <i class="bi bi-instagram me-2"></i>
                                 <span>Instagram</span>
                             </a>

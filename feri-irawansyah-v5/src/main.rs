@@ -29,6 +29,7 @@ async fn main() -> std::io::Result<()> {
             .service(sitemap)
             .service(robots)
             .service(ogimage)
+            .service(bingsite)
             .leptos_routes(routes, {
                 let leptos_options = leptos_options.clone();
                 let gtm_script = r#"(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -50,7 +51,7 @@ async fn main() -> std::io::Result<()> {
                                     inner_html=gtm_script
                                 />
                                 <meta charset="utf-8" />
-                                <meta name="robots" content="index, follow" />
+                                <meta name="msvalidate.01" content="29DFF38B7F536DDD7EE4B6D31D0646F0" />
                                 <meta
                                     name="viewport"
                                     content="width=device-width, initial-scale=1"
@@ -113,6 +114,19 @@ async fn sitemap(
         "{site_root}/sitemap.xml"
     ))?)
 }
+
+#[cfg(feature = "ssr")]
+#[actix_web::get("BingSiteAuth.xml")]
+async fn bingsite(
+    leptos_options: actix_web::web::Data<leptos::config::LeptosOptions>,
+) -> actix_web::Result<actix_files::NamedFile> {
+    let leptos_options = leptos_options.into_inner();
+    let site_root = &leptos_options.site_root;
+    Ok(actix_files::NamedFile::open(format!(
+        "{site_root}/BingSiteAuth.xml"
+    ))?)
+}
+
 
 #[cfg(feature = "ssr")]
 #[actix_web::get("robots.txt")]

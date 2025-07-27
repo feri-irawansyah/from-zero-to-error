@@ -48,10 +48,21 @@ pub fn Table(table: String, data: RwSignal<Vec<serde_json::Value>>, loading_data
         <div class="table-container">
 
             <div class="toolbar">
-                <div class="left-toolbar"></div>
+                <div class="left-toolbar">
+                    <button class="btn btn-success btn-sm">
+                        <i class="bi bi-plus me-1 text-white"></i>
+                        <span class="d-none d-md-inline text-white">New Record</span>
+                    </button>
+                </div>
                 <div class="right-toolbar">
                     <button class="btn btn-primary btn-sm" on:click=move |_| refresh(page.get())>
                         <i class="bi bi-arrow-clockwise"></i>
+                    </button>
+                    <button class="btn btn-primary btn-sm ms-1">
+                        <i class="bi bi-clock"></i>
+                    </button>
+                    <button class="btn btn-primary btn-sm ms-1">
+                        <i class="bi bi-search"></i>
                     </button>
                 </div>
             </div>
@@ -84,7 +95,9 @@ pub fn Table(table: String, data: RwSignal<Vec<serde_json::Value>>, loading_data
                                             // sembunyikan
                                             // sembunyikan
                                             // sembunyikan
-                                            view! { <th>{col.title.clone()}</th> }
+                                            view! { 
+                                                <th>{col.title.clone()}</th>
+                                             }
                                         })
                                         .collect_view()
                                 }}
