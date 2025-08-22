@@ -12,6 +12,8 @@ pub fn ModalDetail() -> impl IntoView {
             title=modal_state.title
             size=Some("xl".to_string())
             modal_id="detail".to_string()
+            control=true
+            event=Callback::new(move |_| {}) 
         >
             <Show
                 // ✅ cek Value::Null dulu

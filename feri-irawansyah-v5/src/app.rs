@@ -57,7 +57,11 @@ pub const BACKEND_URL: &str = "https://snakesystem-api.shuttle.app/api/v1";
     export function openModal(modal_id) {
         const modal = new bootstrap.Modal(document.getElementById(modal_id));
         modal.show();
+    }
 
+    export function closeModal(modal_id) {
+        const modal = new bootstrap.Modal(document.getElementById(modal_id));
+        modal.hide();
     }
 ")]
 extern "C" {
@@ -65,6 +69,7 @@ extern "C" {
     pub fn refreshAOS();
     pub fn initTypeit();
     pub fn openModal(modal_id: String);
+    pub fn closeModal(modal_id: String);
 }
 
 #[allow(non_snake_case)]
@@ -149,26 +154,68 @@ pub fn App() -> impl IntoView {
                             <Route path=WildcardSegment("any") view=NotFound />
                         </Routes>
                     </div>
-                    <ModalContainer
-                        title=modal_state.title
-                        size=Some("lg".to_string())
-                        modal_id="aboutApp".to_string()
-                    >
-                        <Show
-                            when=move || modal_state.title.get() != ""
-                            fallback=move || view! { <h1 class="text-center">Loading...</h1> }
-                        >
-                            {move || {
-                                view! {
-                                    <div class="row">
-                                        <div class="col-12">{state.name.get()}</div>
-                                    </div>
-                                }
-                            }}
-                        </Show>
-                    </ModalContainer>
                 </div>
+                <ModalContainer
+                    title=modal_state.title
+                    size=Some("md".to_string())
+                    modal_id="about-app".to_string()
+                    control=false
+                    event=Callback::new(move |_| {})
+                >
+                    <Show
+                        when=move || modal_state.title.get() != ""
+                        fallback=move || view! { <h1 class="text-center">Loading...</h1> }
+                    >
+                        {move || {
+                            view! {
+                                <AboutApp />
+                            }
+                        }}
+                    </Show>
+                </ModalContainer>
             </main>
         </Router>
+    }
+}
+
+#[allow(non_snake_case)]
+#[component]
+pub fn AboutApp() -> impl IntoView {
+    let state = expect_context::<AppState>();
+    view! {
+        <div class="row">
+            <div class="col-12 mb-5">
+                {state.name.get()}
+                <div class="btn-group version">
+                    <button type="button" class="btn btn-danger btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        V5.0.0
+                    </button>
+                    <ul class="dropdown-menu px-1">
+                        <li><a class="dropdown-item bg-danger" href="https://feri-irawansyah.my.id">Latest(5.0.0) <i class="bi bi-check"></i></a></li>
+                        <li><hr class="dropdown-divider"/></li>
+                        <li><a class="dropdown-item" href="https://feri-irawansyah.github.io">V4.0.0</a></li>
+                        <li><a class="dropdown-item" href="#">V3.0.0</a></li>
+                        <li><a class="dropdown-item" href="#">V2.0.0</a></li>
+                        <li><a class="dropdown-item" href="#">V1.0.0</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-12 mb-5">
+                Theme
+                <div class="btn-group theme">
+                    <button type="button" class="btn btn-success btn-sm dropdown-toggle">
+                        Coming Soon
+                    </button>
+                </div>
+            </div>
+            <div class="col-12 mb-5">
+                Language
+                <div class="btn-group language">
+                    <button type="button" class="btn btn-warning btn-sm dropdown-toggle">
+                        Coming Soon
+                    </button>
+                </div>
+            </div>
+        </div>
     }
 }

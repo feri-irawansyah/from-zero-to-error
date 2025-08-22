@@ -154,6 +154,8 @@ pub fn AdminLayout() -> impl IntoView {
             title=modal_state.title
             size=Some("xl".to_string())
             modal_id="note-content".to_string()
+            control=true
+            event=Callback::new(move |_| {}) 
         >
             <Show
                 when=move || modal_state.note_url.get().is_some()

@@ -19,7 +19,7 @@ pub fn Home() -> impl IntoView {
     let fetch_notes = move |page: i32| {
         let offset = (page - 1) * limit;
         let url = format!(
-            "{}/data/table?tablename=notes&offset={}&limit={}&nidkey=notes_id",
+            "{}/data/table?tablename=notes&offset={}&limit={}&nidkey=notes_id&sort=last_update&order=desc",
             BACKEND_URL,
             offset,
             limit
@@ -187,7 +187,7 @@ pub fn Home() -> impl IntoView {
                                     {
                                         notes_clone.iter().enumerate().map(|(i, note)| {
                                             view! {
-                                                <div class="col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay=format!("{}", i * 200) data-aos-duration="1000">
+                                                <div class="col-12 col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay=format!("{}", i * 200) data-aos-duration="1000">
                                                     <a class="card text-center" href=format!("/catatan/{}/{}", note.category.clone(), note.slug.clone(),)>
                                                         <img src=format!("https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/notes/{}.webp", note.slug.clone()) alt=note.title.clone()
                                                             on:error=move |e: leptos::ev::ErrorEvent| {
@@ -197,7 +197,7 @@ pub fn Home() -> impl IntoView {
                                                                     }
                                                                 }
                                                             }
-                                                            class="card-img rounded py-1"
+                                                            class="card-img rounded"
                                                             loading="lazy"
                                                         />
                                                         <div class="card-img-overlay">

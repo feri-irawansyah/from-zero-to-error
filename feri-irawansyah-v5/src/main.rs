@@ -76,18 +76,34 @@ async fn main() -> std::io::Result<()> {
                                 <div id="preloader"></div>
                                 <App />
                                 <script>
+                                    // Timeout fallback kalau kelamaan
+                                    let timeout = setTimeout(() => {
+                                        console.warn("❌ WASM gagal dimuat, reload halaman...");
+                                        location.reload(); // reload kalau lebih dari 15 detik
+                                    }, 15000);
+
+                                    // Observe kalau WASM sukses diload
                                     const observer = new PerformanceObserver((list) => {
                                         for (const entry of list.getEntries()) {
-                                        if (entry.name.endsWith(".wasm")) {
-                                            // WASM loaded, hilangkan loading screen
-                                            document.getElementById("preloader")?.remove();
-                                            observer.disconnect();
-                                        }
+                                            if (entry.name.endsWith(".wasm")) {
+                                                clearTimeout(timeout);
+                                                document.getElementById("preloader")?.remove();
+                                                observer.disconnect();
+                                            }
                                         }
                                     });
-
                                     observer.observe({ type: "resource", buffered: true });
+
+                                    // Tambahin handler kalau WASM gagal load
+                                    window.addEventListener("error", (e) => {
+                                        if (e.target && e.target.src && e.target.src.endsWith(".wasm")) {
+                                            console.warn("❌ WASM gagal dimuat, reload halaman...");
+                                            clearTimeout(timeout);
+                                            location.reload();
+                                        }
+                                    }, true);
                                 </script>
+
                                 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5JMF42BD"
                                 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             </body>

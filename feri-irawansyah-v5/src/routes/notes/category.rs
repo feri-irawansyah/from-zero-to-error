@@ -73,20 +73,11 @@ pub fn Category() -> impl IntoView {
                                     .enumerate()
                                     .map(|(i, note)| {
                                         view! {
-                                            <div
-                                                class="col-lg-4 col-md-6 d-flex align-items-stretch"
+                                            <div class="col-12 col-lg-4 col-md-6 d-flex align-items-stretch"
                                                 data-aos="fade-up"
                                                 data-aos-delay=format!("{}", i * 200)
-                                                data-aos-duration="1000"
-                                            >
-                                                <a
-                                                    class="card text-center"
-                                                    href=format!(
-                                                        "/catatan/{}/{}",
-                                                        note.category.clone(),
-                                                        note.slug.clone(),
-                                                    )
-                                                >
+                                                data-aos-duration="1000">
+                                                <a class="card text-center" href=format!("/catatan/{}/{}", note.category.clone(), note.slug.clone())>
                                                     <img
                                                         src=format!("https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/notes/{}.webp", note.slug.clone())
                                                         alt=note.title.clone()
@@ -97,7 +88,7 @@ pub fn Category() -> impl IntoView {
                                                                 }
                                                             }
                                                         }
-                                                        class="card-img rounded py-1"
+                                                        class="card-img rounded"
                                                         loading="lazy"
                                                     />
                                                     <div class="card-img-overlay">

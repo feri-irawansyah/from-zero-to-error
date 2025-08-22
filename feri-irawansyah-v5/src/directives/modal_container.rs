@@ -2,7 +2,7 @@ use leptos::prelude::*;
 
 #[allow(non_snake_case)]
 #[component]
-pub fn ModalContainer(children: Children, title: RwSignal<String>, size: Option<String>, modal_id: String) -> impl IntoView {
+pub fn ModalContainer(children: Children, title: RwSignal<String>, size: Option<String>, modal_id: String, event: Callback<(), ()>, control: bool) -> impl IntoView {
 
     view! {
         <div
@@ -15,7 +15,7 @@ pub fn ModalContainer(children: Children, title: RwSignal<String>, size: Option<
             aria-hidden="true"
         >
             <div class=format!(
-                "modal-dialog modal-dialog-scrollable modal-dialog modal-{}",
+                "modal-dialog modal-dialog-centered modal-dialog-scrollable modal-dialog modal-{}",
                 size.unwrap_or("md".to_string()),
             )>
                 <div class="modal-content">
@@ -35,11 +35,11 @@ pub fn ModalContainer(children: Children, title: RwSignal<String>, size: Option<
                     </div>
                     <div class="modal-body">{children()}</div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <button type="button" class=move || if control { "btn btn-secondary" } else { "btn btn-secondary w-100" } data-bs-dismiss="modal">
                             Close
                         </button>
-                        <button type="button" class="btn btn-primary">
-                            Understood
+                        <button type="button" class=move || if control { "btn btn-primary" } else { "d-none" } on:click=move |_| _ = event>
+                            Ok!
                         </button>
                     </div>
                 </div>
