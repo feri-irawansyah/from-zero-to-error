@@ -1,4 +1,5 @@
-#![recursion_limit = "512"]
+#![recursion_limit = "1024"]
+#![type_length_limit = "2097152"]
 
 #[cfg(feature = "ssr")]
 #[actix_web::main]
