@@ -39,21 +39,6 @@ pub const BACKEND_URL: &str = "https://snakesystem-api.shuttle.app/api/v1";
         });
     }
 
-    export function initTypeit() {
-        window.startTypeIt = function () {
-        new TypeIt(`#typewriter`, {
-            strings: ['Programmer', 'Software Engineer', 'Freelancer'],
-            speed: 100,
-            breakLines: false,
-            loop: true,
-            deleteSpeed: 50,
-            nextStringDelay: 1000,
-            waitUntilVisible: true,
-        }).go();
-        };
-
-    }
-
     export function openModal(modal_id) {
         const modal = new bootstrap.Modal(document.getElementById(modal_id));
         modal.show();
@@ -67,7 +52,6 @@ pub const BACKEND_URL: &str = "https://snakesystem-api.shuttle.app/api/v1";
 extern "C" {
     fn initAOS();
     pub fn refreshAOS();
-    pub fn initTypeit();
     pub fn openModal(modal_id: String);
     pub fn closeModal(modal_id: String);
 }

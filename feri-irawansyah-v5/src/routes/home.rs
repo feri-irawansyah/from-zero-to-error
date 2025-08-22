@@ -2,7 +2,7 @@ use gloo_net::http::Request;
 use leptos::{prelude::*, task::spawn_local};
 use wasm_bindgen::JsCast;
 use leptos::web_sys::HtmlImageElement;
-use crate::{app::{initTypeit, BACKEND_URL}, components::{card_loading::CardLoading, skill_slider::{SkillMarquee, SkillSignals}}, contexts::{index::format_wib_date, models::{AppState, Notes, NotesData, Skill, SkillsData}}};
+use crate::{app::{BACKEND_URL}, components::{card_loading::CardLoading, skill_slider::{SkillMarquee, SkillSignals}}, contexts::{index::format_wib_date, models::{AppState, Notes, NotesData, Skill, SkillsData}}};
 
 #[allow(non_snake_case)]
 #[component]
@@ -258,7 +258,7 @@ pub fn Typewriter() -> impl IntoView {
 
     // Jalankan JS saat mount
     Effect::new(move |_| {
-        initTypeit();
+        // initTypeit();
     });
 
     view! {
