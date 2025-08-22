@@ -2,22 +2,8 @@ use gloo_net::http::Request;
 use leptos::{prelude::*, task::spawn_local};
 #[cfg(feature = "ssr")]
 use pulldown_cmark::{html::push_html, CodeBlockKind, Event, Options, Parser, Tag, TagEnd, CowStr};
-
 #[cfg(feature = "ssr")]
 use syntect::{highlighting::ThemeSet, parsing::SyntaxSet};
-
-// fn markdown_to_html(md: &str) -> String {
-//     let mut options = Options::empty();
-//     options.insert(Options::ENABLE_STRIKETHROUGH);
-//     options.insert(Options::ENABLE_TABLES);
-//     options.insert(Options::ENABLE_FOOTNOTES);
-//     options.insert(Options::ENABLE_TASKLISTS);
-
-//     let parser = Parser::new_ext(md, options);
-//     let mut html_output = String::new();
-//     push_html(&mut html_output, parser);
-//     html_output
-// }
 
 #[server]
 pub async fn markdown_to_html(md: String) -> Result<String, ServerFnError> {
@@ -46,18 +32,14 @@ pub async fn markdown_to_html(md: String) -> Result<String, ServerFnError> {
                 lang = info.to_string();
                 buffer.clear();
             }
-            Event::Text(text) if in_code_block => {
-                buffer.push_str(&text);
-            }
+            Event::Text(text) if in_code_block => buffer.push_str(&text),
             Event::End(TagEnd::CodeBlock) if in_code_block => {
                 in_code_block = false;
                 let syntax = ps.find_syntax_by_token(&lang).unwrap_or_else(|| ps.find_syntax_plain_text());
                 let highlighted = syntect::html::highlighted_html_for_string(&buffer, &ps, syntax, theme).unwrap();
                 events.push(Event::Html(CowStr::Boxed(highlighted.into_boxed_str())));
             }
-            _ if !in_code_block => {
-                events.push(event);
-            }
+            _ if !in_code_block => events.push(event),
             _ => {}
         }
     }
@@ -73,25 +55,31 @@ pub fn MarkdownFromUrl(url: RwSignal<Option<String>>) -> impl IntoView {
     let (html, set_html) = signal::<Option<String>>(None);
     let (error, set_error) = signal::<Option<String>>(None);
 
-    spawn_local({
-        let set_content = set_content.clone();
-        let set_error = set_error.clone();
-        async move {
-            if let Some(url) = url.get() {
-                match Request::get(url.as_str()).send().await {
+    // ✅ Reaktif terhadap perubahan `url`
+    Effect::new(move |_| {
+        let url_val = url.get(); // akses reaktif aman di Effect
+        set_error.set(None);
+        set_html.set(None);
+        set_content.set(None);
+
+        if let Some(url) = url_val {
+            let set_content = set_content.clone();
+            let set_error = set_error.clone();
+            spawn_local(async move {
+                match Request::get(&url).send().await {
                     Ok(res) => match res.text().await {
                         Ok(text) => set_content.set(Some(text)),
                         Err(e) => set_error.set(Some(format!("Error reading text: {e}"))),
                     },
                     Err(e) => set_error.set(Some(format!("Fetch error: {e}"))),
                 }
-            } else {
-                set_error.set(Some("URL is empty".to_string()));
-            }
+            });
+        } else {
+            set_error.set(Some("URL is empty".to_string()));
         }
     });
 
-    // Convert markdown ke HTML pake server function
+    // Convert markdown -> HTML tiap kali `content` berubah
     Effect::new(move |_| {
         if let Some(md) = content.get() {
             let set_html = set_html.clone();
@@ -111,7 +99,9 @@ pub fn MarkdownFromUrl(url: RwSignal<Option<String>>) -> impl IntoView {
                 when=move || html.get().is_some()
                 fallback=move || view! { <p>Loading markdown...</p> }
             >
-                {move || view! { <div inner_html=html.get().unwrap()></div> }}
+                {move || {
+                    html.get().map(|h| view! { <div inner_html=h></div> })
+                }}
             </Show>
 
             {move || error.get().map(|e| view! { <p class="text-danger">Error: {e}</p> })}

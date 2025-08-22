@@ -20,9 +20,12 @@ pub fn Category() -> impl IntoView {
 
     let limit = 9;
 
-    let filter = serde_json::json!({
-        "category": category.get().unwrap_or_else(|| "".to_string())
+    let filter = Memo::new(move |_| {
+        serde_json::json!({
+            "category": category.get().unwrap_or_else(|| "".to_string())
+        })
     });
+
 
     let fetch_notes = move |page: i32| {
         let offset = (page - 1) * limit;
@@ -31,7 +34,7 @@ pub fn Category() -> impl IntoView {
             BACKEND_URL,
             offset,
             limit,
-            urlencoding::encode(&filter.to_string())
+            urlencoding::encode(&filter.get().to_string())
         );
 
         spawn_local(async move {
@@ -66,76 +69,73 @@ pub fn Category() -> impl IntoView {
                 >
                     <div class="row list-notes">
                         {move || {
-                            let notes_clone = notes.get().clone();
-                            {
-                                notes_clone
-                                    .iter()
-                                    .enumerate()
-                                    .map(|(i, note)| {
-                                        view! {
-                                            <div class="col-12 col-lg-4 col-md-6 d-flex align-items-stretch"
-                                                data-aos="fade-up"
-                                                data-aos-delay=format!("{}", i * 200)
-                                                data-aos-duration="1000">
-                                                <a class="card text-center" href=format!("/catatan/{}/{}", note.category.clone(), note.slug.clone())>
-                                                    <img
-                                                        src=format!("https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/notes/{}.webp", note.slug.clone())
-                                                        alt=note.title.clone()
-                                                        on:error=move |e: leptos::ev::ErrorEvent| {
-                                                            if let Some(target) = e.target() {
-                                                                if let Ok(img) = target.dyn_into::<HtmlImageElement>() {
-                                                                    img.set_src("https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/notes/default.webp");
-                                                                }
+                            notes.get()
+                                .iter()
+                                .enumerate()
+                                .map(|(i, note)| {
+                                    view! {
+                                        <div class="col-12 col-lg-4 col-md-6 d-flex align-items-stretch"
+                                            data-aos="fade-up"
+                                            data-aos-delay=format!("{}", i * 200)
+                                            data-aos-duration="1000">
+                                            <a class="card text-center" href=format!("/catatan/{}/{}", note.category.clone(), note.slug.clone())>
+                                                <img
+                                                    src=format!("https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/notes/{}.webp", note.slug.clone())
+                                                    alt=note.title.clone()
+                                                    on:error=move |e: leptos::ev::ErrorEvent| {
+                                                        if let Some(target) = e.target() {
+                                                            if let Ok(img) = target.dyn_into::<HtmlImageElement>() {
+                                                                img.set_src("https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/notes/default.webp");
                                                             }
                                                         }
-                                                        class="card-img rounded"
-                                                        loading="lazy"
-                                                    />
-                                                    <div class="card-img-overlay">
-                                                        <div class="hashtag">
-                                                            {
-                                                                let list_hashtag = note
-                                                                    .hashtag
-                                                                    .clone()
-                                                                    .unwrap_or(vec!["".to_string()]);
-                                                                list_hashtag
-                                                                    .iter()
-                                                                    .map(|hashtag| view! { <span>#{hashtag.clone()}</span> })
-                                                                    .collect_view()
-                                                            }
-                                                        </div>
-                                                        <h5 class="card-title text-start text-uppercase">
-                                                            {note.title.clone()}
-                                                        </h5>
-                                                        <p class="card-text text-start">
-                                                            {note.description.clone()}
-                                                        </p>
+                                                    }
+                                                    class="card-img rounded"
+                                                    loading="lazy"
+                                                />
+                                                <div class="card-img-overlay">
+                                                    <div class="hashtag">
+                                                        {
+                                                            let list_hashtag = note
+                                                                .hashtag
+                                                                .clone()
+                                                                .unwrap_or(vec!["".to_string()]);
+                                                            list_hashtag
+                                                                .iter()
+                                                                .map(|hashtag| view! { <span>#{hashtag.clone()}</span> })
+                                                                .collect_view()
+                                                        }
                                                     </div>
-                                                    <div class="card-footer text-body-secondary">
-                                                        <div class="d-flex justify-content-between">
-                                                            <div class="d-flex gap-2">
-                                                                <img
-                                                                    class="rounded-circle"
-                                                                    src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/logo-ss.webp"
-                                                                    style="width: 1.5rem; height: 1.5rem;"
-                                                                    loading="lazy"
-                                                                />
-                                                                <span>{move || state.name.get()}</span>
-                                                            </div>
-                                                            <small class="text-white date">
-                                                                {format_wib_date(&note.last_update)}
-                                                            </small>
-                                                            <small class="text-white read">
-                                                                Read more <i class="bi bi-arrow-right"></i>
-                                                            </small>
+                                                    <h5 class="card-title text-start text-uppercase">
+                                                        {note.title.clone()}
+                                                    </h5>
+                                                    <p class="card-text text-start">
+                                                        {note.description.clone()}
+                                                    </p>
+                                                </div>
+                                                <div class="card-footer text-body-secondary">
+                                                    <div class="d-flex justify-content-between">
+                                                        <div class="d-flex gap-2">
+                                                            <img
+                                                                class="rounded-circle"
+                                                                src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/logo-ss.webp"
+                                                                style="width: 1.5rem; height: 1.5rem;"
+                                                                loading="lazy"
+                                                            />
+                                                            <span>{move || state.name.get()}</span>
                                                         </div>
+                                                        <small class="text-white date">
+                                                            {format_wib_date(&note.last_update)}
+                                                        </small>
+                                                        <small class="text-white read">
+                                                            Read more <i class="bi bi-arrow-right"></i>
+                                                        </small>
                                                     </div>
-                                                </a>
-                                            </div>
-                                        }
-                                    })
-                                    .collect_view()
-                            }
+                                                </div>
+                                            </a>
+                                        </div>
+                                    }
+                                })
+                                .collect_view()
                         }}
                     </div>
 

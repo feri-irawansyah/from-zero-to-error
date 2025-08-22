@@ -1,0 +1,43 @@
+# Redirect HTTP to HTTPS
+server {
+    listen 80;
+    listen [::]:80;
+    server_name feri-irawansyah.my.id www.feri-irawansyah.my.id;
+
+    return 301 https://$host$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    listen [::]:443 ssl ipv6only=on;
+    server_name feri-irawansyah.my.id www.feri-irawansyah.my.id;
+
+    ssl_certificate /etc/letsencrypt/live/feri-irawansyah.my.id/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/feri-irawansyah.my.id/privkey.pem;
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+    # ✅ Semua static file dilayani langsung dari folder ini
+    root /root/leptos-site;
+
+    # ✅ Coba file langsung, kalau tidak ada baru proxy ke SSR
+    location / {
+        try_files $uri $uri/ @leptos_ssr;
+        add_header Cache-Control "public, max-age=31536000";
+    }
+
+    location @leptos_ssr {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+    }
+
+    # Optional: serve favicon atau file statik langsung
+    location ~* \.(ico|png|jpg|jpeg|gif|css|js|svg|woff|woff2|ttf|eot)$ {
+        expires 30d;
+        access_log off;
+       proxy_pass http://127.0.0.1:3000;
+    }
+
+}

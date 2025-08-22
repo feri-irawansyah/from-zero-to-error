@@ -21,31 +21,34 @@ impl SkillSignals {
 #[allow(non_snake_case)]
 #[component]
 pub fn SkillMarquee(skills: RwSignal<Vec<Skill>>, position: Option<String>) -> impl IntoView {
-    let list_skills = skills.get();
-    let doubled_skills = list_skills.iter().chain(list_skills.iter()); // duplikat biar seamless scroll
-
     view! {
         <div class="marquee-wrapper">
             <div class=format!(
                 "marquee-content marquee-{}",
                 position.unwrap_or("".to_string()),
             )>
-                {doubled_skills
-                    .map(|skill| {
-                        view! {
-                            <div class="marquee-item">
-                                <img
-                                    class="skill-icon"
-                                    src=format!("{}", skill.image_src.clone())
-                                    alt=skill.title.clone()
-                                    loading="lazy"
-                                />
-                                <span>{skill.title.clone()}</span>
-                            </div>
-                        }
-                    })
-                    .collect::<Vec<_>>()}
+                {move || {
+                    let list_skills = skills.get();
+                    let doubled_skills = list_skills.iter().chain(list_skills.iter());
+
+                    doubled_skills
+                        .map(|skill| {
+                            view! {
+                                <div class="marquee-item">
+                                    <img
+                                        class="skill-icon"
+                                        src=skill.image_src.clone()
+                                        alt=skill.title.clone()
+                                        loading="lazy"
+                                    />
+                                    <span>{skill.title.clone()}</span>
+                                </div>
+                            }
+                        })
+                        .collect::<Vec<_>>()
+                }}
             </div>
         </div>
     }
 }
+

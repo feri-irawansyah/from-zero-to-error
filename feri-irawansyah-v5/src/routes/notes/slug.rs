@@ -1,5 +1,5 @@
 use gloo_net::http::Request;
-use leptos::{leptos_dom::logging::console_log, prelude::*, task::spawn_local};
+use leptos::{prelude::*, task::spawn_local};
 use leptos_router::hooks::use_params_map;
 use wasm_bindgen::JsCast;
 use leptos::web_sys::HtmlImageElement;
@@ -9,31 +9,29 @@ use crate::{app::BACKEND_URL, components::card_loading::CardLoading, contexts::{
 #[component]
 pub fn Slug() -> impl IntoView {
     let params = use_params_map();
-    let slug = params.with(|p| p.get("slug"));
+    let slug = Memo::new(move |_| {
+        params.with(|p| p.get("slug").unwrap_or_default())
+    });
     let content: RwSignal<Option<String>> = RwSignal::new(None);
     let note: RwSignal<Note> = RwSignal::new(Note::new());
     let state = expect_context::<AppState>();
     let (loading, set_loading) = signal(false);
 
-    let slug_name = slug.clone().unwrap_or("".to_string());
-
     Effect::new(move |_| {
-
-        let url = format!(
-            "{}/library/get-library/{}",
-            BACKEND_URL,
-            slug_name
-        );
+        let slug_name = slug.get(); // ✅ reactive
+        let url = format!("{}/library/get-library/{}", BACKEND_URL, slug_name);
 
         spawn_local(async move {
             set_loading(true);
             if let Ok(response) = Request::get(&url).send().await {
                 if let Ok(data) = response.json::<NoteData>().await {
                     note.set(data.data);
-                    state.title.set(note.get().title.clone());
-                    content.set(Some(note.get().content.clone()));
-                } else {
-                    console_log(format!("Error parsing JSON: {:?}", response.status()).as_str());
+
+                    note.with_untracked(|n| {
+                        state.title.set(n.title.clone());
+                        content.set(Some(n.content.clone()));
+                    });
+
                 }
             }
             set_loading(false);
@@ -71,7 +69,7 @@ pub fn Slug() -> impl IntoView {
                                         loading="lazy"
                                     />
                                 </a>
-                                <p class="text-muted">{format_wib_date(&note.get().last_update)}</p>
+                                <p class="text-muted">{move || format_wib_date(&note.get().last_update)}</p>
                             </div>
                         </div>
                         <div class="w-100 slug-content" data-aos="fade-up" data-aos-duration="1000">
@@ -79,7 +77,7 @@ pub fn Slug() -> impl IntoView {
                                 <img
                                     class="img-fluid rounded"
                                     src=format!("https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/notes/{}.webp", note.get().slug)
-                                    alt=note.get().title
+                                    alt=move || note.get().title
                                     on:error=move |e: leptos::ev::ErrorEvent| {
                                         if let Some(target) = e.target() {
                                             if let Ok(img) = target.dyn_into::<HtmlImageElement>() {
