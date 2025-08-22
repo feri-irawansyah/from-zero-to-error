@@ -1,3 +1,6 @@
+#![recursion_limit = "256"]
+#![type_length_limit = "2097152"]
+
 pub mod app;
 pub mod contexts {
     pub mod index;
