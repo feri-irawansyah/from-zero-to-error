@@ -77,6 +77,8 @@ scp ~/rust-project/from-zero-to-error/feri-irawansyah-v5/target/release/feri-ira
 
 sudo nano /etc/nginx/nginx.conf
 
+sudo systemctl stop accounts-daemon.service aegis.service aliyun.service AssistDaemon.service unattended-upgrades.service
+
 http {
     # ... konfigurasi lainnya ...
 
