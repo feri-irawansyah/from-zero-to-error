@@ -7,8 +7,7 @@ use crate::{app::{BACKEND_URL}, components::{card_loading::CardLoading, skill_sl
 #[allow(non_snake_case)]
 #[component]
 pub fn Home() -> impl IntoView {
-
-    let state: AppState = expect_context::<AppState>();
+    
     let notes: RwSignal<Vec<Notes>> = RwSignal::new(vec![]);
     let (loading, set_loading) = signal(false);
     let (loading_skill, set_loading_skill) = signal(false);
@@ -128,124 +127,7 @@ pub fn Home() -> impl IntoView {
                         </div>
                         <hr />
                     </div>
-                    <div class="col-lg-12">
-                        <div class="d-flex flex-row justify-content-between" data-aos="fade-in" data-aos-delay="300">
-                            <h4 class="fw-bold">My <span class="text-primary">Tech Stack</span></h4>
-                        </div>
-                        <div class="row mb-3" data-aos="zoom-in" data-aos-delay="200">
-                            <Show
-                                when=move || !loading_skill.get()
-                                fallback=|| {
-                                    view! {
-                                        <div class="card card-marquee">
-                                            <a class="btn btn-primary disabled placeholder fw bold fs-4" aria-disabled="true">
-                                                Please wait...
-                                            </a>
-                                        </div>
-                                    }
-                                }
-                            >
-                                {move || {
-                                    view! {
-                                        <div class="card card-marquee">
-                                            <SkillMarquee
-                                                skills=signal_skills.programming
-                                                position=Some("left".to_string())
-                                            />
-                                            <SkillMarquee
-                                                skills=signal_skills.techstack
-                                                position=Some("right".to_string())
-                                            />
-                                            <SkillMarquee
-                                                skills=signal_skills.devops
-                                                position=Some("left".to_string())
-                                            />
-                                        </div>
-                                    }
-                                }}
-                            </Show>
-                        </div>
-                        <div class="d-flex flex-row justify-content-between" data-aos="fade-in" data-aos-delay="300" >
-                            <div class="col-lg-10">
-                                <hr />
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row justify-content-between" data-aos="fade-in" data-aos-delay="300" >
-                            <h4 class="fw-bold">Latest <span class="text-primary">Notes</span></h4>
-                            <a class="btn see-all" href="/catatan">
-                                See All
-                                <i class="bi bi-arrow-right"></i>
-                            </a>
-                        </div>
-                        <div class="row mb-3 latest-notes" data-aos="fade-in" data-aos-delay="300">
-                            <Show
-                                when=move || !loading.get()
-                                fallback=|| view! { <CardLoading delay=Some(300) count=Some(3) /> }
-                            >
-                                {move || {
-                                    notes.get().iter().enumerate().map(|(i, note)| {
-                                        view! {
-                                            <div class="col-12 col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay=format!("{}", i * 200) data-aos-duration="1000">
-                                                <a class="card text-center" href=format!("/catatan/{}/{}", note.category.clone(), note.slug.clone(),)>
-                                                    <img src=format!("https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/notes/{}.webp", note.slug.clone()) alt=note.title.clone()
-                                                        on:error=move |e: leptos::ev::ErrorEvent| {
-                                                            if let Some(target) = e.target() {
-                                                                if let Ok(img) = target.dyn_into::<HtmlImageElement>() {
-                                                                    img.set_src("https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/notes/default.webp");
-                                                                }
-                                                            }
-                                                        }
-                                                        class="card-img rounded"
-                                                        loading="lazy"
-                                                    />
-                                                    <div class="card-img-overlay">
-                                                        <div class="hashtag">
-                                                            {
-                                                                let list_hashtag = note
-                                                                    .hashtag
-                                                                    .clone()
-                                                                    .unwrap_or(vec!["".to_string()]);
-                                                                list_hashtag
-                                                                    .iter()
-                                                                    .map(|hashtag| view! { <span>#{hashtag.clone()}</span> })
-                                                                    .collect_view()
-                                                            }
-                                                        </div>
-                                                        <h5 class="card-title text-start text-uppercase">
-                                                            {note.title.clone()}
-                                                        </h5>
-                                                        <p class="card-text text-start">
-                                                            {note.description.clone()}
-                                                        </p>
-                                                    </div>
-                                                    <div class="card-footer text-body-secondary">
-                                                        <div class="d-flex justify-content-between">
-                                                            <div class="d-flex gap-1 author">
-                                                                <img
-                                                                    class="rounded-circle"
-                                                                    src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/logo-ss.webp"
-                                                                    style="width: 1.5rem; height: 1.5rem;"
-                                                                    loading="lazy"
-                                                                />
-                                                                <span>{move || state.name.get()}</span>
-                                                            </div>
-                                                            <small class="text-white date">
-                                                                {format_wib_date(&note.last_update)}
-                                                            </small>
-                                                            <small class="text-white read">
-                                                                Read more <i class="bi bi-arrow-right"></i>
-                                                            </small>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                        }
-                                    })
-                                    .collect_view()
-                                }}
-                            </Show>
-                        </div>
-                    </div>
+                    <HomeContent loading_skill={loading_skill} signal_skills={signal_skills} loading={loading} notes={notes} />
                 </div>
             </div>
         </section>
@@ -266,5 +148,133 @@ pub fn Typewriter() -> impl IntoView {
             <span id="typewriter" class="typewriter"></span>
             <span class="cursor">|</span>
         </h2>
+    }
+}
+
+#[allow(non_snake_case)]
+#[component]
+pub fn HomeContent(loading_skill: ReadSignal<bool>, signal_skills: SkillSignals, loading: ReadSignal<bool>, notes: RwSignal<Vec<Notes>>) -> impl IntoView {
+
+    let state: AppState = expect_context::<AppState>();
+
+    view! {
+        <div class="col-lg-12">
+            <div class="d-flex flex-row justify-content-between" data-aos="fade-in" data-aos-delay="300">
+                <h4 class="fw-bold">My <span class="text-primary">Tech Stack</span></h4>
+            </div>
+            <div class="row mb-3" data-aos="zoom-in" data-aos-delay="200">
+                <Show
+                    when=move || !loading_skill.get()
+                    fallback=|| {
+                        view! {
+                            <div class="card card-marquee">
+                                <a class="btn btn-primary disabled placeholder fw bold fs-4" aria-disabled="true">
+                                    Please wait...
+                                </a>
+                            </div>
+                        }
+                    }
+                >
+                    {move || {
+                        view! {
+                            <div class="card card-marquee">
+                                <SkillMarquee
+                                    skills=signal_skills.programming
+                                    position=Some("left".to_string())
+                                />
+                                <SkillMarquee
+                                    skills=signal_skills.techstack
+                                    position=Some("right".to_string())
+                                />
+                                <SkillMarquee
+                                    skills=signal_skills.devops
+                                    position=Some("left".to_string())
+                                />
+                            </div>
+                        }
+                    }}
+                </Show>
+            </div>
+            <div class="d-flex flex-row justify-content-between" data-aos="fade-in" data-aos-delay="300" >
+                <div class="col-lg-10">
+                    <hr />
+                </div>
+            </div>
+            <div class="d-flex flex-row justify-content-between" data-aos="fade-in" data-aos-delay="300" >
+                <h4 class="fw-bold">Latest <span class="text-primary">Notes</span></h4>
+                <a class="btn see-all" href="/catatan">
+                    See All
+                    <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+            <div class="row mb-3 latest-notes" data-aos="fade-in" data-aos-delay="300">
+                <Show
+                    when=move || !loading.get()
+                    fallback=|| view! { <CardLoading delay=Some(300) count=Some(3) /> }
+                >
+                    {move || {
+                        notes.get().iter().enumerate().map(|(i, note)| {
+                            view! {
+                                <div class="col-12 col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay=format!("{}", i * 200) data-aos-duration="1000">
+                                    <a class="card text-center" href=format!("/catatan/{}/{}", note.category.clone(), note.slug.clone(),)>
+                                        <img src=format!("https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/notes/{}.webp", note.slug.clone()) alt=note.title.clone()
+                                            on:error=move |e: leptos::ev::ErrorEvent| {
+                                                if let Some(target) = e.target() {
+                                                    if let Ok(img) = target.dyn_into::<HtmlImageElement>() {
+                                                        img.set_src("https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/notes/default.webp");
+                                                    }
+                                                }
+                                            }
+                                            class="card-img rounded"
+                                            loading="lazy"
+                                        />
+                                        <div class="card-img-overlay">
+                                            <div class="hashtag">
+                                                {
+                                                    let list_hashtag = note
+                                                        .hashtag
+                                                        .clone()
+                                                        .unwrap_or(vec!["".to_string()]);
+                                                    list_hashtag
+                                                        .iter()
+                                                        .map(|hashtag| view! { <span>#{hashtag.clone()}</span> })
+                                                        .collect_view()
+                                                }
+                                            </div>
+                                            <h5 class="card-title text-start text-uppercase">
+                                                {note.title.clone()}
+                                            </h5>
+                                            <p class="card-text text-start">
+                                                {note.description.clone()}
+                                            </p>
+                                        </div>
+                                        <div class="card-footer text-body-secondary">
+                                            <div class="d-flex justify-content-between">
+                                                <div class="d-flex gap-1 author">
+                                                    <img
+                                                        class="rounded-circle"
+                                                        src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/logo-ss.webp"
+                                                        style="width: 1.5rem; height: 1.5rem;"
+                                                        loading="lazy"
+                                                    />
+                                                    <span>{move || state.name.get()}</span>
+                                                </div>
+                                                <small class="text-white date">
+                                                    {format_wib_date(&note.last_update)}
+                                                </small>
+                                                <small class="text-white read">
+                                                    Read more <i class="bi bi-arrow-right"></i>
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            }
+                        })
+                        .collect_view()
+                    }}
+                </Show>
+            </div>
+        </div>
     }
 }
