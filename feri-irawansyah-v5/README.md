@@ -73,6 +73,10 @@ This template itself is released under the Unlicense. You should replace the LIC
 
 sudo systemctl restart feri-irawansyah.service
 
+scp feri-irawansyah root@47.236.126.179:/root/leptos-site/
+
+scp -r site root@47.236.126.179:/root/leptos-site/target/
+
 scp ~/rust-project/from-zero-to-error/feri-irawansyah-v5/target/release/feri-irawansyah root@47.236.126.179:~/leptos-site/
 
 sudo nano /etc/nginx/nginx.conf

@@ -68,7 +68,7 @@ async fn main() -> std::io::Result<()> {
                                 <Meta name="canonical" content="https://feri-irawansyah.my.id/"/>
                                 <script src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/js/bootstrap.bundle.min.js"></script>
                                 <script src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/js/aos.min.js"></script>
-                                // <script src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/js/marquee.js"></script>
+                                <script src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/js/marquee.js"></script>
                                 <script src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/js/typeit.js"></script>
                                 
                             </head>
@@ -80,7 +80,7 @@ async fn main() -> std::io::Result<()> {
                                     let timeout = setTimeout(() => {
                                         console.warn("❌ WASM gagal dimuat, reload halaman...");
                                         location.reload(); // reload kalau lebih dari 15 detik
-                                    }, 1000);
+                                    }, 15000);
 
                                     // Observe kalau WASM sukses diload
                                     const observer = new PerformanceObserver((list) => {
