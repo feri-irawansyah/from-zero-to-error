@@ -41,10 +41,8 @@ pub fn Portfolio() -> impl IntoView {
 
     let fetch_skill = move |_| {
         let url = format!(
-            "{}/data/table?tablename=skills&offset={}&limit={}&nidkey=skill_id",
-            BACKEND_URL,
-            0,
-            50
+            "{}/data/table?tablename=skills&offset=0&limit=50&nidkey=skill_id&sort=skill_id&order=asc",
+            BACKEND_URL
         );
 
         spawn_local(async move {
