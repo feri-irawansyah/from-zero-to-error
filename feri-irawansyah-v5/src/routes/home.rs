@@ -2,7 +2,7 @@ use gloo_net::http::Request;
 use leptos::{prelude::*, task::spawn_local};
 use wasm_bindgen::JsCast;
 use leptos::web_sys::HtmlImageElement;
-use crate::{app::{BACKEND_URL}, components::{card_loading::CardLoading, skill_slider::{SkillMarquee, SkillSignals}}, contexts::{index::format_wib_date, models::{AppState, Notes, NotesData, Skill, SkillsData}}};
+use crate::{app::BACKEND_URL, components::{card_loading::CardLoading, skill_slider::{SkillMarquee, SkillSignals}}, contexts::{index::format_wib_date, models::{AppState, Notes, NotesData, Skill, SkillsData}}, directives::page_loader::page_loader};
 
 #[allow(non_snake_case)]
 #[component]
@@ -64,74 +64,76 @@ pub fn Home() -> impl IntoView {
         || ()
     });
 
-    view! {
-        <section id="hero" class="hero section" data-aos="zoom-in">
-            <img src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/hero-bg.webp" alt="" loading="lazy" />
-            <div class="container" data-aos="fade-up">
-                <div class="row justify-content-center">
-                    <div class="col-lg-10 mb-3 headline" data-aos="zoom-in" data-aos-delay="100">
-                        <h2>
-                            <span class="me-3 text-primary">Hi, "✨" "I'm"</span>
-                            Feri
-                        </h2>
-                        <p>
-                            <span class="text-info">Software Engineer</span>
-                            yang doyan ngoprek tentang teknologi. Gue paling suka pake
-                            <span class="text-info">Rust</span>
-                            bikin AI, Desktop, dan Web.
-                        </p>
-                        <p>
-                            Di waktu senggang, gue suka nulis artikel tentang teknologi, biasanya berkaitan sama hal yang gue ekplor untuk berbagi dan biar gue engga lupa juga.
-                            <a class="text-primary text-decoration-none fw-bold" href="/about" rel="noopener noreferrer">
-                                Selengkapnya
-                                <i class="bi bi-arrow-right"></i>
-                            </a>
-                        </p>
-                        <div class="d-flex justify-content-start gap-3 pt-3 social">
-                            <a href=move || {
-                                let nomor = "6282323443535";
-                                let pesan = "Halo Bro, Gue pingin diskusi lebih lanjut nih";
-                                let wa_url = format!(
-                                    "https://wa.me/{}?text={}",
-                                    nomor,
-                                    urlencoding::encode(pesan)
-                                );
-                                wa_url
-                            } rel="noopener noreferrer" class="btn btn-success" target="_blank">
-                                <i class="bi bi-whatsapp me-2"></i>
-                                <span>Whatsapp</span>
-                            </a>
-                            <a href=move || {
-                                let email = "feryirawansyah09@gmail.com";
-                                let subject = "Halo Feri";
-                                let body = "Saya ingin kerja sama dengan Anda.";
-                                let mailto_url = format!(
-                                    "mailto:{}?subject={}&body={}",
-                                    email,
-                                    urlencoding::encode(subject),
-                                    urlencoding::encode(body)
-                                );
-                                mailto_url
-                            } class="btn btn-warning" target="_blank">
-                                <i class="bi bi-envelope me-2"></i>
-                                <span>Email</span>
-                            </a>
-                            <a href="https://github.com/feri-irawansyah" class="btn btn-dark" target="_blank">
-                                <i class="bi bi-github me-2"></i>
-                                <span>Github</span>
-                            </a>
-                            <a href="https://www.instagram.com/fery_ir.1" class="btn btn-danger" target="_blank">
-                                <i class="bi bi-instagram me-2"></i>
-                                <span>Instagram</span>
-                            </a>
+    page_loader(
+        view! {
+            <section id="hero" class="hero section" data-aos="fade-in" data-aos-delay="800">
+                <img src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/hero-bg.webp" alt="" loading="lazy" />
+                <div class="container" data-aos="fade-up">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-10 mb-3 headline" data-aos="fade-in">
+                            <h2>
+                                <span class="me-3 text-primary">Hi, "✨" "I'm"</span>
+                                Feri
+                            </h2>
+                            <p>
+                                <span class="text-info">Software Engineer</span>
+                                yang doyan ngoprek tentang teknologi. Gue paling suka pake
+                                <span class="text-info">Rust</span>
+                                bikin AI, Desktop, dan Web.
+                            </p>
+                            <p>
+                                Di waktu senggang, gue suka nulis artikel tentang teknologi, biasanya berkaitan sama hal yang gue ekplor untuk berbagi dan biar gue engga lupa juga.
+                                <a class="text-primary text-decoration-none fw-bold" href="/about" rel="noopener noreferrer">
+                                    Selengkapnya
+                                    <i class="bi bi-arrow-right"></i>
+                                </a>
+                            </p>
+                            <div class="d-flex justify-content-start gap-3 pt-3 social">
+                                <a href=move || {
+                                    let nomor = "6282323443535";
+                                    let pesan = "Halo Bro, Gue pingin diskusi lebih lanjut nih";
+                                    let wa_url = format!(
+                                        "https://wa.me/{}?text={}",
+                                        nomor,
+                                        urlencoding::encode(pesan)
+                                    );
+                                    wa_url
+                                } rel="noopener noreferrer" class="btn btn-success" target="_blank">
+                                    <i class="bi bi-whatsapp me-2"></i>
+                                    <span>Whatsapp</span>
+                                </a>
+                                <a href=move || {
+                                    let email = "feryirawansyah09@gmail.com";
+                                    let subject = "Halo Feri";
+                                    let body = "Saya ingin kerja sama dengan Anda.";
+                                    let mailto_url = format!(
+                                        "mailto:{}?subject={}&body={}",
+                                        email,
+                                        urlencoding::encode(subject),
+                                        urlencoding::encode(body)
+                                    );
+                                    mailto_url
+                                } class="btn btn-warning" target="_blank">
+                                    <i class="bi bi-envelope me-2"></i>
+                                    <span>Email</span>
+                                </a>
+                                <a href="https://github.com/feri-irawansyah" class="btn btn-dark" target="_blank">
+                                    <i class="bi bi-github me-2"></i>
+                                    <span>Github</span>
+                                </a>
+                                <a href="https://www.instagram.com/fery_ir.1" class="btn btn-danger" target="_blank">
+                                    <i class="bi bi-instagram me-2"></i>
+                                    <span>Instagram</span>
+                                </a>
+                            </div>
+                            <hr />
                         </div>
-                        <hr />
+                        <HomeContent loading_skill={loading_skill} signal_skills={signal_skills} loading={loading} notes={notes} />
                     </div>
-                    <HomeContent loading_skill={loading_skill} signal_skills={signal_skills} loading={loading} notes={notes} />
                 </div>
-            </div>
-        </section>
-    }
+            </section>
+        }
+    )
 }
 
 #[allow(non_snake_case)]
@@ -159,10 +161,10 @@ pub fn HomeContent(loading_skill: ReadSignal<bool>, signal_skills: SkillSignals,
 
     view! {
         <div class="col-lg-12">
-            <div class="d-flex flex-row justify-content-between" data-aos="fade-in" data-aos-delay="300">
+            <div class="d-flex flex-row justify-content-between" data-aos="fade-in" data-aos-delay="100">
                 <h4 class="fw-bold">My <span class="text-primary">Tech Stack</span></h4>
             </div>
-            <div class="row mb-3" data-aos="zoom-in" data-aos-delay="200">
+            <div class="row mb-3" data-aos="fade-in" data-aos-delay="100">
                 <Show
                     when=move || !loading_skill.get()
                     fallback=|| {
@@ -195,7 +197,7 @@ pub fn HomeContent(loading_skill: ReadSignal<bool>, signal_skills: SkillSignals,
                     }}
                 </Show>
             </div>
-            <div class="d-flex flex-row justify-content-between" data-aos="fade-in" data-aos-delay="300" >
+            <div class="d-flex flex-row justify-content-between" data-aos="fade-in" data-aos-delay="200" >
                 <div class="col-lg-10">
                     <hr />
                 </div>
@@ -207,7 +209,7 @@ pub fn HomeContent(loading_skill: ReadSignal<bool>, signal_skills: SkillSignals,
                     <i class="bi bi-arrow-right"></i>
                 </a>
             </div>
-            <div class="row mb-3 latest-notes" data-aos="fade-in" data-aos-delay="300">
+            <div class="row mb-3 latest-notes" data-aos="fade-in" data-aos-delay="400">
                 <Show
                     when=move || !loading.get()
                     fallback=|| view! { <CardLoading delay=Some(300) count=Some(3) /> }
@@ -215,7 +217,7 @@ pub fn HomeContent(loading_skill: ReadSignal<bool>, signal_skills: SkillSignals,
                     {move || {
                         notes.get().iter().enumerate().map(|(i, note)| {
                             view! {
-                                <div class="col-12 col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay=format!("{}", i * 200) data-aos-duration="1000">
+                                <div class="col-12 col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay=format!("{}", i * 300) data-aos-duration="500">
                                     <a class="card text-center" href=format!("/catatan/{}/{}", note.category.clone(), note.slug.clone(),)>
                                         <img src=format!("https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/notes/{}.webp", note.slug.clone()) alt=note.title.clone()
                                             on:error=move |e: leptos::ev::ErrorEvent| {

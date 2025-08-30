@@ -1,7 +1,7 @@
 use gloo_net::http::Request;
 use leptos::{leptos_dom::logging::console_log, prelude::*, task::spawn_local};
 
-use crate::{app::BACKEND_URL, components::card_loading::CardLoading, contexts::models::{Portfolio, PortfolioData, Skill, SkillsData}};
+use crate::{app::BACKEND_URL, components::card_loading::CardLoading, contexts::models::{Portfolio, PortfolioData, Skill, SkillsData}, directives::page_loader::page_loader};
 
 #[allow(non_snake_case)]
 #[component]
@@ -71,117 +71,119 @@ pub fn Portfolio() -> impl IntoView {
     }
 
     
-    view! {
-        <section id="portfolio" class="portfolio section" data-aos="fade-right">
-            <div class="container section-title" data-aos="slide-right" data-aos-delay="100">
-                <h2>Porfolio</h2>
-                <p>
-                    I am a Software Engineer dedicated to building efficient, scalable, and user-friendly digital solutions. With a strong background in web development, I am used to working with various modern technologies such as JavaScript/TypeScript, Svelte, Rust, and various other frameworks.
-                </p>
-            </div>
-            <div class="container portfolio-container" data-aos="slide-right" data-aos-delay="200">
-                <div class="row justify-content-start">
-                    <Show
-                        when=move || !loading.get()
-                        fallback=|| view! { <CardLoading delay=Some(0) count=Some(2) /> }
-                    >
-                        {move || {
-                            portfolio.get().iter().map(|p| {
-                                let tech = p.tech.clone();
-                                view! {
-                                    <div class="col-lg-6 card-container">
-                                        <a class="card text-bg-dark" href=p.url_docs.clone() target="_blank">
-                                            <img src=format!("{}", p.image_src.clone()) class="card-img" alt=p.title.clone() loading="lazy"/>
-                                            <div class="card-img-overlay">
-                                                <h4 class="card-title view-project">
-                                                    <span>View Project</span>
-                                                    <i class="bi bi-eye"></i>
-                                                </h4>
-                                                <h5 class="card-title">{p.title.clone()}</h5>
-                                                <p class="card-text">{p.description.clone()}</p>
-                                                <div class=format!("pined {}", if p.pined { "" } else { "d-none" })>
-                                                    <span>Special</span>
-                                                    <i class="bi bi-pin-angle-fill"></i>
-                                                </div>
-                                                <div class="card-tech">
-                                                    <Show when=move || !loading_skill.get() fallback=|| view! { Loading... } >
-                                                        {tech.iter().filter_map(|id| {
-                                                            let skill_id = *id;
-                                                            let skill = find_skill_by_id(&skills.get(), skill_id);
-                                                            skill.map(|s| { view! {
-                                                                    <a class="tech" title=s.title.clone() href=format!("{}", s.url_docs.clone()) target="_blank">
-                                                                        <span>{s.title.clone()}</span>
-                                                                        <img src=format!("{}", s.image_src.clone()) alt=s.title.clone() loading="lazy"/>
-                                                                    </a>
-                                                                }
-                                                            })
-                                                        })
-                                                        .collect::<Vec<_>>()}
-                                                    </Show>
-                                                </div>
-                                            </div>
-                                            <div class="overlay-card"></div>
-                                        </a>
-                                    </div>
-                                }
-                            })
-                            .collect::<Vec<_>>()
-                        }}
-                        <nav class=move || {
-                            if total.get() as i32 <= limit { "d-none" } else { "pagination-container" }
-                        }>
-                            <ul class="pagination justify-content-end">
-                                <li class=format!(
-                                    "page-item {}",
-                                    if current_page.get() == 1 { "disabled" } else { "" },
-                                )>
-                                    <button
-                                        class="page-link"
-                                        on:click=move |_| set_current_page(current_page.get() - 1)
-                                    >
-                                        <i class="bi bi-caret-left-fill"></i>
-                                    </button>
-                                </li>
-                                {
-                                    let total_pages = (total.get() as f64 / limit as f64).ceil() as i32;
-                                    (1..=total_pages)
-                                        .map(|i| {
-                                            view! {
-                                                <li class=format!(
-                                                    "page-item {}",
-                                                    if current_page.get() == i { "active" } else { "" },
-                                                )>
-                                                    <button
-                                                        class="page-link"
-                                                        on:click=move |_| set_current_page(i)
-                                                    >
-                                                        {i}
-                                                    </button>
-                                                </li>
-                                            }
-                                        })
-                                        .collect_view()
-                                }
-                                <li class=format!(
-                                    "page-item {}",
-                                    if current_page.get() * limit >= total.get().try_into().unwrap() {
-                                        "disabled"
-                                    } else {
-                                        ""
-                                    },
-                                )>
-                                    <button
-                                        class="page-link"
-                                        on:click=move |_| set_current_page(current_page.get() + 1)
-                                    >
-                                        <i class="bi bi-caret-right-fill"></i>
-                                    </button>
-                                </li>
-                            </ul>
-                        </nav>
-                    </Show>
+    page_loader(
+        view! {
+            <section id="portfolio" class="portfolio section" data-aos="fade-right" data-aos-delay="900">
+                <div class="container section-title" data-aos="slide-right" data-aos-delay="1000">
+                    <h2>Porfolio</h2>
+                    <p>
+                        I am a Software Engineer dedicated to building efficient, scalable, and user-friendly digital solutions. With a strong background in web development, I am used to working with various modern technologies such as JavaScript/TypeScript, Svelte, Rust, and various other frameworks.
+                    </p>
                 </div>
-            </div>
-        </section>
-    }
+                <div class="container portfolio-container" data-aos="slide-right" data-aos-delay="1100">
+                    <div class="row justify-content-start">
+                        <Show
+                            when=move || !loading.get()
+                            fallback=|| view! { <CardLoading delay=Some(0) count=Some(2) /> }
+                        >
+                            {move || {
+                                portfolio.get().iter().map(|p| {
+                                    let tech = p.tech.clone();
+                                    view! {
+                                        <div class="col-lg-6 card-container">
+                                            <a class="card text-bg-dark" href=p.url_docs.clone() target="_blank">
+                                                <img src=format!("{}", p.image_src.clone()) class="card-img" alt=p.title.clone() loading="lazy"/>
+                                                <div class="card-img-overlay">
+                                                    <h4 class="card-title view-project">
+                                                        <span>View Project</span>
+                                                        <i class="bi bi-eye"></i>
+                                                    </h4>
+                                                    <h5 class="card-title">{p.title.clone()}</h5>
+                                                    <p class="card-text">{p.description.clone()}</p>
+                                                    <div class=format!("pined {}", if p.pined { "" } else { "d-none" })>
+                                                        <span>Special</span>
+                                                        <i class="bi bi-pin-angle-fill"></i>
+                                                    </div>
+                                                    <div class="card-tech">
+                                                        <Show when=move || !loading_skill.get() fallback=|| view! { Loading... } >
+                                                            {tech.iter().filter_map(|id| {
+                                                                let skill_id = *id;
+                                                                let skill = find_skill_by_id(&skills.get(), skill_id);
+                                                                skill.map(|s| { view! {
+                                                                        <a class="tech" title=s.title.clone() href=format!("{}", s.url_docs.clone()) target="_blank">
+                                                                            <span>{s.title.clone()}</span>
+                                                                            <img src=format!("{}", s.image_src.clone()) alt=s.title.clone() loading="lazy"/>
+                                                                        </a>
+                                                                    }
+                                                                })
+                                                            })
+                                                            .collect::<Vec<_>>()}
+                                                        </Show>
+                                                    </div>
+                                                </div>
+                                                <div class="overlay-card"></div>
+                                            </a>
+                                        </div>
+                                    }
+                                })
+                                .collect::<Vec<_>>()
+                            }}
+                            <nav class=move || {
+                                if total.get() as i32 <= limit { "d-none" } else { "pagination-container" }
+                            }>
+                                <ul class="pagination justify-content-end">
+                                    <li class=format!(
+                                        "page-item {}",
+                                        if current_page.get() == 1 { "disabled" } else { "" },
+                                    )>
+                                        <button
+                                            class="page-link"
+                                            on:click=move |_| set_current_page(current_page.get() - 1)
+                                        >
+                                            <i class="bi bi-caret-left-fill"></i>
+                                        </button>
+                                    </li>
+                                    {
+                                        let total_pages = (total.get() as f64 / limit as f64).ceil() as i32;
+                                        (1..=total_pages)
+                                            .map(|i| {
+                                                view! {
+                                                    <li class=format!(
+                                                        "page-item {}",
+                                                        if current_page.get() == i { "active" } else { "" },
+                                                    )>
+                                                        <button
+                                                            class="page-link"
+                                                            on:click=move |_| set_current_page(i)
+                                                        >
+                                                            {i}
+                                                        </button>
+                                                    </li>
+                                                }
+                                            })
+                                            .collect_view()
+                                    }
+                                    <li class=format!(
+                                        "page-item {}",
+                                        if current_page.get() * limit >= total.get().try_into().unwrap() {
+                                            "disabled"
+                                        } else {
+                                            ""
+                                        },
+                                    )>
+                                        <button
+                                            class="page-link"
+                                            on:click=move |_| set_current_page(current_page.get() + 1)
+                                        >
+                                            <i class="bi bi-caret-right-fill"></i>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </Show>
+                    </div>
+                </div>
+            </section>
+        }
+    )
 }

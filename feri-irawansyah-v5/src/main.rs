@@ -73,7 +73,7 @@ async fn main() -> std::io::Result<()> {
                                 
                             </head>
                             <body class="dark-background">
-                                <div id="preloader"></div>
+                                <div id="preloader"><div id="loader"></div></div>
                                 <App />
                                 <script>
                                     // Timeout fallback kalau kelamaan

@@ -1,7 +1,7 @@
 use gloo_net::http::Request;
 use leptos::{leptos_dom::logging::console_log, prelude::*, task::spawn_local};
 
-use crate::{app::BACKEND_URL, components::about_tab::AboutTab, contexts::{index::hitung_usia, models::{Skill, SkillsData}}};
+use crate::{app::BACKEND_URL, components::about_tab::AboutTab, contexts::{index::hitung_usia, models::{Skill, SkillsData}}, directives::page_loader::page_loader};
 
 #[allow(non_snake_case)]
 #[component]
@@ -9,41 +9,43 @@ pub fn About() -> impl IntoView {
 
     let menu_item = RwSignal::new("Intro");
     
-    view! {
-        <section id="about" class="about section" data-aos="fade-right">
+    page_loader(
+        view! {
+            <section id="about" class="about section" data-aos="fade-right" data-aos-delay="800">
 
-            <div class="container section-title" data-aos="slide-right" data-aos-delay="100">
-                <h2>About Me</h2>
-            </div>
-            <div class="container" data-aos="slide-right" data-aos-delay="200">
-
-                <div class="row justify-content-start">
-                    <AboutTab menu_item=menu_item />
+                <div class="container section-title" data-aos="slide-right" data-aos-delay="200">
+                    <h2>About Me</h2>
                 </div>
-                <div class="row justify-content-start">
-                    <div class="col-12 content">
-                        {move || {
-                            match menu_item.get() {
-                                "Intro" => view! { <Intro /> }.into_any(),
-                                "Experience" => view! { <Experience /> }.into_any(),
-                                "Skills" => view! { <Skills /> }.into_any(),
-                                "Journey" => {
-                                    view! {
-                                        <h2>
-                                            <Journey />
-                                        </h2>
+                <div class="container" data-aos="slide-right" data-aos-delay="200">
+
+                    <div class="row justify-content-start">
+                        <AboutTab menu_item=menu_item />
+                    </div>
+                    <div class="row justify-content-start">
+                        <div class="col-12 content">
+                            {move || {
+                                match menu_item.get() {
+                                    "Intro" => view! { <Intro /> }.into_any(),
+                                    "Experience" => view! { <Experience /> }.into_any(),
+                                    "Skills" => view! { <Skills /> }.into_any(),
+                                    "Journey" => {
+                                        view! {
+                                            <h2>
+                                                <Journey />
+                                            </h2>
+                                        }
+                                            .into_any()
                                     }
-                                        .into_any()
+                                    "Certifications" => view! { <h2>Certifications</h2> }.into_any(),
+                                    _ => view! { <h2>Intro</h2> }.into_any(),
                                 }
-                                "Certifications" => view! { <h2>Certifications</h2> }.into_any(),
-                                _ => view! { <h2>Intro</h2> }.into_any(),
-                            }
-                        }}
+                            }}
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
-    }
+            </section>
+        }
+    )
 }
 
 #[allow(non_snake_case)]

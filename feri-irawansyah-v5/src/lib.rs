@@ -40,6 +40,7 @@ pub mod directives {
     pub mod markdown;
     pub mod table;
     pub mod modal_container;
+    pub mod page_loader;
 }
 pub mod middleware {
     pub mod session;

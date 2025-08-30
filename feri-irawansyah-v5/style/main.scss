@@ -283,7 +283,7 @@ h6 {
 # Navigation Menu
 --------------------------------------------------------------*/
 .menu-list {
-  z-index: 9999;
+  z-index: -1 !important;
   background-color: var(--background-color);
   height: 100vh;
   display: flex;
@@ -434,25 +434,47 @@ h6 {
 # Preloader
 --------------------------------------------------------------*/
 #preloader {
+  // position: fixed;
+  // inset: 0;
+  // z-index: 999999;
+  // overflow: hidden;
+  // background: var(--background-color);
+  // transition: all 0.6s ease-out;
+  width: 40px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:  $primary;
+  z-index: 999999; // max int32 🤯
+  box-shadow: 0 0 0 0 $primary;
+  animation: l2 1.5s infinite linear;
   position: fixed;
-  inset: 0;
-  z-index: 999999;
-  overflow: hidden;
-  background: var(--background-color);
-  transition: all 0.6s ease-out;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 #preloader:before {
+  // content: "";
+  // position: fixed;
+  // top: calc(50% - 30px);
+  // left: calc(50% - 30px);
+  // border: 6px solid #ffffff;
+  // border-color: $primary transparent $primary transparent;
+  // border-radius: 50%;
+  // width: 60px;
+  // height: 60px;
+  // animation: animate-preloader 1.5s linear infinite;
   content: "";
-  position: fixed;
-  top: calc(50% - 30px);
-  left: calc(50% - 30px);
-  border: 6px solid #ffffff;
-  border-color: $primary transparent $primary transparent;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  animation: animate-preloader 1.5s linear infinite;
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 0 0 0 $primary;
+  animation: inherit;
+  animation-delay: -1s;
+}
+
+#preloader:after {
+  animation-delay: -1s;
 }
 
 @keyframes animate-preloader {
@@ -462,6 +484,66 @@ h6 {
 
   100% {
     transform: rotate(360deg);
+  }
+}
+
+.lazy-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 99999; // max int32 🤯
+  isolation: isolate; // ini trik penting
+  background-color: #1b1b1b;
+  overflow: hidden;
+  animation: fadeBlur 1s ease forwards;
+  .loader {
+    width: 40px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background:  $primary;
+    z-index: 999999; // max int32 🤯
+    box-shadow: 0 0 0 0 $primary;
+    animation: l2 1.5s infinite linear;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .loader:before,
+  .loader:after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: 0 0 0 0 $primary;
+    animation: inherit;
+    animation-delay: -0.5s;
+  }
+  .loader:after {
+    animation-delay: -1s;
+  }
+}
+
+@keyframes l2 {
+    100% {box-shadow: 0 0 0 200px #0000}
+}
+
+@keyframes fadeBlur {
+  0% {
+    opacity: 0;
+    backdrop-filter: blur(20px);
+  }
+  20% {
+    opacity: 1;
+    backdrop-filter: blur(0px);
+  }
+  80% {
+    opacity: 1;
+    backdrop-filter: blur(0px);
+  }
+  100% {
+    opacity: 0;
+    backdrop-filter: blur(20px);
+    visibility: hidden;
   }
 }
 

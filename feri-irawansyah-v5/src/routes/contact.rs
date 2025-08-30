@@ -1,7 +1,7 @@
 use leptos::{leptos_dom::logging::console_log, prelude::*};
 use leptos_sweetalert::{Swal, SwalIcon, SwalOptions};
 
-use crate::{components::clock::Clock, contexts::models::EmailRequest, middleware::email::send_email};
+use crate::{components::clock::Clock, contexts::models::EmailRequest, directives::page_loader::page_loader, middleware::email::send_email};
 
 #[allow(non_snake_case)]
 #[component]
@@ -60,211 +60,213 @@ pub fn Contact() -> impl IntoView {
         }
     });
     
-    view! {
-        <section id="contact" class="contact section" data-aos="fade-right">
-            <div class="container section-title" data-aos="slide-right" data-aos-delay="100">
-                <h2>Contact Me</h2>
-            </div>
-            <div class="container contact-info" data-aos="slide-right" data-aos-delay="200">
-                <p>
-                    I am a Software Engineer dedicated to building efficient, scalable, and user-friendly digital solutions. With a strong background in web development, I am used to working with various modern technologies such as JavaScript/TypeScript, Svelte, Rust, and various other frameworks.
-                </p>
-                <div class="row">
-                    <div class="col-12 mb-3 d-flex gap-2 justify-content-start">
-                        <a
-                            class="btn btn-success"
-                            href="https://wa.me/6282323443535"
-                            target="_blank"
-                        >
-                            <i class="bi bi-whatsapp"></i>
-                            <span>WhatsApp</span>
-                        </a>
-                        <a
-                            class="btn btn-primary"
-                            href="https://wa.me/6282323443535"
-                            target="_blank"
-                        >
-                            <i class="bi bi-linkedin"></i>
-                            <span>Linkedin</span>
-                        </a>
-                        <a class="btn btn-info" href="https://wa.me/6282323443535" target="_blank">
-                            <i class="bi bi-twitter"></i>
-                            <span>Twitter</span>
-                        </a>
-                        <a class="btn btn-dark" href="https://wa.me/6282323443535" target="_blank">
-                            <i class="bi bi-github"></i>
-                            <span>GitHub</span>
-                        </a>
-                        <a
-                            class="btn btn-danger"
-                            href="https://wa.me/6282323443535"
-                            target="_blank"
-                        >
-                            <i class="bi bi-instagram"></i>
-                            <span>Instagram</span>
-                        </a>
-                    </div>
-                    <div class="col-lg-6 mb-3">
-                        <h4>
-                            <i class="bi bi-alarm me-2 text-primary"></i>
-                            Availability
-                        </h4>
-                        <div class="row">
-                            <div class="col-12 mb-3">
-                                <div class="card p-3">
-                                    <p class="card-text">
-                                        <i class="bi bi-clock"></i>
-                                        Jakarta Indonesia
-                                    </p>
-                                    <Clock />
+    page_loader(
+        view! {
+            <section id="contact" class="contact section" data-aos="fade-right" data-aos-delay="800">
+                <div class="container section-title" data-aos="fade-right" data-aos-delay="100">
+                    <h2>Contact Me</h2>
+                </div>
+                <div class="container contact-info" data-aos="fade-right" data-aos-delay="200">
+                    <p>
+                        I am a Software Engineer dedicated to building efficient, scalable, and user-friendly digital solutions. With a strong background in web development, I am used to working with various modern technologies such as JavaScript/TypeScript, Svelte, Rust, and various other frameworks.
+                    </p>
+                    <div class="row">
+                        <div class="col-12 mb-3 d-flex gap-2 justify-content-start">
+                            <a
+                                class="btn btn-success"
+                                href="https://wa.me/6282323443535"
+                                target="_blank"
+                            >
+                                <i class="bi bi-whatsapp"></i>
+                                <span>WhatsApp</span>
+                            </a>
+                            <a
+                                class="btn btn-primary"
+                                href="https://wa.me/6282323443535"
+                                target="_blank"
+                            >
+                                <i class="bi bi-linkedin"></i>
+                                <span>Linkedin</span>
+                            </a>
+                            <a class="btn btn-info" href="https://wa.me/6282323443535" target="_blank">
+                                <i class="bi bi-twitter"></i>
+                                <span>Twitter</span>
+                            </a>
+                            <a class="btn btn-dark" href="https://wa.me/6282323443535" target="_blank">
+                                <i class="bi bi-github"></i>
+                                <span>GitHub</span>
+                            </a>
+                            <a
+                                class="btn btn-danger"
+                                href="https://wa.me/6282323443535"
+                                target="_blank"
+                            >
+                                <i class="bi bi-instagram"></i>
+                                <span>Instagram</span>
+                            </a>
+                        </div>
+                        <div class="col-lg-6 mb-3">
+                            <h4>
+                                <i class="bi bi-alarm me-2 text-primary"></i>
+                                Availability
+                            </h4>
+                            <div class="row">
+                                <div class="col-12 mb-3">
+                                    <div class="card p-3">
+                                        <p class="card-text">
+                                            <i class="bi bi-clock"></i>
+                                            Jakarta Indonesia
+                                        </p>
+                                        <Clock />
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-12 mb-3">
-                                <div class="card p-3">
-                                    <div
-                                        class="alert alert-primary d-flex align-items-center"
-                                        role="alert"
-                                    >
-                                        <i class="bi bi-info-circle me-2"></i>
-                                        <div>
-                                            Response time: I typically respond within 24-48 hours.
+                                <div class="col-12 mb-3">
+                                    <div class="card p-3">
+                                        <div
+                                            class="alert alert-primary d-flex align-items-center"
+                                            role="alert"
+                                        >
+                                            <i class="bi bi-info-circle me-2"></i>
+                                            <div>
+                                                Response time: I typically respond within 24-48 hours.
+                                            </div>
                                         </div>
-                                    </div>
 
-                                    <div class="d-flex justify-content-between">
-                                        <span>Monday - Friday</span>
-                                        <div
-                                            class="alert alert-primary p-1 d-flex align-items-center"
-                                            role="alert"
-                                        >
-                                            <div>09:00 - 17:00</div>
+                                        <div class="d-flex justify-content-between">
+                                            <span>Monday - Friday</span>
+                                            <div
+                                                class="alert alert-primary p-1 d-flex align-items-center"
+                                                role="alert"
+                                            >
+                                                <div>09:00 - 17:00</div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="d-flex justify-content-between">
-                                        <span>Saturday</span>
-                                        <div
-                                            class="alert alert-primary p-1 d-flex align-items-center"
-                                            role="alert"
-                                        >
-                                            <div>By Appointment</div>
+                                        <div class="d-flex justify-content-between">
+                                            <span>Saturday</span>
+                                            <div
+                                                class="alert alert-primary p-1 d-flex align-items-center"
+                                                role="alert"
+                                            >
+                                                <div>By Appointment</div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="d-flex justify-content-between">
-                                        <span>Sunday</span>
-                                        <div
-                                            class="alert alert-primary p-1 d-flex align-items-center"
-                                            role="alert"
-                                        >
-                                            <div>Rest Day</div>
+                                        <div class="d-flex justify-content-between">
+                                            <span>Sunday</span>
+                                            <div
+                                                class="alert alert-primary p-1 d-flex align-items-center"
+                                                role="alert"
+                                            >
+                                                <div>Rest Day</div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-6 mb-3">
-                        <h4>
-                            <i class="bi bi-envelope me-2 text-primary"></i>
-                            Contact Me
-                        </h4>
-                        <form
-                            class="card p-3"
-                            on:submit=move |e| {
-                                e.prevent_default();
-                                let fullname = form().name.clone();
-                                let email = form().recipient.clone();
-                                let subject = form().subject.clone();
-                                let message = form().message.clone();
-                                if fullname.is_empty() || email.is_empty() || message.is_empty()
-                                    || subject.is_empty()
-                                {
-                                    Swal::fire(SwalOptions {
-                                        title: "Error",
-                                        text: "Please fill in all fields",
-                                        icon: SwalIcon::ERROR,
-                                        confirm_button_text: "OK",
-                                        show_cancel_button: false,
-                                        show_deny_button: false,
-                                        ..SwalOptions::default()
-                                    });
-                                    return;
-                                }
-                                on_submit.dispatch(());
-                            }
-                        >
-                            <div class="mb-3">
-                                <label for="fullname" class="form-label">
-                                    "Full Name"
-                                </label>
-                                <input
-                                    type="text"
-                                    class="form-control"
-                                    id="fullname"
-                                    prop:value=move || form().name.clone()
-                                    on:input=move |ev| {
-                                        form.update(|f| f.name = event_target_value(&ev));
+                        <div class="col-lg-6 mb-3">
+                            <h4>
+                                <i class="bi bi-envelope me-2 text-primary"></i>
+                                Contact Me
+                            </h4>
+                            <form
+                                class="card p-3"
+                                on:submit=move |e| {
+                                    e.prevent_default();
+                                    let fullname = form().name.clone();
+                                    let email = form().recipient.clone();
+                                    let subject = form().subject.clone();
+                                    let message = form().message.clone();
+                                    if fullname.is_empty() || email.is_empty() || message.is_empty()
+                                        || subject.is_empty()
+                                    {
+                                        Swal::fire(SwalOptions {
+                                            title: "Error",
+                                            text: "Please fill in all fields",
+                                            icon: SwalIcon::ERROR,
+                                            confirm_button_text: "OK",
+                                            show_cancel_button: false,
+                                            show_deny_button: false,
+                                            ..SwalOptions::default()
+                                        });
+                                        return;
                                     }
-                                />
-                            </div>
-
-                            <div class="row mb-3">
-                                <div class="col-lg-6">
-                                    <label for="email" class="form-label">
-                                        "Email address"
+                                    on_submit.dispatch(());
+                                }
+                            >
+                                <div class="mb-3">
+                                    <label for="fullname" class="form-label">
+                                        "Full Name"
                                     </label>
                                     <input
-                                        type="email"
+                                        type="text"
                                         class="form-control"
-                                        id="email"
-                                        prop:value=move || form().recipient.clone()
+                                        id="fullname"
+                                        prop:value=move || form().name.clone()
                                         on:input=move |ev| {
-                                            form.update(|f| f.recipient = event_target_value(&ev));
+                                            form.update(|f| f.name = event_target_value(&ev));
                                         }
                                     />
                                 </div>
 
-                                <div class="col-lg-6">
-                                    <label for="subject" class="form-label">
-                                        "Subject"
-                                    </label>
-                                    <select
-                                        class="form-select"
-                                        id="subject"
-                                        prop:value=move || form().subject.clone()
-                                        on:input=move |ev| {
-                                            form.update(|f| f.subject = event_target_value(&ev));
-                                        }
-                                    >
-                                        <option value="">"Choose..."</option>
-                                        <option value="Feedback">"Feedback"</option>
-                                        <option value="Support">"Support"</option>
-                                        <option value="Other">"Other"</option>
-                                    </select>
+                                <div class="row mb-3">
+                                    <div class="col-lg-6">
+                                        <label for="email" class="form-label">
+                                            "Email address"
+                                        </label>
+                                        <input
+                                            type="email"
+                                            class="form-control"
+                                            id="email"
+                                            prop:value=move || form().recipient.clone()
+                                            on:input=move |ev| {
+                                                form.update(|f| f.recipient = event_target_value(&ev));
+                                            }
+                                        />
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <label for="subject" class="form-label">
+                                            "Subject"
+                                        </label>
+                                        <select
+                                            class="form-select"
+                                            id="subject"
+                                            prop:value=move || form().subject.clone()
+                                            on:input=move |ev| {
+                                                form.update(|f| f.subject = event_target_value(&ev));
+                                            }
+                                        >
+                                            <option value="">"Choose..."</option>
+                                            <option value="Feedback">"Feedback"</option>
+                                            <option value="Support">"Support"</option>
+                                            <option value="Other">"Other"</option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="mb-3">
-                                <label for="message" class="form-label">
-                                    "Message"
-                                </label>
-                                <textarea
-                                    class="form-control"
-                                    id="message"
-                                    rows="3"
-                                    prop:value=move || form().message.clone()
-                                    on:input=move |ev| {
-                                        form.update(|f| f.message = event_target_value(&ev));
-                                    }
-                                ></textarea>
-                            </div>
+                                <div class="mb-3">
+                                    <label for="message" class="form-label">
+                                        "Message"
+                                    </label>
+                                    <textarea
+                                        class="form-control"
+                                        id="message"
+                                        rows="3"
+                                        prop:value=move || form().message.clone()
+                                        on:input=move |ev| {
+                                            form.update(|f| f.message = event_target_value(&ev));
+                                        }
+                                    ></textarea>
+                                </div>
 
-                            <button type="submit" class="btn btn-primary">
-                                "Submit"
-                            </button>
-                        </form>
+                                <button type="submit" class="btn btn-primary">
+                                    "Submit"
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
-    }
+            </section>
+        }
+    )
 }

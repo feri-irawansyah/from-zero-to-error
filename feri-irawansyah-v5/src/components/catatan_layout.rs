@@ -1,7 +1,7 @@
 use leptos::prelude::*;
 use leptos_router::{components::Outlet, hooks::use_params_map};
 
-use crate::contexts::models::AppState;
+use crate::{contexts::models::AppState, directives::page_loader::page_loader};
 
 #[allow(non_snake_case)]
 #[component]
@@ -22,51 +22,53 @@ pub fn CatatanLayout() -> impl IntoView {
         }
     });
 
-    view! {
-        <section id="catatan" class="catatan section" data-aos="fade-left">
+    page_loader(
+        view! {
+            <section id="catatan" class="catatan section" data-aos="fade-left">
 
-            <div class="container section-title" data-aos="fade-left">
+                <div class="container section-title" data-aos="fade-left">
 
-                <h2>Catatan {move || category.get()}</h2>
-                <Show when=move || { category.get().is_some() } fallback=|| view! { <span></span> }>
+                    <h2>Catatan {move || category.get()}</h2>
+                    <Show when=move || { category.get().is_some() } fallback=|| view! { <span></span> }>
+                        <Show
+                            when=move || { !slug.get().is_some() }
+                            fallback=move || {
+                                let cat = category.get().clone().unwrap_or("".to_string());
+                                view! {
+                                    <a class="btn text-start back" href=format!("/catatan/{}", cat)>
+                                        <i class="bi bi-arrow-left-circle me-2"></i>
+                                        Kembali
+                                    </a>
+                                }
+                            }
+                        >
+                            <a class="btn text-start back" href="/catatan">
+                                <i class="bi bi-arrow-left-circle me-2"></i>
+                                Kembali
+                            </a>
+                        </Show>
+                    </Show>
+                </div>
+
+                <div class="container content-wrapper" data-aos="fade-up" data-aos-delay="100">
                     <Show
-                        when=move || { !slug.get().is_some() }
-                        fallback=move || {
-                            let cat = category.get().clone().unwrap_or("".to_string());
+                        when=move || !state.title.get().is_empty()
+                        fallback=|| {
                             view! {
-                                <a class="btn text-start back" href=format!("/catatan/{}", cat)>
-                                    <i class="bi bi-arrow-left-circle me-2"></i>
-                                    Kembali
-                                </a>
+                                <p>
+                                    "Catatan gue tutorial, wawasan teknologi, opini gajelas, kadang membingungkan, dan ide - ide tentang teknologi yang disusun untuk memicu ide dan terkadang memecahkan masalah kadang juga engga."
+                                </p>
                             }
                         }
                     >
-                        <a class="btn text-start back" href="/catatan">
-                            <i class="bi bi-arrow-left-circle me-2"></i>
-                            Kembali
-                        </a>
+                        <h5 class="text-uppercase fw-bold">{move || state.title.get()}</h5>
+                        <hr />
                     </Show>
-                </Show>
-            </div>
 
-            <div class="container content-wrapper" data-aos="fade-up" data-aos-delay="100">
-                <Show
-                    when=move || !state.title.get().is_empty()
-                    fallback=|| {
-                        view! {
-                            <p>
-                                "Catatan gue tutorial, wawasan teknologi, opini gajelas, kadang membingungkan, dan ide - ide tentang teknologi yang disusun untuk memicu ide dan terkadang memecahkan masalah kadang juga engga."
-                            </p>
-                        }
-                    }
-                >
-                    <h5 class="text-uppercase fw-bold">{move || state.title.get()}</h5>
-                    <hr />
-                </Show>
+                    <Outlet />
 
-                <Outlet />
-
-            </div>
-        </section>
-    }
+                </div>
+            </section>
+        }
+    )
 }

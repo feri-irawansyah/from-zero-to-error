@@ -1,5 +1,7 @@
 use leptos::prelude::*;
 
+use crate::directives::page_loader::page_loader;
+
 #[allow(non_snake_case)]
 #[component]
 pub fn NotFound() -> impl IntoView {
@@ -22,24 +24,26 @@ pub fn NotFound() -> impl IntoView {
         window().history().unwrap().back().ok();
     };
 
-    view! {
-        <section id="notfound" class="notfound section">
-            <div class="container section-title" data-aos="zoom-in">
-                <h2>404</h2>
-                <p>Page Not Found</p>
-                <button class="btn btn-primary mt-3" on:click=go_back_and_reload>
-                    <i class="bi bi-arrow-left-circle me-2"></i>
-                    Kembali
-                </button>
-            </div>
-            <div class="container" data-aos="zoom-in" data-aos-delay="100">
-                <img
-                    class="img-fluid"
-                    src="https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif"
-                    alt="404"
-                    loading="lazy"
-                />
-            </div>
-        </section>
-    }
+    page_loader(
+        view! {
+            <section id="notfound" class="notfound section">
+                <div class="container section-title" data-aos="zoom-in" data-aos-delay="900">
+                    <h2>404</h2>
+                    <p>Page Not Found</p>
+                    <button class="btn btn-primary mt-3" on:click=go_back_and_reload>
+                        <i class="bi bi-arrow-left-circle me-2"></i>
+                        Kembali
+                    </button>
+                </div>
+                <div class="container" data-aos="zoom-in" data-aos-delay="1000">
+                    <img
+                        class="img-fluid"
+                        src="https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif"
+                        alt="404"
+                        loading="lazy"
+                    />
+                </div>
+            </section>
+        }
+    )
 }
