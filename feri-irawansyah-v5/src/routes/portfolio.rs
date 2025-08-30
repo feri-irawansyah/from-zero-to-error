@@ -20,7 +20,7 @@ pub fn Portfolio() -> impl IntoView {
     let fetch_portfolio = move |page: i32| {
         let offset = (page - 1) * limit;
         let url = format!(
-            "{}/data/table?tablename=portfolio&offset={}&limit={}&nidkey=portfolio_id&sort=last_update&order=desc",
+            "{}/data/table?tablename=portfolio&offset={}&limit={}&nidkey=portfolio_id&sort=pined&order=desc",
             BACKEND_URL,
             offset,
             limit
