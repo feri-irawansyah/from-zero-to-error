@@ -17,6 +17,20 @@ pub fn page_loader(content: impl IntoView + 'static) -> impl IntoView {
                <div class="loader"></div>
            </div>
        </Show>
-       {content}
+       
+       <Transition
+            // the fallback will show initially
+            // on subsequent reloads, the current child will
+            // continue showing
+            fallback=move || view! { 
+                <div class="lazy-loader">
+                    <div class="loader"></div>
+                </div>
+             }
+            // this will be set to `true` whenever the transition is ongoing
+            
+        >
+            {content}
+        </Transition>
     }
 }

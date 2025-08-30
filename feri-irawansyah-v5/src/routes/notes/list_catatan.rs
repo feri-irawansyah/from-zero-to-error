@@ -64,7 +64,7 @@ pub fn ListCatatan() -> impl IntoView {
     ];
      
     view! {
-        <div class="row" data-aos="slide-left">
+        <div class="row" data-aos="slide-up" data-aos-duration="800">
             {categories
                 .into_iter()
                 .enumerate()
@@ -73,7 +73,7 @@ pub fn ListCatatan() -> impl IntoView {
                         <div
                             class="col-md-4 my-3"
                             data-aos="fade-up"
-                            data-aos-delay=format!("{}", i * 100)
+                            data-aos-delay=format!("{}", 700 + (i * 100))
                         >
                             <a
                                 class="card p-3 text-decoration-none h-100"

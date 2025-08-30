@@ -54,7 +54,7 @@ pub fn Category() -> impl IntoView {
     });
 
     view! {
-        <div class="d-flex category" data-aos="slide-left">
+        <div class="d-flex category" data-aos="fade-in">
             <Show
                 when=move || { !loading.get() }
                 fallback=|| view! { 

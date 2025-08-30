@@ -161,10 +161,10 @@ pub fn HomeContent(loading_skill: ReadSignal<bool>, signal_skills: SkillSignals,
 
     view! {
         <div class="col-lg-12">
-            <div class="d-flex flex-row justify-content-between" data-aos="fade-in" data-aos-delay="100">
+            <div class="d-flex flex-row justify-content-between" data-aos="fade-in" data-aos-delay="800">
                 <h4 class="fw-bold">My <span class="text-primary">Tech Stack</span></h4>
             </div>
-            <div class="row mb-3" data-aos="fade-in" data-aos-delay="100">
+            <div class="row mb-3" data-aos="fade-in" data-aos-delay="800">
                 <Show
                     when=move || !loading_skill.get()
                     fallback=|| {
@@ -197,27 +197,27 @@ pub fn HomeContent(loading_skill: ReadSignal<bool>, signal_skills: SkillSignals,
                     }}
                 </Show>
             </div>
-            <div class="d-flex flex-row justify-content-between" data-aos="fade-in" data-aos-delay="200" >
+            <div class="d-flex flex-row justify-content-between" data-aos="fade-in" data-aos-delay="900" >
                 <div class="col-lg-10">
                     <hr />
                 </div>
             </div>
-            <div class="d-flex flex-row justify-content-between" data-aos="fade-in" data-aos-delay="300" >
+            <div class="d-flex flex-row justify-content-between" data-aos="fade-in" data-aos-delay="900" >
                 <h4 class="fw-bold">Latest <span class="text-primary">Notes</span></h4>
                 <a class="btn see-all" href="/catatan">
                     See All
                     <i class="bi bi-arrow-right"></i>
                 </a>
             </div>
-            <div class="row mb-3 latest-notes" data-aos="fade-in" data-aos-delay="400">
+            <div class="row mb-3 latest-notes" data-aos="fade-in" data-aos-delay="900">
                 <Show
                     when=move || !loading.get()
-                    fallback=|| view! { <CardLoading delay=Some(300) count=Some(3) /> }
+                    fallback=|| view! { <CardLoading delay=Some(0) count=Some(3) /> }
                 >
                     {move || {
                         notes.get().iter().enumerate().map(|(i, note)| {
                             view! {
-                                <div class="col-12 col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay=format!("{}", i * 300) data-aos-duration="500">
+                                <div class="col-12 col-lg-4 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay=format!("{}", 400 + (i * 100)) data-aos-duration="500">
                                     <a class="card text-center" href=format!("/catatan/{}/{}", note.category.clone(), note.slug.clone(),)>
                                         <img src=format!("https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/notes/{}.webp", note.slug.clone()) alt=note.title.clone()
                                             on:error=move |e: leptos::ev::ErrorEvent| {

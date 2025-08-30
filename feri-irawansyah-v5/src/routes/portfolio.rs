@@ -73,24 +73,24 @@ pub fn Portfolio() -> impl IntoView {
     
     page_loader(
         view! {
-            <section id="portfolio" class="portfolio section" data-aos="fade-right" data-aos-delay="900">
-                <div class="container section-title" data-aos="slide-right" data-aos-delay="1000">
+            <section id="portfolio" class="portfolio section" data-aos="fade-in" data-aos-delay="800">
+                <div class="container section-title" data-aos="fade-up" data-aos-delay="800">
                     <h2>Porfolio</h2>
-                    <p>
-                        I am a Software Engineer dedicated to building efficient, scalable, and user-friendly digital solutions. With a strong background in web development, I am used to working with various modern technologies such as JavaScript/TypeScript, Svelte, Rust, and various other frameworks.
-                    </p>
-                </div>
-                <div class="container portfolio-container" data-aos="slide-right" data-aos-delay="1100">
+                    </div>
+                <div class="container portfolio-container" data-aos="fade-up" data-aos-delay="900">
                     <div class="row justify-content-start">
+                        <p>
+                            I am a Software Engineer dedicated to building efficient, scalable, and user-friendly digital solutions. With a strong background in web development, I am used to working with various modern technologies such as JavaScript/TypeScript, Svelte, Rust, and various other frameworks.
+                        </p>
                         <Show
                             when=move || !loading.get()
                             fallback=|| view! { <CardLoading delay=Some(0) count=Some(2) /> }
                         >
                             {move || {
-                                portfolio.get().iter().map(|p| {
+                                portfolio.get().iter().enumerate().map(|(i, p)| {
                                     let tech = p.tech.clone();
                                     view! {
-                                        <div class="col-lg-6 card-container">
+                                        <div class="col-lg-6 card-container" data-aos="fade-up" data-aos-delay=format!("{}", 400 + (i * 100)) data-aos-duration="500">
                                             <a class="card text-bg-dark" href=p.url_docs.clone() target="_blank">
                                                 <img src=format!("{}", p.image_src.clone()) class="card-img" alt=p.title.clone() loading="lazy"/>
                                                 <div class="card-img-overlay">

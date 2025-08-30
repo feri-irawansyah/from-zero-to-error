@@ -115,6 +115,7 @@
     .marquee-content {
       padding: 5px !important;
       gap: 5px;
+      animation: scroll-left 10s linear infinite;
 
       .marquee-item {
         padding: 10px !important;
@@ -122,6 +123,9 @@
           display: none;
         }
       }
+    }
+    .marquee-right {
+      animation: scroll-right 10s linear infinite;
     }
   }
 }

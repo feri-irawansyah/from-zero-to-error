@@ -146,6 +146,7 @@ main {
     @media screen and (max-width: 768px) {
 
       .menu-list {
+        z-index: 99999999 !important;
         opacity: 0;
         width: 0 !important;
         transition: all 0.3s ease;
@@ -1436,14 +1437,20 @@ section,
 
   @media screen and (max-width: 768px) {
     .container {
-      max-height: 60vh;
+      max-height: 80vh;
       overflow-y: auto;
 
+      .card-img-overlay {
+        p {
+          font-size: 0.9rem !important;
+        }
+      }
+
       .tech {
-        padding: 0.2rem !important;
+        padding: 0.3rem !important;
         img {
-          width: 1rem !important;
-          height: 1rem !important;
+          width: 1.2rem !important;
+          height: 1.2rem !important;
         }
       }
     }
@@ -1454,14 +1461,25 @@ section,
 /*--------------------------------------------------------------
 # Services Section
 --------------------------------------------------------------*/
-.services .service-item {
-  background-color: var(--surface-color);
-  box-shadow: 0px 5px 90px 0px rgba(0, 0, 0, 0.1);
-  height: 100%;
-  padding: 60px 30px;
-  text-align: center;
-  transition: 0.3s;
-  border-radius: 5px;
+.services {
+  
+  .service-item {
+    background-color: var(--surface-color);
+    box-shadow: 0px 5px 90px 0px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    padding: 60px 30px;
+    text-align: center;
+    transition: 0.3s;
+    border-radius: 5px;
+  }
+
+    @media screen and (max-width: 768px) {
+    .container {
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    
+  }
 }
 
 .services .service-item .icon {
@@ -1664,8 +1682,20 @@ section,
 /*--------------------------------------------------------------
 # Contact Section
 --------------------------------------------------------------*/
-.contact .info-item+.info-item {
-  margin-top: 40px;
+.contact {
+  .info-item+.info-item {
+    margin-top: 40px;
+  }
+
+  @media screen and (max-width: 768px) {
+    .container {
+      overflow-x: hidden;
+      max-height: 80vh;
+      overflow-y: auto;
+      margin-bottom: 1rem;
+    }
+    
+  }
 }
 
 .contact .info-item i {

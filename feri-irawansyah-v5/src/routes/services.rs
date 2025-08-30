@@ -11,11 +11,11 @@ pub fn Services() -> impl IntoView {
             <section id="service" class="services section">
                 <div class="container section-title" data-aos="fade-left" data-aos-delay="900">
                     <h2>Services</h2>
-                    <p>Check our latest work</p>
                 </div>
 
                 <div class="container" data-aos="fade-up" data-aos-delay="900">
                     <div class="row gy-4">
+                        <p>Check our latest work</p>
 
                         <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="900">
                             <div class="service-item item-cyan position-relative">
