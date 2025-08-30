@@ -62,6 +62,10 @@ pub fn Contact() -> impl IntoView {
     
     page_loader(
         view! {
+            // Metadata
+            <leptos_meta::Title text="Contact | Feri Irawansyah"/>
+            <leptos_meta::Meta name="description" content="Kamu bisa menghubungin dan mengenal lebih dalam tentang Feri Irawansyah lewat contact, instagram dan linkedin"/>
+
             <section id="contact" class="contact section" data-aos="fade-right" data-aos-delay="800">
                 <div class="container section-title" data-aos="fade-right" data-aos-delay="100">
                     <h2>Contact Me</h2>

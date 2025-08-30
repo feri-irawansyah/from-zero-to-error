@@ -11,6 +11,10 @@ pub fn About() -> impl IntoView {
     
     page_loader(
         view! {
+            // Metadata
+            <leptos_meta::Title text="Tentang | Feri Irawansyah"/>
+            <leptos_meta::Meta name="description" content="Semua tentang Feri Irawansyah, cerita, petualangan dan pengetahuan teknologi dan latar belakang dari Feri Irawansyah"/>
+
             <section id="about" class="about section" data-aos="fade-right" data-aos-delay="800">
 
                 <div class="container section-title" data-aos="slide-right" data-aos-delay="200">

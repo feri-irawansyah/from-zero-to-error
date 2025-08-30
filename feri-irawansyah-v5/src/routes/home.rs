@@ -66,6 +66,10 @@ pub fn Home() -> impl IntoView {
 
     page_loader(
         view! {
+            // Metadata
+            <leptos_meta::Title text="Software Engineer | Feri Irawansyah"/>
+            <leptos_meta::Meta name="description" content="Website pribadi dari Feri Irawansyah, berisi karya-karya, catatan, pengetahuan teknologi yang dibuat oleh Feri Irawansyah"/>
+            
             <section id="hero" class="hero section" data-aos="fade-in" data-aos-delay="800">
                 <img src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/hero-bg.webp" alt="" loading="lazy" />
                 <div class="container" data-aos="fade-up">

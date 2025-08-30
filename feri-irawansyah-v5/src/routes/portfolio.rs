@@ -73,6 +73,10 @@ pub fn Portfolio() -> impl IntoView {
     
     page_loader(
         view! {
+            // Metadata
+            <leptos_meta::Title text="Portfolio | Feri Irawansyah"/>
+            <leptos_meta::Meta name="description" content="Kumpulan portfolio dan karya-karya dari Feri Irawansyah"/>
+            
             <section id="portfolio" class="portfolio section" data-aos="fade-in" data-aos-delay="800">
                 <div class="container section-title" data-aos="fade-up" data-aos-delay="800">
                     <h2>Porfolio</h2>

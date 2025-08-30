@@ -1,6 +1,6 @@
 use leptos::prelude::*;
 use leptos_sweetalert::*;
-use leptos_meta::{provide_meta_context, Stylesheet, Title};
+use leptos_meta::{provide_meta_context, Stylesheet};
 use leptos_router::{
     components::{ParentRoute, Route, Router, Routes}, StaticSegment, WildcardSegment
 };
@@ -101,9 +101,6 @@ pub fn App() -> impl IntoView {
             id="icons"
             href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
         />
-
-        // sets the document title
-        <Title text="Feri Irawansyah" />
 
         // content for this welcome page
         <Router>

@@ -39,7 +39,7 @@ async fn main() -> std::io::Result<()> {
                     })(window,document,'script','dataLayer','GTM-5JMF42BD');
                 "#;
                 move || {
-                    use leptos_meta::Meta;
+                    use leptos_meta::{Meta, Title};
 
                     view! {
                         <!DOCTYPE html>
@@ -50,6 +50,9 @@ async fn main() -> std::io::Result<()> {
                                     type="text/javascript"
                                     inner_html=gtm_script
                                 />
+                                                        
+                                // sets the document title
+                                <Title text="Feri Irawansyah | Software Engineer" />
                                 <meta charset="utf-8" />
                                 <meta name="msvalidate.01" content="29DFF38B7F536DDD7EE4B6D31D0646F0" />
                                 <meta
@@ -57,11 +60,22 @@ async fn main() -> std::io::Result<()> {
                                     content="width=device-width, initial-scale=1"
                                 />
                                 <Meta name="description" content="Website resmi Feri Irawansyah, Software Engineer Indonesia. Lihat portofolio, proyek, dan blog seputar teknologi."/>
+
+                                // Open Graph (untuk preview di sosial media & Google)
                                 <Meta property="og:title" content="Feri Irawansyah - Software Engineer"/>
                                 <Meta property="og:description" content="Portofolio dan proyek terkini Feri Irawansyah."/>
                                 <Meta property="og:image" content="https://feri-irawansyah.my.id/og.webp"/>
                                 <Meta property="og:url" content="https://feri-irawansyah.my.id"/>
+                                <Meta property="og:type" content="website"/>
+
                                 <Meta name="robots" content="index, follow"/>
+
+                                // Twitter Card
+                                <Meta name="twitter:card" content="summary_large_image"/>
+                                <Meta name="twitter:title" content="Feri Irawansyah | Software Engineer"/>
+                                <Meta name="twitter:description" content="Website resmi Feri Irawansyah, Software Engineer dari Indonesia."/>
+                                <Meta name="twitter:image" content="https://feri-irawansyah.my.id/og.webp"/>
+                                
                                 <AutoReload options=leptos_options.clone() />
                                 <HydrationScripts options=leptos_options.clone() />
                                 <MetaTags />

@@ -24,6 +24,10 @@ pub fn CatatanLayout() -> impl IntoView {
 
     page_loader(
         view! {
+            // Metadata
+            <leptos_meta::Title text="Catatan | Feri Irawansyah"/>
+            <leptos_meta::Meta name="description" content="Semua pengetahuan teknologi yang dibuat oleh Feri Irawansyah"/>
+
             <section id="catatan" class="catatan section" data-aos="fade-left">
 
                 <div class="container section-title" data-aos="fade-left">
