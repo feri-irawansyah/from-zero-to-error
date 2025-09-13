@@ -76,7 +76,7 @@ site-addr = "127.0.0.1:3000"
 reload-port = 3001
 # [Optional] Command to use when running end2end tests. It will run in the end2end dir.
 #   [Windows] for non-WSL use "npx.cmd playwright test"
-#bin-target-triple = "x86_64-unknown-linux-musl"
+bin-target-triple = "x86_64-unknown-linux-musl"
 #   This binary name can be checked in Powershell with Get-Command npx
 end2end-cmd = "npx playwright test"
 end2end-dir = "end2end"
