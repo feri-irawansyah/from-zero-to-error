@@ -30,6 +30,7 @@ async fn main() -> std::io::Result<()> {
             .service(robots)
             .service(ogimage)
             .service(bingsite)
+            .service(main_js)
             .leptos_routes(routes, {
                 let leptos_options = leptos_options.clone();
                 let gtm_script = r#"(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -40,6 +41,16 @@ async fn main() -> std::io::Result<()> {
                 "#;
                 move || {
                     use leptos_meta::{Meta, Title};
+
+                    // let json_ld = r#"
+                    //     {
+                    //     "@context": "https://schema.org",
+                    //     "@type": "WebSite",
+                    //     "name": "Feri Irawansyah",
+                    //     "url": "https://feri-irawansyah.my.id",
+                    //     "logo": "https://feri-irawansyah.my.id/og.webp"
+                    //     }
+                    // "#;
 
                     view! {
                         <!DOCTYPE html>
@@ -82,41 +93,16 @@ async fn main() -> std::io::Result<()> {
                                 <Meta name="canonical" content="https://feri-irawansyah.my.id/"/>
                                 <script src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/js/bootstrap.bundle.min.js"></script>
                                 <script src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/js/aos.min.js"></script>
-                                <script src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/js/marquee.js"></script>
+                                <script src="/main.js"></script>
                                 <script src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/js/typeit.js"></script>
                                 
                             </head>
                             <body class="dark-background">
-                                <div id="preloader"><div id="loader"></div></div>
+                                <div id="preloader" aria-label="Loading"><div id="loader" aria-label="Loading"></div></div>
+                                // <script type="application/ld+json">
+                                //     {json_ld}
+                                // </script>
                                 <App />
-                                <script>
-                                    // Timeout fallback kalau kelamaan
-                                    let timeout = setTimeout(() => {
-                                        console.warn("❌ WASM gagal dimuat, reload halaman...");
-                                        location.reload(); // reload kalau lebih dari 15 detik
-                                    }, 15000);
-
-                                    // Observe kalau WASM sukses diload
-                                    const observer = new PerformanceObserver((list) => {
-                                        for (const entry of list.getEntries()) {
-                                            if (entry.name.endsWith(".wasm")) {
-                                                clearTimeout(timeout);
-                                                document.getElementById("preloader")?.remove();
-                                                observer.disconnect();
-                                            }
-                                        }
-                                    });
-                                    observer.observe({ type: "resource", buffered: true });
-
-                                    // Tambahin handler kalau WASM gagal load
-                                    window.addEventListener("error", (e) => {
-                                        if (e.target && e.target.src && e.target.src.endsWith(".wasm")) {
-                                            console.warn("❌ WASM gagal dimuat, reload halaman...");
-                                            clearTimeout(timeout);
-                                            location.reload();
-                                        }
-                                    }, true);
-                                </script>
                                 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5JMF42BD"
                                 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             </body>
@@ -166,6 +152,18 @@ async fn robots(
     let site_root = &leptos_options.site_root;
     Ok(actix_files::NamedFile::open(format!(
         "{site_root}/robots.txt"
+    ))?)
+}
+
+#[cfg(feature = "ssr")]
+#[actix_web::get("main.js")]
+async fn main_js(
+    leptos_options: actix_web::web::Data<leptos::config::LeptosOptions>,
+) -> actix_web::Result<actix_files::NamedFile> {
+    let leptos_options = leptos_options.into_inner();
+    let site_root = &leptos_options.site_root;
+    Ok(actix_files::NamedFile::open(format!(
+        "{site_root}/main.js"
     ))?)
 }
 

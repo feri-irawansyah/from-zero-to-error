@@ -88,8 +88,8 @@ pub fn MenuList() -> impl IntoView {
                 </strong>. <p>All Rights Reserved</p>
                 <div class="credits">
                     Powered by <a target="_blank" href="https://leptos.dev">
-                        Rust Leptos
-                    </a> <i>"❤️"</i>
+                        Rust Leptos <img src="https://leptos-dev.translate.goog/favicon.ico" alt="leptos logo"/>
+                    </a> 
                 </div>
             </div>
         </div>

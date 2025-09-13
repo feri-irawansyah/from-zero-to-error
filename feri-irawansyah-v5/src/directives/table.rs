@@ -92,9 +92,6 @@ pub fn Table(table: String, data: RwSignal<Vec<serde_json::Value>>, loading_data
                                             _ => true,
                                         })
                                         .map(|col| {
-                                            // sembunyikan
-                                            // sembunyikan
-                                            // sembunyikan
                                             view! { 
                                                 <th>{col.title.clone()}</th>
                                              }

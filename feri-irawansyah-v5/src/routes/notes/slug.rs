@@ -1,8 +1,7 @@
 use gloo_net::http::Request;
 use leptos::{prelude::*, task::spawn_local};
 use leptos_router::hooks::use_params_map;
-use wasm_bindgen::JsCast;
-use leptos::web_sys::HtmlImageElement;
+
 use crate::{app::BACKEND_URL, components::card_loading::CardLoading, contexts::{index::format_wib_date, models::{AppState, Note, NoteData}}, directives::markdown::MarkdownFromUrl};
 
 #[allow(non_snake_case)]
@@ -29,6 +28,7 @@ pub fn Slug() -> impl IntoView {
 
                     note.with_untracked(|n| {
                         state.title.set(n.title.clone());
+                        state.note_url.set(n.content.clone());
                         content.set(Some(n.content.clone()));
                     });
 
@@ -73,21 +73,6 @@ pub fn Slug() -> impl IntoView {
                             </div>
                         </div>
                         <div class="w-100 slug-content" data-aos="fade-up" data-aos-duration="1000">
-                            <div class="image-content d-flex justify-content-center">
-                                <img
-                                    class="img-fluid rounded"
-                                    src=format!("https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/notes/{}.webp", note.get().slug)
-                                    alt=move || note.get().title
-                                    on:error=move |e: leptos::ev::ErrorEvent| {
-                                        if let Some(target) = e.target() {
-                                            if let Ok(img) = target.dyn_into::<HtmlImageElement>() {
-                                                img.set_src("https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/notes/default.webp");
-                                            }
-                                        }
-                                    }
-                                    loading="lazy"
-                                />
-                            </div>
                             <div class="markdown-body">
                                 <MarkdownFromUrl url=content />
                             </div>

@@ -1,30 +1,74 @@
 .markdown-body {
-  h1 {
-    font-size: 1.9rem;
-    font-weight: 600;
-    line-height: 1.5;
-    border-bottom: 2px solid $primary;
-    color: $success;
-  }
+  background-color: transparent;
+}
+$heading-sizes: (
+  h1: 1.9rem,
+  h2: 1.6rem,
+  h3: 1.4rem,
+  h4: 1.2rem,
+  h5: 1rem,
+  h6: 0.9rem
+);
 
-  h2 {
-    font-size: 1.6rem;
-    font-weight: 600;
-    line-height: 1.5;
-    color: $success;
-  }
+$heading-colors: (
+  h1: $success,
+  h2: $success,
+  h3: $info,
+  h4: $primary,
+  h5: $secondary,
+  h6: $dark
+);
 
-  h3 {
-    font-size: 1.4rem;
-    font-weight: 600;
-    line-height: 1.5;
-    color: $info;
+.markdown-content {
+  @each $tag, $size in $heading-sizes {
+    #{$tag} {
+      font-size: $size;
+      font-weight: 600;
+      line-height: 1.5;
+      color: map-get($heading-colors, $tag);
+
+      // contoh: kasih border bawah khusus H1
+      @if $tag == h1 {
+        border-bottom: 2px solid $primary;
+      }
+
+      // semua anak heading di dalam heading ikut gaya
+      * {
+        font-size: inherit;
+        font-weight: inherit;
+        line-height: inherit;
+        color: inherit;
+      }
+    }
   }
 
   pre {
     border-radius: 5px;
     padding: 1rem;
   }
+  summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+
+    // kasih gap biar marker agak jauh dari teks
+    gap: 0.5rem;
+
+    // tampilkan marker default
+    &::-webkit-details-marker {
+      display: inline-block;
+      font-size: 1.2em; // skala marker relatif ke teks heading
+      margin-right: 0.5rem;
+    }
+
+    // Firefox pakai ::marker
+    &::marker {
+      font-size: 1.2em;
+      margin-right: 0.5rem;
+    }
+  }
+
 }
 
 .card-marquee {

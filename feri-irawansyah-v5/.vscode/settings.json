@@ -5,5 +5,10 @@
             "component",
             "server"
         ],
+    },
+
+    "emmet.includeLanguages": {
+        "rust": "html"
     }
+
 }

@@ -28,10 +28,10 @@ pub fn ModalContainer(children: Children, title: RwSignal<String>, size: Option<
                         </Show>
                         <button
                             type="button"
-                            class="btn-close"
+                            class="btn-close-modal"
                             data-bs-dismiss="modal"
                             aria-label="Close"
-                        ></button>
+                        ><i class="bi bi-x-lg"></i></button>
                     </div>
                     <div class="modal-body">{children()}</div>
                     <div class="modal-footer">

@@ -293,7 +293,6 @@ h6 {
   justify-content: start;
   overflow-y: auto;
   padding: 2rem 0 !important;
-  // position: fixed;
 
   .real-image {
     width: 1.1rem !important;
@@ -313,11 +312,11 @@ h6 {
   ul {
     width: 100%;
     padding: 1rem;
-    // margin-bottom: 5rem;
+    flex: 1;                // isi ruang kosong
+    overflow-y: auto;       // kalau menu panjang bisa scroll
   }
 
   li {
-    margin: 1rem 0;
     text-align: center;
     width: 100%;
     padding: 0.3rem 0;
@@ -338,7 +337,7 @@ h6 {
       }
 
       &:hover {
-        background-color: #6c757d;
+        background-color: $dark;
         border-radius: 5px;
       }
     }
@@ -364,8 +363,14 @@ h6 {
   }
 
   .copyright {
+    margin-top: auto;       // dorong ke paling bawah
+    font-size: 0.85rem;
     text-align: center;
-    bottom: 3rem;
+
+    img {
+      width: 0.85rem;
+      height: 0.85rem;
+    }
   }
 }
 
@@ -435,17 +440,19 @@ h6 {
 # Preloader
 --------------------------------------------------------------*/
 #preloader {
-  // position: fixed;
-  // inset: 0;
-  // z-index: 999999;
-  // overflow: hidden;
-  // background: var(--background-color);
-  // transition: all 0.6s ease-out;
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  overflow: hidden;
+  background: var(--background-color);
+  transition: all 0.6s ease-out;
+}
+#loader {
   width: 40px;
   aspect-ratio: 1;
   border-radius: 50%;
   background:  $primary;
-  z-index: 999999; // max int32 🤯
+  z-index: 999999;
   box-shadow: 0 0 0 0 $primary;
   animation: l2 1.5s infinite linear;
   position: fixed;
@@ -454,17 +461,7 @@ h6 {
   transform: translate(-50%, -50%);
 }
 
-#preloader:before {
-  // content: "";
-  // position: fixed;
-  // top: calc(50% - 30px);
-  // left: calc(50% - 30px);
-  // border: 6px solid #ffffff;
-  // border-color: $primary transparent $primary transparent;
-  // border-radius: 50%;
-  // width: 60px;
-  // height: 60px;
-  // animation: animate-preloader 1.5s linear infinite;
+#loader:before {
   content: "";
   position: absolute;
   inset: 0;
@@ -1909,8 +1906,44 @@ section,
 # Catatan Section
 --------------------------------------------------------------*/
 .catatan {
+  .btn-zoom {
+    &:hover {
+      color: $primary;
+    }
+  }
+  .image-content {
+    position: absolute;
+    top: 0;
+    z-index: -2;
+    width: 100%;
+    display: flex;
+    justify-content: start !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    img {
+      width: 100% !important;
+      background-size: cover;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    &::after {
+      padding: 0 !important;
+      margin: 0 !important;
+      content: "" !important;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to top, rgb(37, 37, 37), #272626b6);
+      z-index: 1 !important;
+    }
+  }
   .content-wrapper {
-    margin-top: 1rem;
+    // margin-top: 1rem;
     max-height: 80vh;
     overflow-y: auto;
   }
@@ -2026,28 +2059,7 @@ section,
   }
 
   .slug-content {
-    .image-content {
-      display: flex;
-      justify-content: start !important;
-      margin-bottom: 1rem;
-      img {
-        width: 70% !important;
-        background-size: cover;
-        background-attachment: fixed;
-        background-repeat: no-repeat;
-      }
-
-      img::after {
-        content: "" !important;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(to top, #1b1b1b, #272626a6);
-        z-index: 99999 !important;
-      }
-    }
+    position: relative;
   }
 
   .back {
@@ -2330,4 +2342,50 @@ section,
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+#zoom-note {
+  .modal-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 10rem;
+    &:hover {
+      .btn-close-modal {
+        opacity: 1;
+      }
+    }
+    .btn-close-modal {
+      position: absolute;
+      margin: auto;
+      opacity: 0;
+      top: 2rem;
+      border: none;
+      background-color: $dark;
+      color: $danger;
+      font-size: 1.5rem;
+      font-weight: 900;
+      border-radius: 50%;
+      padding: 0.5rem 1rem;
+      z-index: 9999;
+      transition: opacity 0.3s ease;
+
+      &:hover {
+        background-color: $danger;
+        color: $dark;
+      }
+    }
+    .modal-title {
+      font-weight: bold;
+      font-size: 1.5rem;
+      text-transform: uppercase;
+    }
+  }
+  .modal-body {
+    padding: 1rem 10rem;
+  }
+  .modal-footer {
+    display: none !important;
+  }
 }

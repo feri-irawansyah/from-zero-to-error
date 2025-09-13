@@ -9,7 +9,7 @@ use wasm_bindgen::prelude::wasm_bindgen;
 use crate::{
     components:: {
         admin_layout::AdminLayout, catatan_layout::CatatanLayout, loading::LoadingScreen, menu_list::MenuList
-    }, contexts::models::{AppState, ModalState}, directives::modal_container::ModalContainer, middleware::session::SessionData, routes::{
+    }, contexts::models::{AppState, ModalState}, directives::{markdown::MarkdownFromUrl, modal_container::ModalContainer}, middleware::session::SessionData, routes::{
         about::About, admin::{dashboard::Dashboard, notes_management::NotesManagement, user_management::UserManagement}, contact::Contact, home::Home, login::Login, notes::{
             category::Category, list_catatan::ListCatatan, slug::Slug
         }, notfound::NotFound, portfolio::Portfolio, services::Services
@@ -153,6 +153,20 @@ pub fn App() -> impl IntoView {
                                 <AboutApp />
                             }
                         }}
+                    </Show>
+                </ModalContainer>
+                <ModalContainer
+                    title=modal_state.title
+                    size=Some("fullscreen".to_string())
+                    modal_id="zoom-note".to_string()
+                    control=true
+                    event=Callback::new(move |_| {}) 
+                >
+                    <Show
+                        when=move || modal_state.note_url.get().is_some()
+                        fallback=move || view! { <h1 class="text-center">Loading...</h1> }
+                    >
+                        {move || view! { <MarkdownFromUrl url=modal_state.note_url /> }}
                     </Show>
                 </ModalContainer>
             </main>
