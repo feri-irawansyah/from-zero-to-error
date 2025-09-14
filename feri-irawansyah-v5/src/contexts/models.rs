@@ -49,7 +49,7 @@ pub struct EmailRequest {
     pub message: String
 }
 
-#[derive(Clone, Debug, PartialEq, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 pub struct Skill {
     pub skill_id: i32,
     pub title: String,
@@ -60,10 +60,10 @@ pub struct Skill {
     pub star: i32,
     pub experience: i32,
     pub tech_category: String,
-    pub last_update: Option<String>,
+    pub last_update: Option<String>
 }
 
-#[derive(Clone, Debug, PartialEq, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 pub struct Portfolio {
     pub portfolio_id: i32,
     pub title: String,
@@ -84,7 +84,7 @@ pub struct Category {
     pub list_tech: &'static [&'static str],
 }
 
-#[derive(Clone, Debug, PartialEq, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 pub struct Notes {
     pub notes_id: i32,
     pub title: String,
@@ -110,7 +110,7 @@ pub struct HashTagData {
     pub data: Vec<HashTag>,
 }
 
-#[derive(Clone, Debug, PartialEq, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 pub struct Note {
     pub notes_id: i32,
     pub title: String,
@@ -140,7 +140,7 @@ pub struct NoteData {
     pub data: Note,
 }
 
-#[derive(Clone, Debug, PartialEq, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 pub struct NotesData {
     pub rows: Vec<Notes>,
     #[serde(rename = "totalNotFiltered")]
@@ -148,7 +148,7 @@ pub struct NotesData {
     pub total: usize,
 }
 
-#[derive(Clone, Debug, PartialEq, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 pub struct SkillsData {
     pub rows: Vec<Skill>,
     #[serde(rename = "totalNotFiltered")]
@@ -156,7 +156,7 @@ pub struct SkillsData {
     pub total: usize,
 }
 
-#[derive(Clone, Debug, PartialEq, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
 pub struct PortfolioData {
     pub rows: Vec<Portfolio>,
     #[serde(rename = "totalNotFiltered")]

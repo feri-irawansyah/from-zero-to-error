@@ -1,7 +1,7 @@
 use gloo_net::http::Request;
 use leptos::{leptos_dom::logging::console_log, prelude::*, task::spawn_local};
 
-use crate::{app::BACKEND_URL, components::about_tab::AboutTab, contexts::{index::hitung_usia, models::{Skill, SkillsData}}, directives::page_loader::page_loader};
+use crate::{app::BACKEND_URL, components::about_tab::AboutTab, contexts::{index::hitung_usia, models::{Skill, SkillsData}}};
 
 #[allow(non_snake_case)]
 #[component]
@@ -9,47 +9,45 @@ pub fn About() -> impl IntoView {
 
     let menu_item = RwSignal::new("Intro");
     
-    page_loader(
-        view! {
-            // Metadata
-            <leptos_meta::Title text="Tentang | Feri Irawansyah"/>
-            <leptos_meta::Meta name="description" content="Semua tentang Feri Irawansyah, cerita, petualangan dan pengetahuan teknologi dan latar belakang dari Feri Irawansyah"/>
+    view! {
+        // Metadata
+        <leptos_meta::Title text="Tentang | Feri Irawansyah"/>
+        <leptos_meta::Meta name="description" content="Semua tentang Feri Irawansyah, cerita, petualangan dan pengetahuan teknologi dan latar belakang dari Feri Irawansyah"/>
 
-            <section id="about" class="about section" data-aos="fade-right" data-aos-delay="800">
+        <section id="about" class="about section" data-aos="fade-right">
 
-                <div class="container section-title" data-aos="slide-right" data-aos-delay="200">
-                    <h2>About Me</h2>
+            <div class="container section-title" data-aos="slide-right">
+                <h2>About Me</h2>
+            </div>
+            <div class="container" data-aos="slide-right">
+
+                <div class="row justify-content-start">
+                    <AboutTab menu_item=menu_item />
                 </div>
-                <div class="container" data-aos="slide-right" data-aos-delay="200">
-
-                    <div class="row justify-content-start">
-                        <AboutTab menu_item=menu_item />
-                    </div>
-                    <div class="row justify-content-start">
-                        <div class="col-12 content">
-                            {move || {
-                                match menu_item.get() {
-                                    "Intro" => view! { <Intro /> }.into_any(),
-                                    "Experience" => view! { <Experience /> }.into_any(),
-                                    "Skills" => view! { <Skills /> }.into_any(),
-                                    "Journey" => {
-                                        view! {
-                                            <h2>
-                                                <Journey />
-                                            </h2>
-                                        }
-                                            .into_any()
+                <div class="row justify-content-start">
+                    <div class="col-12 content">
+                        {move || {
+                            match menu_item.get() {
+                                "Intro" => view! { <Intro /> }.into_any(),
+                                "Experience" => view! { <Experience /> }.into_any(),
+                                "Skills" => view! { <Skills /> }.into_any(),
+                                "Journey" => {
+                                    view! {
+                                        <h2>
+                                            <Journey />
+                                        </h2>
                                     }
-                                    "Certifications" => view! { <h2>Certifications</h2> }.into_any(),
-                                    _ => view! { <h2>Intro</h2> }.into_any(),
+                                        .into_any()
                                 }
-                            }}
-                        </div>
+                                "Certifications" => view! { <h2>Certifications</h2> }.into_any(),
+                                _ => view! { <h2>Intro</h2> }.into_any(),
+                            }
+                        }}
                     </div>
                 </div>
-            </section>
-        }
-    )
+            </div>
+        </section>
+    }
 }
 
 #[allow(non_snake_case)]

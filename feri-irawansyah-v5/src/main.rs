@@ -93,12 +93,12 @@ async fn main() -> std::io::Result<()> {
                                 <Meta name="canonical" content="https://feri-irawansyah.my.id/"/>
                                 <script src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/js/bootstrap.bundle.min.js"></script>
                                 <script src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/js/aos.min.js"></script>
-                                <script src="/main.js"></script>
+                                // <script src="/main.js"></script>
                                 <script src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/js/typeit.js"></script>
                                 
                             </head>
                             <body class="dark-background">
-                                <div id="preloader" aria-label="Loading"><div id="loader" aria-label="Loading"></div></div>
+                                // <div id="preloader" aria-label="Loading"><div id="loader" aria-label="Loading"></div></div>
                                 // <script type="application/ld+json">
                                 //     {json_ld}
                                 // </script>

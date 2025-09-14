@@ -73,7 +73,7 @@ pub fn ListCatatan() -> impl IntoView {
                         <div
                             class="col-md-4 my-3"
                             data-aos="fade-up"
-                            data-aos-delay=format!("{}", 700 + (i * 100))
+                            data-aos-delay=format!("{}", 100 + (i * 100))
                         >
                             <a
                                 class="card p-3 text-decoration-none h-100"

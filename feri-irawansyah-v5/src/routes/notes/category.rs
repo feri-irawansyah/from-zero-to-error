@@ -1,24 +1,39 @@
-use gloo_net::http::Request;
-use leptos::{prelude::*, task::spawn_local};
+use leptos::prelude::*;
 use leptos_router::hooks::use_params_map;
-use crate::{app::BACKEND_URL, components::card_loading::CardLoading, contexts::{index::format_wib_date, models::{AppState, Notes, NotesData}}};
+use crate::{app::BACKEND_URL, components::card_loading::CardLoading, contexts::{index::format_wib_date, models::{AppState, NotesData}}};
 use wasm_bindgen::JsCast;
 use leptos::web_sys::HtmlImageElement;
+
+#[server(GetNotes, "/api")]
+pub async fn get_notes(page: i32, limit: i32, filter: serde_json::Value) -> Result<NotesData, ServerFnError> {
+    let offset = (page - 1) * limit;
+    let url = format!(
+        "{}/data/table?tablename=notes&offset={}&limit={}&nidkey=notes_id&filter={}",
+        BACKEND_URL, offset, limit, urlencoding::encode(&filter.to_string())
+    );
+
+    // Fetch ke backend
+    let resp = reqwest::get(url)
+        .await?;
+
+    // Parse JSON ke struct NotesData
+    let data: NotesData = resp
+        .json()
+        .await?;
+
+    Ok(data)
+}
 
 #[allow(non_snake_case)]
 #[component]
 pub fn Category() -> impl IntoView {
+    let state: AppState = expect_context::<AppState>();
     let params = use_params_map();
     let category = Memo::new(move |_| {
         params.with(|p| p.get("category"))
     });
-    let notes: RwSignal<Vec<Notes>> = RwSignal::new(vec![]);
-    let (total, set_total) = signal(0);
-    let (current_page, set_current_page) = signal(1);
-    let (loading, set_loading) = signal(false);
-    let state = expect_context::<AppState>();
-
     let limit = 9;
+    let (current_page, set_current_page) = signal(1);
 
     let filter = Memo::new(move |_| {
         serde_json::json!({
@@ -26,53 +41,23 @@ pub fn Category() -> impl IntoView {
         })
     });
 
+    let (total, set_total) = signal(0);
 
-    let fetch_notes = move |page: i32| {
-        let offset = (page - 1) * limit;
-        let url = format!(
-            "{}/data/table?tablename=notes&offset={}&limit={}&nidkey=notes_id&filter={}",
-            BACKEND_URL,
-            offset,
-            limit,
-            urlencoding::encode(&filter.get().to_string())
-        );
-
-        spawn_local(async move {
-            set_loading(true);
-            if let Ok(response) = Request::get(&url).send().await {
-                if let Ok(data) = response.json::<NotesData>().await {
-                    notes.set(data.rows);
-                    set_total(data.total);
-                }
-            }
-            set_loading(false);
-        });
-    };
-
-    Effect::new(move |_| {
-        fetch_notes(current_page.get());
-    });
+    let notes = Resource::new(
+        move || (current_page.get(), filter.get().clone()),
+        move |(page, filter)| get_notes(page, limit, filter),
+    );
 
     view! {
         <div class="d-flex category" data-aos="fade-in">
-            <Show
-                when=move || { !loading.get() }
-                fallback=|| view! { 
-                    <div class="loading-category" data-aos="fade-up">
-                        <CardLoading delay=Some(0) count=Some(3) />
-                    </div>
-                 }
-            >
-                <Show
-                    when=move || { !notes.get().is_empty() }
-                    fallback=|| view! { <h1>No notes available</h1> }
-                >
-                    <div class="row list-notes">
-                        {move || {
-                            notes.get()
-                                .iter()
-                                .enumerate()
-                                .map(|(i, note)| {
+            <Transition fallback=|| view! { <CardLoading delay=Some(0) count=Some(3) /> }>
+                <div class="row list-notes">
+                    {move || {
+                        notes.get().map(|res| match res {
+                            Ok(data) => {
+                                set_total(data.total); // update total pages
+
+                                data.rows.into_iter().enumerate().map(|(i, note)| {
                                     view! {
                                         <div class="col-12 col-lg-4 col-md-6 d-flex align-items-stretch"
                                             data-aos="fade-up"
@@ -134,66 +119,63 @@ pub fn Category() -> impl IntoView {
                                             </a>
                                         </div>
                                     }
+                                }).collect_view().into_any()
+                            }
+                            Err(e) => view! { <p>{format!("Error: {e}")}</p> }.into_any(),
+                        })
+                    }}
+                </div>
+                <nav class=move || if total.get() as i32 <= limit { "d-none" } else { "pagination-container" }>
+                    <ul class="pagination justify-content-end">
+                        <li class=format!(
+                            "page-item {}",
+                            if current_page.get() == 1 { "disabled" } else { "" },
+                        )>
+                            <button
+                                class="page-link"
+                                on:click=move |_| set_current_page(current_page.get() - 1)
+                            >
+                                <i class="bi bi-caret-left-fill"></i>
+                            </button>
+                        </li>
+                        {
+                            let total_pages = (total.get() as f64 / limit as f64).ceil() as i32;
+                            (1..=total_pages)
+                                .map(|i| {
+                                    view! {
+                                        <li class=format!(
+                                            "page-item {}",
+                                            if current_page.get() == i { "active" } else { "" },
+                                        )>
+                                            <button
+                                                class="page-link"
+                                                on:click=move |_| set_current_page(i)
+                                            >
+                                                {i}
+                                            </button>
+                                        </li>
+                                    }
                                 })
                                 .collect_view()
-                        }}
-                    </div>
-
-                    // Pagination
-                    <nav class=move || {
-                        if total.get() as i32 <= limit { "d-none" } else { "pagination-container" }
-                    }>
-                        <ul class="pagination justify-content-end">
-                            <li class=format!(
-                                "page-item {}",
-                                if current_page.get() == 1 { "disabled" } else { "" },
-                            )>
-                                <button
-                                    class="page-link"
-                                    on:click=move |_| set_current_page(current_page.get() - 1)
-                                >
-                                    <i class="bi bi-caret-left-fill"></i>
-                                </button>
-                            </li>
-                            {
-                                let total_pages = (total.get() as f64 / limit as f64).ceil() as i32;
-                                (1..=total_pages)
-                                    .map(|i| {
-                                        view! {
-                                            <li class=format!(
-                                                "page-item {}",
-                                                if current_page.get() == i { "active" } else { "" },
-                                            )>
-                                                <button
-                                                    class="page-link"
-                                                    on:click=move |_| set_current_page(i)
-                                                >
-                                                    {i}
-                                                </button>
-                                            </li>
-                                        }
-                                    })
-                                    .collect_view()
-                            }
-                            <li class=format!(
-                                "page-item {}",
-                                if current_page.get() * limit >= total.get().try_into().unwrap() {
-                                    "disabled"
-                                } else {
-                                    ""
-                                },
-                            )>
-                                <button
-                                    class="page-link"
-                                    on:click=move |_| set_current_page(current_page.get() + 1)
-                                >
-                                    <i class="bi bi-caret-right-fill"></i>
-                                </button>
-                            </li>
-                        </ul>
-                    </nav>
-                </Show>
-            </Show>
+                        }
+                        <li class=format!(
+                            "page-item {}",
+                            if current_page.get() * limit >= total.get().try_into().unwrap() {
+                                "disabled"
+                            } else {
+                                ""
+                            },
+                        )>
+                            <button
+                                class="page-link"
+                                on:click=move |_| set_current_page(current_page.get() + 1)
+                            >
+                                <i class="bi bi-caret-right-fill"></i>
+                            </button>
+                        </li>
+                    </ul>
+                </nav>
+            </Transition>
         </div>
     }
 }

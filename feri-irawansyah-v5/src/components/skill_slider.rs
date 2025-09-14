@@ -20,16 +20,15 @@ impl SkillSignals {
 
 #[allow(non_snake_case)]
 #[component]
-pub fn SkillMarquee(skills: RwSignal<Vec<Skill>>, position: Option<String>) -> impl IntoView {
+pub fn SkillMarquee(skills: Vec<Skill>, position: Option<String>) -> impl IntoView {
     view! {
         <div class="marquee-wrapper">
             <div class=format!(
                 "marquee-content marquee-{}",
-                position.unwrap_or("".to_string()),
+                position.clone().unwrap_or("".to_string()),
             )>
-                {move || {
-                    let list_skills = skills.get();
-                    let doubled_skills = list_skills.iter().chain(list_skills.iter());
+                {
+                    let doubled_skills = skills.iter().chain(skills.iter());
 
                     doubled_skills
                         .map(|skill| {
@@ -46,9 +45,10 @@ pub fn SkillMarquee(skills: RwSignal<Vec<Skill>>, position: Option<String>) -> i
                             }
                         })
                         .collect::<Vec<_>>()
-                }}
+                }
             </div>
         </div>
     }
 }
+
 
