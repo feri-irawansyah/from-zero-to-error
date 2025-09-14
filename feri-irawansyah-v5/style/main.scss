@@ -2388,4 +2388,26 @@ section,
   .modal-footer {
     display: none !important;
   }
+
+  @media screen and (max-width: 768px) {
+    & {
+      padding: 0;
+      .modal-header {
+        padding: 0.5rem;
+        .modal-title {
+          font-size: 1.2rem;
+        }
+        .btn-close-modal {
+          right: 0.5rem;
+          top: 0.5rem;
+          opacity: 1;
+          font-size: 1rem;
+          padding: 0.5rem 0.8rem;
+        }
+      }
+      .modal-body {
+        padding: 0.5rem;
+      }
+    }
+  }
 }
