@@ -16,8 +16,9 @@ use crate::{
     }
 };
 
-pub const BACKEND_URL: &str = "https://snakesystem-api.shuttle.app/api/v1";
-// pub const BACKEND_URL: &str = "http://localhost:8000/api/v1";
+// pub const BACKEND_URL: &str = "https://snakesystem-api.shuttle.app/api/v1"; // production shuttle
+pub const BACKEND_URL: &str = "https://snakesystem-api.apn.leapcell.app/api/v1"; // production leapcell
+// pub const BACKEND_URL: &str = "http://localhost:8080/api/v1"; // local
 
 #[wasm_bindgen(inline_js = "
     export function initAOS() {
