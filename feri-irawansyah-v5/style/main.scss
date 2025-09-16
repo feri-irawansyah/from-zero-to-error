@@ -2069,7 +2069,16 @@ section,
   }
 
   @media screen and (max-width: 768px) {
+    .content-wrapper {
+      h5 {
+        font-size: 1.1rem !important;
+      }
+    }
     .container {
+      h2 {
+        font-size: 1.5rem;
+      }
+      
       .category {
         max-height: 100% !important;
         height: 100% !important;

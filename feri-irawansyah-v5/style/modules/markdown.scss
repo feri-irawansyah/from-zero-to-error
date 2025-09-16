@@ -10,6 +10,15 @@ $heading-sizes: (
   h6: 0.9rem
 );
 
+$heading-mobile-sizes: (
+  h1: 1.3rem,
+  h2: 1.2rem,
+  h3: 1.1rem,
+  h4: 1rem,
+  h5: 0.8rem,
+  h6: 0.7rem
+);
+
 $heading-colors: (
   h1: $success,
   h2: $success,
@@ -42,9 +51,23 @@ $heading-colors: (
     }
   }
 
+  @media screen and (max-width: 768px) {
+    @each $tag, $size in $heading-mobile-sizes {
+      #{$tag} {
+        font-size: $size !important;
+      }
+    }
+  }
+
   pre {
     border-radius: 5px;
     padding: 1rem;
+  }
+  @media screen and (max-width: 768px) {
+    p, li, span, ol, pre, code {
+      font-size: 0.9rem !important;
+    }
+    
   }
   summary {
     display: flex;

@@ -17,7 +17,10 @@ pub async fn markdown_to_html(md: String) -> Result<String, ServerFnError> {
 
     let ps = SyntaxSet::load_defaults_newlines();
     let ts = ThemeSet::load_defaults();
-    let theme = &ts.themes["base16-ocean.dark"];
+
+    let themes = ThemeSet::load_defaults();
+    println!("{:?}", themes);
+    let theme = &ts.themes["base16-mocha.dark"];
 
     let mut html_output = String::new();
     let mut buffer = String::new();

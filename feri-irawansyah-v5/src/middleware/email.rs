@@ -56,8 +56,8 @@ pub async fn send_email(request: EmailRequest) -> Result<ActionResult<String, St
 
     // Konfigurasi pengirim dan SMTP
     let smtp_server = "smtp-relay.brevo.com";
-    let smtp_username = "8cf4d6002@smtp-brevo.com";
-    let smtp_password = "m0bfcwQOYXkvr6qp"; // Gunakan app password, bukan password biasa
+    let smtp_username = "8cf4d6005@smtp-brevo.com";
+    let smtp_password = "AMf3xh2S4UgQJFV8"; // Gunakan app password, bukan password biasa
 
     // Buat message
     let email = Message::builder()
