@@ -49,6 +49,13 @@ pub fn Category() -> impl IntoView {
     );
 
     view! {
+        <a class="btn text-start back" href="/catatan">
+            <i class="bi bi-arrow-left-circle me-2"></i>
+            Kembali
+        </a>
+        <p>
+            "Catatan gue tutorial, wawasan teknologi, opini gajelas, kadang membingungkan, dan ide - ide tentang teknologi yang disusun untuk memicu ide dan terkadang memecahkan masalah kadang juga engga."
+        </p>
         <div class="d-flex category" data-aos="fade-in">
             <Transition fallback=|| view! { <CardLoading delay=Some(0) count=Some(3) /> }>
                 <div class="row list-notes">

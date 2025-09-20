@@ -195,3 +195,36 @@ pub fn Portfolio() -> impl IntoView {
         </section>
     }
 }
+
+#[allow(non_snake_case)]
+#[component]
+pub fn PortfolioDetail() -> impl IntoView{
+
+    let params = leptos_router::hooks::use_params_map();
+    let id = Memo::new(move |_| {
+        params.with(|p| p.get("id"))
+    });
+
+    view! {
+         // Metadata
+        <leptos_meta::Title text="Portfolio Detail | Feri Irawansyah"/>
+        <leptos_meta::Meta name="description" content="Kumpulan portfolio dan karya-karya dari Feri Irawansyah"/>
+
+        <section id="portfolio" class="portfolio section" data-aos="fade-in">
+            <div class="container section-title" data-aos="fade-up">
+                <h2>Portfolio</h2>
+            </div>
+
+            <div class="container portfolio-container" data-aos="fade-up">
+                <div class="row justify-content-start">
+                    <p>
+                        I am a Software Engineer dedicated to building efficient, scalable, and user-friendly digital solutions. With a strong background in web development, I am used to working with various modern technologies such as JavaScript/TypeScript, Svelte, Rust, and various other frameworks.
+                    </p>
+
+                    // Portfolio list
+                    
+                </div>
+            </div>
+        </section>
+    }
+}

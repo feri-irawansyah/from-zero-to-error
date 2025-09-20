@@ -9,10 +9,10 @@ use wasm_bindgen::{prelude::wasm_bindgen, JsValue};
 use crate::{
     components:: {
         admin_layout::AdminLayout, catatan_layout::CatatanLayout, loading::LoadingScreen, menu_list::MenuList
-    }, contexts::models::{AppState, ModalState}, directives::{markdown::MarkdownFromUrl, modal_container::ModalContainer}, middleware::session::SessionData, routes::{
+    }, contexts::models::{AppState, ModalState}, directives::modal_container::ModalContainer, middleware::session::SessionData, routes::{
         about::About, admin::{dashboard::Dashboard, notes_management::NotesManagement, user_management::UserManagement}, contact::Contact, home::Home, login::Login, notes::{
             category::Category, list_catatan::ListCatatan, slug::Slug
-        }, notfound::NotFound, portfolio::Portfolio, services::Services
+        }, notfound::NotFound, portfolio::{Portfolio, PortfolioDetail}, services::Services
     }
 };
 
@@ -102,6 +102,7 @@ pub fn App() -> impl IntoView {
                                 <Route path=StaticSegment("about") view=About />
                                 <Route path=StaticSegment("services") view=Services />
                                 <Route path=StaticSegment("portfolio") view=Portfolio />
+                                <Route path=leptos_router::path!("portfolio/:id") view=PortfolioDetail />
                                 <ParentRoute
                                     path=leptos_router::path!("/catatan")
                                     view=CatatanLayout
@@ -144,17 +145,23 @@ pub fn App() -> impl IntoView {
                     </Show>
                 </ModalContainer>
                 <ModalContainer
-                    title=modal_state.title
+                    title=state.title
                     size=Some("fullscreen".to_string())
                     modal_id="zoom-note".to_string()
                     control=true
                     event=Callback::new(move |_| {}) 
                 >
                     <Show
-                        when=move || modal_state.note_url.get().is_some()
+                        when=move || state.note_url.get() != ""
                         fallback=move || view! { <h1 class="text-center">Loading...</h1> }
                     >
-                        {move || view! { <MarkdownFromUrl url=modal_state.note_url /> }}
+                        {move || view! { 
+                            <div class="markdown-content prose max-w-none">
+                                <div class="markdown-body">
+                                    <div inner_html=state.note_url></div>
+                                </div>
+                            </div>
+                         }}
                     </Show>
                 </ModalContainer>
             </main>
@@ -169,7 +176,7 @@ pub fn AboutApp() -> impl IntoView {
     view! {
         <div class="row">
             <div class="col-12 mb-5">
-                {state.name.get()}
+                {state.name.get_untracked()}
                 <div class="btn-group version">
                     <button type="button" class="btn btn-danger btn-sm dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         V5.0.0

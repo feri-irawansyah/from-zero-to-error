@@ -48,47 +48,65 @@ pub fn Slug() -> impl IntoView {
     );
 
     view! {
-        <div class="markdown-content prose max-w-none">
-            <Transition fallback=move || view! { <CardLoading delay=Some(0) count=Some(1) /> }>
-                {move || {
-                    note.get().map(|result| match result {
-                        Ok(data) => view! { 
-                            <div class="author d-flex flex-row align-items-start justify-content-start w-100">
-                                <img
-                                    src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/logo-ss.webp"
-                                    class="mb-3 rounded-circle"
-                                    width="50px"
-                                    alt=""
-                                    loading="lazy"
-                                />
-                                <div class="flex-column">
-                                    <a
-                                        class="text-decoration-none text-muted"
-                                        href="https://github.com/feri-irawansyah"
-                                        target="_blank"
-                                    >
-                                        {move || state.name.get().to_string()}
-                                        <img
-                                            src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/real.png"
-                                            width="20px"
-                                            alt=""
-                                            loading="lazy"
-                                        />
-                                    </a>
-                                    <p class="text-muted">{move || format_wib_date(&data.last_update)}</p>
+        <Transition fallback=move || view! { <CardLoading delay=Some(0) count=Some(1) /> }>
+            {move || {
+                note.get().map(|result| match result {
+                    Ok(data) => {
+                        let modal_title = data.title.clone();
+                        let modal_content = data.content.clone();
+
+                        view! { 
+                            <div class="d-flex justify-content-between">
+                                <a class="btn text-start back" href=format!("/catatan/{}", data.category)>
+                                    <i class="bi bi-arrow-left-circle me-2"></i>
+                                    Kembali
+                                </a>
+                                <a class="btn btn-zoom" data-bs-toggle="modal" on:click=move |_| {
+                                        state.note_url.set(modal_content.clone());
+                                        state.title.set(modal_title.clone());
+                                    } data-bs-target="#zoom-note"><i class="bi bi-arrows-fullscreen"></i>
+                                </a>
+                            </div>
+                            <h5 class="text-uppercase fw-bold">{move || data.title.clone()}</h5>
+                            <hr />
+                            <div class="markdown-content prose max-w-none">
+                                <div class="author d-flex flex-row align-items-start justify-content-start w-100">
+                                    <img
+                                        src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/logo-ss.webp"
+                                        class="mb-3 rounded-circle"
+                                        width="50px"
+                                        alt=""
+                                        loading="lazy"
+                                    />
+                                    <div class="flex-column">
+                                        <a
+                                            class="text-decoration-none text-muted"
+                                            href="https://github.com/feri-irawansyah"
+                                            target="_blank"
+                                        >
+                                            {move || state.name.get().to_string()}
+                                            <img
+                                                src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/real.png"
+                                                width="20px"
+                                                alt=""
+                                                loading="lazy"
+                                            />
+                                        </a>
+                                        <p class="text-muted">{move || format_wib_date(&data.last_update)}</p>
+                                    </div>
+                                </div>
+                                <div class="w-100 slug-content" data-aos="fade-up" data-aos-duration="1000">
+                                    <div class="markdown-body">
+                                        // langsung pake inner_html, karena udah HTML di SSR
+                                        <div inner_html=data.content.clone()></div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="w-100 slug-content" data-aos="fade-up" data-aos-duration="1000">
-                                <div class="markdown-body">
-                                    // langsung pake inner_html, karena udah HTML di SSR
-                                    <div inner_html=data.content.clone()></div>
-                                </div>
-                            </div>
-                        }.into_any(),
-                        Err(err) => view! { <div>{move || err.to_string()}</div> }.into_any(),
-                    })
-                }}
-            </Transition>
-        </div>
+                        }.into_any()
+                    },
+                    Err(err) => view! { <div>{move || err.to_string()}</div> }.into_any(),
+                })
+            }}
+        </Transition>
     }
 }

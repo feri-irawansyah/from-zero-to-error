@@ -187,7 +187,6 @@ main {
           padding: 0 !important;
 
           .list-search {
-            margin-bottom: 1rem;
 
             li {
               cursor: pointer;
@@ -250,6 +249,11 @@ main {
             margin: 0.5rem 0 !important;
           }
         }
+      }
+
+      #searchModal {
+        position: fixed !important;
+        width: 100% !important;
       }
 
       .show {

@@ -24,7 +24,7 @@ pub fn NotFound() -> impl IntoView {
 
     view! {
         <section id="notfound" class="notfound section">
-            <div class="container section-title" data-aos="zoom-in" data-aos-delay="900">
+            <div class="container section-title">
                 <h2>404</h2>
                 <p>Page Not Found</p>
                 <button class="btn btn-primary mt-3" on:click=go_back_and_reload>
@@ -32,7 +32,7 @@ pub fn NotFound() -> impl IntoView {
                     Kembali
                 </button>
             </div>
-            <div class="container" data-aos="zoom-in" data-aos-delay="1000">
+            <div class="container">
                 <img
                     class="img-fluid"
                     src="https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif"

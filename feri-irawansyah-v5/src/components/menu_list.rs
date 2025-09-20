@@ -64,7 +64,7 @@ pub fn MenuList() -> impl IntoView {
             </h5>
             <p class="mt-0">Software Engineer From Indonesia</p>
             <div class="search-button">
-                <button class="btn btn-outline-primary btn-sm w-100" data-bs-toggle="modal" data-bs-target="#searchModal">
+                <button class="btn btn-outline-primary btn-sm w-100" data-bs-toggle="modal" data-bs-target="#searchModal" on:click=move |_| show.set(false)>
                     <i class="bi bi-search"></i> Search 
                 </button>
             </div>
