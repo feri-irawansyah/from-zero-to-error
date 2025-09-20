@@ -1,87 +1,94 @@
-use gloo_net::http::Request;
-use leptos::{prelude::*, task::spawn_local};
+use leptos::prelude::*;
 use leptos_router::hooks::use_params_map;
 
-use crate::{app::BACKEND_URL, components::card_loading::CardLoading, contexts::{index::format_wib_date, models::{AppState, Note, NoteData}}, directives::markdown::MarkdownFromUrl};
+use crate::{app::BACKEND_URL, components::card_loading::CardLoading, contexts::{index::format_wib_date, models::{AppState, Note}}, directives::markdown::render_markdown};
+
+#[derive(serde::Deserialize, Debug, serde::Serialize)]
+pub struct Response {
+    data: Note,
+}
+
+#[server(Slugify, "/api")]
+pub async fn get_slug(slug: String) -> Result<Note, ServerFnError> {
+    let url = format!("{}/library/get-library/{}", BACKEND_URL, slug);
+
+    // Fetch JSON dari backend
+    let resp = reqwest::get(url).await?;
+    let mut data: Response = resp.json().await?;
+
+    // Markdown content di-convert jadi HTML di server
+    data.data.content = render_markdown(data.data.content).await?;
+
+    Ok(data.data)
+}
 
 #[allow(non_snake_case)]
 #[component]
 pub fn Slug() -> impl IntoView {
     let params = use_params_map();
-    let slug = Memo::new(move |_| {
-        params.with(|p| p.get("slug").unwrap_or_default())
-    });
-    let content: RwSignal<Option<String>> = RwSignal::new(None);
-    let note: RwSignal<Note> = RwSignal::new(Note::new());
+    let slug = Memo::new(move |_| params.with(|p| p.get("slug").unwrap_or_default()));
     let state = expect_context::<AppState>();
-    let (loading, set_loading) = signal(false);
 
-    Effect::new(move |_| {
-        let slug_name = slug.get(); // ✅ reactive
-        let url = format!("{}/library/get-library/{}", BACKEND_URL, slug_name);
-
-        spawn_local(async move {
-            set_loading(true);
-            if let Ok(response) = Request::get(&url).send().await {
-                if let Ok(data) = response.json::<NoteData>().await {
-                    note.set(data.data);
-
-                    note.with_untracked(|n| {
+    let value = state.clone();
+    let note = Resource::new(
+        move || slug.get(),
+        move |slug_name| {
+            let state = value.clone(); // clone biar bisa dipakai di async block
+            async move {
+                match get_slug(slug_name).await {
+                    Ok(n) => {
                         state.title.set(n.title.clone());
                         state.note_url.set(n.content.clone());
-                        content.set(Some(n.content.clone()));
-                    });
-
+                        Ok(n)
+                    }
+                    Err(e) => Err(e),
                 }
             }
-            set_loading(false);
-        });
-    });
+        },
+    );
 
     view! {
-        <Show
-            when=move || { !loading.get() }
-            fallback=|| view! { <CardLoading count=Some(1) delay=Some(0) /> }
-        >
-            <Show
-                when=move || { note.get().content.is_empty() }
-                fallback=move || {
-                    view! {
-                        <div class="author d-flex flex-row align-items-start justify-content-start w-100">
-                            <img
-                                src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/logo-ss.webp"
-                                class="mb-3 rounded-circle"
-                                width="50px"
-                                alt=""
-                                loading="lazy"
-                            />
-                            <div class="flex-column">
-                                <a
-                                    class="text-decoration-none text-muted"
-                                    href="https://github.com/feri-irawansyah"
-                                    target="_blank"
-                                >
-                                    {move || state.name.get().to_string()}
-                                    <img
-                                        src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/real.png"
-                                        width="20px"
-                                        alt=""
-                                        loading="lazy"
-                                    />
-                                </a>
-                                <p class="text-muted">{move || format_wib_date(&note.get().last_update)}</p>
+        <div class="markdown-content prose max-w-none">
+            <Transition fallback=move || view! { <CardLoading delay=Some(0) count=Some(1) /> }>
+                {move || {
+                    note.get().map(|result| match result {
+                        Ok(data) => view! { 
+                            <div class="author d-flex flex-row align-items-start justify-content-start w-100">
+                                <img
+                                    src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/logo-ss.webp"
+                                    class="mb-3 rounded-circle"
+                                    width="50px"
+                                    alt=""
+                                    loading="lazy"
+                                />
+                                <div class="flex-column">
+                                    <a
+                                        class="text-decoration-none text-muted"
+                                        href="https://github.com/feri-irawansyah"
+                                        target="_blank"
+                                    >
+                                        {move || state.name.get().to_string()}
+                                        <img
+                                            src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/real.png"
+                                            width="20px"
+                                            alt=""
+                                            loading="lazy"
+                                        />
+                                    </a>
+                                    <p class="text-muted">{move || format_wib_date(&data.last_update)}</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="w-100 slug-content" data-aos="fade-up" data-aos-duration="1000">
-                            <div class="markdown-body">
-                                <MarkdownFromUrl url=content />
+                            <div class="w-100 slug-content" data-aos="fade-up" data-aos-duration="1000">
+                                <div class="markdown-body">
+                                    // langsung pake inner_html, karena udah HTML di SSR
+                                    <div inner_html=data.content.clone()></div>
+                                </div>
                             </div>
-                        </div>
-                    }
-                }
-            >
-                <h1>"Slug not found"</h1>
-            </Show>
-        </Show>
+                        }.into_any(),
+                        Err(err) => view! { <div>{move || err.to_string()}</div> }.into_any(),
+                    })
+                }}
+            </Transition>
+        </div>
     }
 }

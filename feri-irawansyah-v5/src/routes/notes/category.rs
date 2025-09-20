@@ -91,10 +91,10 @@ pub fn Category() -> impl IntoView {
                                                         }
                                                     </div>
                                                     <h5 class="card-title text-start text-uppercase">
-                                                        {note.title.clone()}
+                                                        {move || note.title.clone()}
                                                     </h5>
                                                     <p class="card-text text-start">
-                                                        {note.description.clone()}
+                                                        {move || note.description.clone()}
                                                     </p>
                                                 </div>
                                                 <div class="card-footer text-body-secondary">
@@ -109,7 +109,7 @@ pub fn Category() -> impl IntoView {
                                                             <span>{move || state.name.get()}</span>
                                                         </div>
                                                         <small class="text-white date">
-                                                            {format_wib_date(&note.last_update)}
+                                                            {move ||format_wib_date(&note.last_update)}
                                                         </small>
                                                         <small class="text-white read">
                                                             Read more <i class="bi bi-arrow-right"></i>
@@ -125,33 +125,33 @@ pub fn Category() -> impl IntoView {
                         })
                     }}
                 </div>
-                <nav class=move || if total.get() as i32 <= limit { "d-none" } else { "pagination-container" }>
+                <nav class=move || if total.get_untracked() as i32 <= limit { "d-none" } else { "pagination-container" }>
                     <ul class="pagination justify-content-end">
                         <li class=format!(
                             "page-item {}",
-                            if current_page.get() == 1 { "disabled" } else { "" },
+                            if current_page.get_untracked() == 1 { "disabled" } else { "" },
                         )>
                             <button
                                 class="page-link"
-                                on:click=move |_| set_current_page(current_page.get() - 1)
+                                on:click=move |_| set_current_page(current_page.get_untracked() - 1)
                             >
                                 <i class="bi bi-caret-left-fill"></i>
                             </button>
                         </li>
                         {
-                            let total_pages = (total.get() as f64 / limit as f64).ceil() as i32;
+                            let total_pages = (total.get_untracked() as f64 / limit as f64).ceil() as i32;
                             (1..=total_pages)
                                 .map(|i| {
                                     view! {
                                         <li class=format!(
                                             "page-item {}",
-                                            if current_page.get() == i { "active" } else { "" },
+                                            if current_page.get_untracked() == i { "active" } else { "" },
                                         )>
                                             <button
                                                 class="page-link"
                                                 on:click=move |_| set_current_page(i)
                                             >
-                                                {i}
+                                                {move || i}
                                             </button>
                                         </li>
                                     }
@@ -160,7 +160,7 @@ pub fn Category() -> impl IntoView {
                         }
                         <li class=format!(
                             "page-item {}",
-                            if current_page.get() * limit >= total.get().try_into().unwrap() {
+                            if current_page.get_untracked() * limit >= total.get_untracked().try_into().unwrap() {
                                 "disabled"
                             } else {
                                 ""
@@ -168,7 +168,7 @@ pub fn Category() -> impl IntoView {
                         )>
                             <button
                                 class="page-link"
-                                on:click=move |_| set_current_page(current_page.get() + 1)
+                                on:click=move |_| set_current_page(current_page.get_untracked() + 1)
                             >
                                 <i class="bi bi-caret-right-fill"></i>
                             </button>

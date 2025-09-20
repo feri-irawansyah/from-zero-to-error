@@ -1,7 +1,8 @@
-use leptos::{leptos_dom::logging::console_log, prelude::*, task::spawn_local};
+use leptos::{ev::keydown, leptos_dom::logging::console_log, prelude::*, task::spawn_local};
 use leptos_router::{components::Outlet, hooks::use_location, location::Location};
+use wasm_bindgen::JsCast;
 
-use crate::{app::openModal, contexts::models::{AppState, ModalState}, middleware::session::check_session};
+use crate::{app::openModal, contexts::models::{AppState, ModalState}, directives::search_palette::SearchModal, middleware::session::check_session};
 
 #[allow(non_snake_case)]
 #[component]
@@ -32,6 +33,24 @@ pub fn MenuList() -> impl IntoView {
         show.update(|show| *show = !*show);
     };
 
+    let open_modal = move || {
+        if let Some(modal) = leptos::web_sys::window()
+            .unwrap()
+            .document()
+            .unwrap()
+            .get_element_by_id("searchModal")
+        {
+            let _ = modal.dyn_ref::<leptos::web_sys::HtmlElement>().unwrap().click();
+        }
+    };
+
+    window_event_listener(keydown, move |ev: leptos::web_sys::KeyboardEvent| {
+        if ev.ctrl_key() && ev.key() == "k" {
+            ev.prevent_default();
+            open_modal();
+        }
+    });
+
     view! {
         <div class=move || format!("menu-list col-2 p-0 scroll-custom {}", if show.get() { "show" } else { "" })>
             <img src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/feri.webp"
@@ -44,6 +63,11 @@ pub fn MenuList() -> impl IntoView {
                 <img class="real-image" src="https://vjwknqthtunirowwtrvj.supabase.co/storage/v1/object/public/feri-irawansyah.my.id/assets/img/real.png" alt="feri" loading="lazy" />
             </h5>
             <p class="mt-0">Software Engineer From Indonesia</p>
+            <div class="search-button">
+                <button class="btn btn-outline-primary btn-sm w-100" data-bs-toggle="modal" data-bs-target="#searchModal">
+                    <i class="bi bi-search"></i> Search 
+                </button>
+            </div>
             <ul class="list-unstyled">
                 <li class:active=move || (location.pathname)() == "/">
                     <a href="/" on:click=move |_| show.set(false)>
@@ -93,6 +117,7 @@ pub fn MenuList() -> impl IntoView {
                 </div>
             </div>
         </div>
+        <SearchModal />
 
         <div class="col-10 p-0 content scroll-custom">
             <Show when=move || state.session.get().usernid != 0 fallback=|| view! { <span></span> }>

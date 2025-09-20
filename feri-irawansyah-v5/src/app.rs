@@ -4,7 +4,7 @@ use leptos_meta::{provide_meta_context, Stylesheet};
 use leptos_router::{
     components::{ParentRoute, Route, Router, Routes}, StaticSegment, WildcardSegment
 };
-use wasm_bindgen::prelude::wasm_bindgen;
+use wasm_bindgen::{prelude::wasm_bindgen, JsValue};
 
 use crate::{
     components:: {
@@ -20,42 +20,21 @@ use crate::{
 // pub const BACKEND_URL: &str = "https://snakesystem-api.apn.leapcell.app/api/v1"; // production leapcell
 pub const BACKEND_URL: &str = "http://localhost:8080/api/v1"; // local
 
-#[wasm_bindgen(inline_js = "
-    export function initAOS() {
-        AOS.init({
-            disable: false,
-            startEvent: 'DOMContentLoaded', 
-            initClassName: 'aos-init',
-            animatedClassName: 'aos-animate',
-            useClassNames: false,
-            disableMutationObserver: false, 
-            debounceDelay: 50,
-            throttleDelay: 99, 
-            offset: -9999, 
-            delay: 0, 
-            duration: 600, 
-            easing: 'ease',
-            once: false, 
-            mirror: false, 
-            anchorPlacement: 'top-center',
-        });
-    }
-
-    export function openModal(modal_id) {
-        const modal = new bootstrap.Modal(document.getElementById(modal_id));
-        modal.show();
-    }
-
-    export function closeModal(modal_id) {
-        const modal = new bootstrap.Modal(document.getElementById(modal_id));
-        modal.hide();
-    }
-")]
+#[wasm_bindgen(module = "/index.js")]
 extern "C" {
     fn initAOS();
     pub fn refreshAOS();
     pub fn openModal(modal_id: String);
     pub fn closeModal(modal_id: String);
+
+    #[wasm_bindgen(js_name = saveSearch)]
+    pub fn save_search(item: JsValue);
+
+    #[wasm_bindgen(js_name = getSearch)]
+    pub fn get_search() -> JsValue;
+
+    #[wasm_bindgen(js_name = deleteSearch)]
+    pub fn delete_search(term: &str, url: &str) -> JsValue;
 }
 
 #[allow(non_snake_case)]
@@ -71,6 +50,7 @@ pub fn App() -> impl IntoView {
         loading: RwSignal::new(false),
         session: RwSignal::new(SessionData::new()),
         note_url: RwSignal::new("".to_string()),
+        search: RwSignal::new(Vec::new()),
     };
 
     let modal_state = ModalState {
@@ -80,11 +60,18 @@ pub fn App() -> impl IntoView {
     };
 
     // Register biar bisa dipakai semua komponen
-    provide_context(global_state);
+    provide_context(global_state.clone());
     provide_context(modal_state);
 
     Effect::new(move |_| {
         initAOS(); // ini panggil JS function
+        let js_value = get_search();
+        if let Ok(search) = serde_wasm_bindgen::from_value(js_value) {
+            global_state.search.set(search);
+        } else {
+            global_state.search.set(Vec::new());
+        }
+        || ()
     });
 
     let state = expect_context::<AppState>();

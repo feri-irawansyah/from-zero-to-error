@@ -74,6 +74,7 @@ $heading-colors: (
     align-items: center;
     justify-content: space-between;
     cursor: pointer;
+    transition: all 0.5s ease !important;
 
     // kasih gap biar marker agak jauh dari teks
     gap: 0.5rem;

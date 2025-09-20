@@ -126,6 +126,98 @@ main {
   .container-fluid {
     .menu-list {
       position: fixed !important;
+
+      .search-button {
+        width: 100% !important;
+        padding: 0 1rem;
+
+        .btn {
+          padding: 0.4rem 1rem;
+          font-size: 1rem;
+          color: #fff;
+        }
+      }
+    }
+
+    .search-modal {
+      background: rgba(0, 0, 0, 0.5);
+
+      .modal-content, .modal-body {
+        padding: 0.5rem !important;
+      }
+
+      .modal-content {
+
+        .input-search {
+          i {
+            position: absolute;
+            top: 1.2rem;
+            left: 1.5rem;
+            z-index: 1;
+          }
+          input {
+            color: #ccc;                     /* teks abu */
+            border: 2px solid $primary;       /* ungu */
+            border-radius: 6px;              /* rounded */
+            padding: 0.6rem 2.5rem;
+            width: 100%;
+            font-size: 1rem;
+            outline: none;                   /* ilangin outline default */
+            transition: all 0.3s ease;
+          }
+        }
+
+        /* ikon di dalam */
+        .input-search {
+          input::placeholder {
+            color: #888;
+          }
+        }
+
+        /* saat focus */
+        .input-search {
+          input:focus {
+            border-color: $primary;           /* ungu lebih terang */
+            box-shadow: 0 0 8px $primary;     /* glow */
+            color: #fff;
+          }
+        }
+
+        .modal-body {
+          padding: 0 !important;
+
+          .list-search {
+            margin-bottom: 1rem;
+
+            li {
+              cursor: pointer;
+            }
+
+            li:hover {
+              text-decoration: underline;
+              color: #0563bb;
+            }
+          }
+
+          .list-history{
+            .list-group-item{
+              display: flex;
+              flex-direction: column;
+              cursor: pointer;
+
+              button {
+                position: absolute;
+                right: 1rem;
+                z-index: 9999;
+              }
+
+              button:hover {
+                color: #fff;
+              }
+            }
+          }
+        }
+      }
     }
 
     .content {

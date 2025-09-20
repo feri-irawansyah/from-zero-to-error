@@ -23,7 +23,7 @@ impl<T, E> Default for ActionResult<T, E> {
     }
 }
 
-use crate::middleware::session::SessionData; 
+use crate::{directives::search_palette::SearchHistory, middleware::session::SessionData}; 
 
 #[derive(Clone, Debug, PartialEq, Deserialize)]
 pub struct SuccessResponse<T> {
@@ -172,6 +172,7 @@ pub struct AppState {
     pub loading: RwSignal<bool>,
     pub session: RwSignal<SessionData>,
     pub note_url: RwSignal<String>,
+    pub search: RwSignal<Vec<SearchHistory>>
 }
 
 #[derive(Clone, Debug, Default)]

@@ -40,10 +40,12 @@ pub mod directives {
     pub mod markdown;
     pub mod table;
     pub mod modal_container;
+    pub mod search_palette;
 }
 pub mod middleware {
     pub mod session;
     pub mod email;
+    pub mod connection;
 }
 
 #[cfg(feature = "hydrate")]

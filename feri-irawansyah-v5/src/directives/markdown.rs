@@ -17,10 +17,7 @@ pub async fn markdown_to_html(md: String) -> Result<String, ServerFnError> {
 
     let ps = SyntaxSet::load_defaults_newlines();
     let ts = ThemeSet::load_defaults();
-
-    let themes = ThemeSet::load_defaults();
-    println!("{:?}", themes);
-    let theme = &ts.themes["base16-mocha.dark"];
+    let theme = &ts.themes["base16-ocean.dark"];
 
     let mut html_output = String::new();
     let mut buffer = String::new();
@@ -40,6 +37,62 @@ pub async fn markdown_to_html(md: String) -> Result<String, ServerFnError> {
                 in_code_block = false;
                 let syntax = ps.find_syntax_by_token(&lang).unwrap_or_else(|| ps.find_syntax_plain_text());
                 let highlighted = syntect::html::highlighted_html_for_string(&buffer, &ps, syntax, theme).unwrap();
+                events.push(Event::Html(CowStr::Boxed(highlighted.into_boxed_str())));
+            }
+            _ if !in_code_block => events.push(event),
+            _ => {}
+        }
+    }
+
+    push_html(&mut html_output, events.into_iter());
+    Ok(html_output)
+}
+
+#[server]
+pub async fn render_markdown(url: String) -> Result<String, ServerFnError> {
+    // 1. fetch markdown dari url
+    let md = reqwest::get(&url)
+        .await
+        .map_err(|e| ServerFnError::new(format!("Fetch error: {e}")))?
+        .text()
+        .await
+        .map_err(|e| ServerFnError::new(format!("Read text error: {e}")))?;
+
+    // 2. setup parser
+    let mut options = Options::empty();
+    options.insert(Options::ENABLE_STRIKETHROUGH);
+    options.insert(Options::ENABLE_TABLES);
+    options.insert(Options::ENABLE_FOOTNOTES);
+    options.insert(Options::ENABLE_TASKLISTS);
+
+    let parser = Parser::new_ext(&md, options);
+
+    let ps = SyntaxSet::load_defaults_newlines();
+    let ts = ThemeSet::load_defaults();
+    let theme = &ts.themes["base16-ocean.dark"];
+
+    let mut html_output = String::new();
+    let mut buffer = String::new();
+    let mut in_code_block = false;
+    let mut lang = String::new();
+    let mut events = Vec::new();
+
+    for event in parser {
+        match event {
+            Event::Start(Tag::CodeBlock(CodeBlockKind::Fenced(info))) => {
+                in_code_block = true;
+                lang = info.to_string();
+                buffer.clear();
+            }
+            Event::Text(text) if in_code_block => buffer.push_str(&text),
+            Event::End(TagEnd::CodeBlock) if in_code_block => {
+                in_code_block = false;
+                let syntax = ps
+                    .find_syntax_by_token(&lang)
+                    .unwrap_or_else(|| ps.find_syntax_plain_text());
+                let highlighted = syntect::html::highlighted_html_for_string(
+                    &buffer, &ps, syntax, theme,
+                ).unwrap();
                 events.push(Event::Html(CowStr::Boxed(highlighted.into_boxed_str())));
             }
             _ if !in_code_block => events.push(event),

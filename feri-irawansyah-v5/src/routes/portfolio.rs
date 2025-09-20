@@ -154,24 +154,24 @@ pub fn Portfolio() -> impl IntoView {
 
                     // Pagination
                     <nav class=move || {
-                        if total.get() as i32 <= limit { "d-none" } else { "pagination-container" }
+                        if total.get_untracked() as i32 <= limit { "d-none" } else { "pagination-container" }
                     }>
                         <ul class="pagination justify-content-end">
                             <li class=format!(
                                 "page-item {}",
-                                if current_page.get() == 1 { "disabled" } else { "" },
+                                if current_page.get_untracked() == 1 { "disabled" } else { "" },
                             )>
-                                <button class="page-link" on:click=move |_| set_current_page(current_page.get() - 1)>
+                                <button class="page-link" on:click=move |_| set_current_page(current_page.get_untracked() - 1)>
                                     <i class="bi bi-caret-left-fill"></i>
                                 </button>
                             </li>
                             {
-                                let total_pages = (total.get() as f64 / limit as f64).ceil() as i32;
+                                let total_pages = (total.get_untracked() as f64 / limit as f64).ceil() as i32;
                                 (1..=total_pages).map(|i| {
                                     view! {
                                         <li class=format!(
                                             "page-item {}",
-                                            if current_page.get() == i { "active" } else { "" },
+                                            if current_page.get_untracked() == i { "active" } else { "" },
                                         )>
                                             <button class="page-link" on:click=move |_| set_current_page(i)>
                                                 {i}
@@ -182,9 +182,9 @@ pub fn Portfolio() -> impl IntoView {
                             }
                             <li class=format!(
                                 "page-item {}",
-                                if current_page.get() * limit >= total.get() as i32 { "disabled" } else { "" },
+                                if current_page.get_untracked() * limit >= total.get_untracked() as i32 { "disabled" } else { "" },
                             )>
-                                <button class="page-link" on:click=move |_| set_current_page(current_page.get() + 1)>
+                                <button class="page-link" on:click=move |_| set_current_page(current_page.get_untracked() + 1)>
                                     <i class="bi bi-caret-right-fill"></i>
                                 </button>
                             </li>
